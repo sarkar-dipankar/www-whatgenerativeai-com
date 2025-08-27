@@ -1,7 +1,7 @@
 #####################################################################
 #                            Build Stage                            #
 #####################################################################
-FROM hugomods/hugo:exts-0.128.2 as builder
+FROM hugomods/hugo:exts-0.136.4 as builder
 # Build site
 COPY . /src
 # Replace below build command at will.

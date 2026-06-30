@@ -6,7 +6,6 @@ author: "Team di Strategia AI"
 tags: ["IA Generativa", "Limitazioni dell'IA", "Strategia Tecnologica", "Implementazione dell'IA"]
 categories: ["Tecnologia", "Strategia IA"]
 description: "Esplora le limitazioni dell'IA Generativa e comprendi quali casi d'uso sono più adatti agli approcci tradizionali, consentendo decisioni più informate nell'adozione dell'IA."
-slug: "comprendere-limitazioni-dove-ia-generativa-fallisce"
 weight: 12
 lang: it
 ---

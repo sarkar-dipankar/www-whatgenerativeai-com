@@ -6,7 +6,6 @@ author: "Zespół ds. Strategii Rozwoju AI"
 tags: ["AI Generatywne", "Produktywność Programistów", "Asystenci Kodowania AI", "Swarmia", "Rozwój Oprogramowania"]
 categories: ["Technologia", "AI w Rozwoju"]
 description: "Odkryj, jak AI generatywne rewolucjonizuje rozwój oprogramowania, od asystentów kodowania AI po śledzenie produktywności, i poznaj najlepsze praktyki rozwoju wspomaganego przez AI."
-slug: "zwiekszanie-produktywnosci-programistow-ai-generatywne"
 weight: 9
 lang: pl
 ---

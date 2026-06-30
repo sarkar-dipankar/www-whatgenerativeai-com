@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Bezpieczeństwo AI", "Prompt Injection", "Governance", "EU AI Act"]
 categories: ["Technologia", "Bezpieczeństwo AI"]
 description: "Model zagrożeń bezpieczeństwa specyficzny dla agentów: prompt injection, eksfiltracja danych, OWASP LLM Top-10, przepisy EU AI Act i audit trail."
-slug: "agents-security-governance"
 lang: pl
 ---
 

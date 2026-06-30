@@ -6,7 +6,6 @@ author: "Tekoälyn turvallisuus- ja vaatimustenmukaisuustiimi"
 tags: ["Generatiivinen tekoäly", "Kyberturvallisuus", "Tietosuoja", "Säännöstenmukaisuus", "Tekoälyn etiikka"]
 categories: ["Teknologia", "Turvallisuus", "Laki"]
 description: "Tutustu generatiivisen tekoälyn toteutusten turvallisuuden varmistamisen ja säännöstenmukaisuuden ylläpitämisen kriittisiin näkökohtiin, mukaan lukien tietosuojan suojaaminen, sääntelynäkökohdat ja parhaat käytännöt turvalliseen tekoälyn integrointiin."
-slug: "generatiivisen-tekoalyn-turvallisuus-ja-vaatimustenmukaisuus-innovaatioiden-suojaaminen-tekoalyn-aikakaudella"
 weight: 10
 lang: fi
 ---

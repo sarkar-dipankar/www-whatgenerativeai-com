@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["IA Generativa", "Innovazione Aziendale", "Trasformazione Digitale", "Strategia IA", "Apprendimento Automatico"]
 categories: ["Tecnologia", "Strategia Aziendale", "Intelligenza Artificiale"]
 description: "Introduzione del GenAI Playbook, una guida completa per le organizzazioni che desiderano sfruttare il potere dell'IA Generativa. Scopri come questa risorsa può aiutarti a navigare nel complesso mondo dell'IA e guidare una trasformazione significativa nella tua azienda."
-slug: "annuncio-genai-playbook-guida-trasformazione-aziendale-guidata-ia"
 lang: it
 ---
 

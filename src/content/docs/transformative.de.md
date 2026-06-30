@@ -6,7 +6,6 @@ author: "Innovationsstrategie-Team"
 tags: ["Generative KI", "Geschäftsinnovation", "Digitale Transformation", "KI-Kultur", "Disruptive Technologien"]
 categories: ["Technologie", "Geschäftsstrategie"]
 description: "Entdecken Sie, wie Organisationen Generative KI nutzen können, um über die Prozessautomatisierung hinauszugehen, eine Innovationskultur zu fördern und branchenübergreifend transformativen Wandel voranzutreiben."
-slug: "von-automatisierung-zu-innovation-entfesselung-des-transformativen-potenzials-von-genki"
 weight: 5
 lang: de
 ---

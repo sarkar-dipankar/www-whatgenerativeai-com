@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["KI-Sicherheit", "Prompt Injection", "Governance", "EU AI Act"]
 categories: ["Technologie", "KI-Sicherheit"]
 description: "Das agentenspezifische Sicherheits-Bedrohungsmodell: Prompt Injection, Datenexfiltration, OWASP LLM Top-10, EU AI Act-Vorschriften und Audit-Trails."
-slug: "agents-security-governance"
 lang: de
 ---
 

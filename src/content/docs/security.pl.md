@@ -6,7 +6,6 @@ author: "Zespół ds. Bezpieczeństwa i Zgodności AI"
 tags: ["Generatywna AI", "Cyberbezpieczeństwo", "Ochrona danych", "Zgodność regulacyjna", "Etyka AI"]
 categories: ["Technologia", "Bezpieczeństwo", "Prawo"]
 description: "Poznaj kluczowe aspekty zapewnienia bezpieczeństwa i utrzymania zgodności regulacyjnej w implementacjach GenAI, w tym ochronę prywatności danych, kwestie regulacyjne i najlepsze praktyki bezpiecznej integracji AI."
-slug: "genai-bezpieczenstwo-i-zgodnosc-ochrona-innowacji-w-erze-ai"
 weight: 10
 lang: pl
 ---

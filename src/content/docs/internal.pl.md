@@ -6,7 +6,6 @@ author: "Zespół ds. Strategii Wdrażania AI"
 tags: ["Generatywna AI", "Rozwój Przypadków Użycia", "Strategia AI", "Pomiar ROI", "Wdrażanie AI"]
 categories: ["Technologia", "Strategia Biznesowa"]
 description: "Dowiedz się, jak identyfikować obszary o wysokim wpływie dla integracji GenAI, rozwijać niestandardowe modele AI dla konkretnych procesów i mierzyć ROI wdrożeń GenAI."
-slug: "tworzenie-sukcesu-budowanie-wewnetrznych-przypadkow-uzycia-genai"
 weight: 7
 lang: pl
 ---

@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Agentic AI", "AI-இன் எதிர்காலம்", "AI உத்தி", "On-Device AI"]
 categories: ["தொழில்நுட்பம்", "AI உத்தி"]
 description: "Agentic AI எங்கு செல்கிறது: on-device முகவர்கள், தன்னாட்சி நிறுவனங்கள், open vs closed மாதிரிகள், agentic web, மற்றும் தலைவர்கள் எதில் பந்தயம் கட்ட வேண்டும்."
-slug: "agents-future"
 lang: ta
 ---
 

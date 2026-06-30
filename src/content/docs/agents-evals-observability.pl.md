@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Evaly Agentów", "Observability", "Tracing", "Langfuse"]
 categories: ["Technologia", "Strategia AI"]
 description: "Jak oceniać i obserwować agentów w produkcji: tracing, evaly, guardraily, tryby awarii, monitoring kosztów i human-in-the-loop."
-slug: "agents-evals-observability"
 lang: pl
 ---
 

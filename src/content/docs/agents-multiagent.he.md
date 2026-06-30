@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Multi-Agent", "אורקסטרציית סוכנים", "אסטרטגיית AI"]
 categories: ["טכנולוגיה", "אסטרטגיית AI"]
 description: "תבניות למערכות multi-agent: הקצאת תפקידים, delegation, handoffs, טופולוגיות swarm, וtrade-offs-עלות/השהיה."
-slug: "multi-agent-systems"
 lang: he
 ---
 

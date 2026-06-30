@@ -6,7 +6,6 @@ author: "Zespół ds. Strategicznego Prognozowania"
 tags: ["Sztuczna Inteligencja Generatywna", "Przyszłość Pracy", "Strategia AI", "Adaptacja Organizacyjna", "Ciągłe Uczenie się"]
 categories: ["Technologia", "Strategia Biznesowa", "Innowacje"]
 description: "Poznaj strategie wyprzedzania trendów w GenAI, wspierania ciągłego uczenia się i przygotowania organizacji na kolejną falę postępów w AI, aby zapewnić długoterminowy sukces w świecie napędzanym przez AI."
-slug: "przygotowanie-organizacji-na-przyszlosc-prosperowanie-w-swiecie-napedzanym-przez-ai"
 weight: 11
 lang: pl
 ---

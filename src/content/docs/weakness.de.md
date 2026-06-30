@@ -6,7 +6,6 @@ author: "KI-Strategieteam"
 tags: ["Generative KI", "KI-Einschränkungen", "Technologiestrategie", "KI-Implementierung"]
 categories: ["Technologie", "KI-Strategie"]
 description: "Erkunden Sie die Einschränkungen der Generativen KI und verstehen Sie, welche Anwendungsfälle besser für traditionelle Ansätze geeignet sind, um eine fundiertere Entscheidungsfindung bei der KI-Einführung zu ermöglichen."
-slug: "verstaendnis-der-einschraenkungen-wo-genki-an-grenzen-stoesst"
 weight: 12
 lang: de
 ---

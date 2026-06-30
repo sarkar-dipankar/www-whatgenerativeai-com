@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Sztuczna Inteligencja Generatywna", "Innowacje Biznesowe", "Technologia HR", "AI w Marketingu", "AI w Finansach", "AI w Operacjach"]
 categories: ["Technologia", "Strategia Biznesowa"]
 description: "Odkryj, jak różne działy mogą wykorzystać Sztuczną Inteligencję Generatywną do usprawnienia operacji, napędzania innowacji i tworzenia przewag konkurencyjnych w całej organizacji."
-slug: "rewolucjonizowanie-funkcji-biznesowych-integracja-genai-w-dzialach"
 weight: 4
 lang: pl
 ---

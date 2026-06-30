@@ -6,7 +6,6 @@ author: "AI-strategieteam"
 tags: ["Generatieve AI", "AI-beperkingen", "Technologiestrategie", "AI-implementatie"]
 categories: ["Technologie", "AI-strategie"]
 description: "Verken de beperkingen van Generatieve AI en begrijp welke gebruiksscenario's beter geschikt zijn voor traditionele benaderingen, waardoor een meer geïnformeerde besluitvorming bij AI-adoptie mogelijk wordt."
-slug: "begrip-van-beperkingen-waar-genai-tekortschiet"
 weight: 12
 lang: nl
 ---

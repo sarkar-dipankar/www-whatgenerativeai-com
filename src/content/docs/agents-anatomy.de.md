@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["KI-Agenten", "Agenten-Architektur", "Planung", "Memory"]
 categories: ["Technologie", "KI-Strategie"]
 description: "Die interne Struktur eines KI-Agenten: der LLM-Kern, die Agenten-Schleife, Planungsstrategien, Memory-Typen und Context-Window-Management."
-slug: "anatomy-of-ai-agent"
 lang: de
 ---
 

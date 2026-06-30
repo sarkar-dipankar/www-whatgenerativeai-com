@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["RAG", "Agent-memory", "Vectordatabase", "Knowledge Graph"]
 categories: ["Technologie", "AI-strategie"]
 description: "Hoe agents zich herinneren: vector- en graph-memory, persistente status, agent-native RAG en knowledge graphs voor langlopende agents."
-slug: "agents-memory-rag"
 lang: nl
 ---
 

@@ -6,7 +6,6 @@ author: "Team di Strategia per lo Sviluppo dell'IA"
 tags: ["IA Generativa", "Produttività degli Sviluppatori", "Assistenti di Codifica IA", "Swarmia", "Sviluppo Software"]
 categories: ["Tecnologia", "IA nello Sviluppo"]
 description: "Esplora come l'IA Generativa sta rivoluzionando lo sviluppo software, dagli assistenti di codifica IA al monitoraggio della produttività, e apprendi le migliori pratiche per lo sviluppo potenziato dall'IA."
-slug: "potenziare-la-produttivita-degli-sviluppatori-ia-generativa"
 weight: 9
 lang: it
 ---

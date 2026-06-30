@@ -7,7 +7,6 @@ author: "Dipankar Sarkar"
 tags: ["Sztuczna Inteligencja Generatywna", "Uczenie Maszynowe", "Innowacje Biznesowe", "Transformacja Cyfrowa"]
 categories: ["Technologia", "Strategia AI"]
 description: "Zanurz się w świat Sztucznej Inteligencji Generatywnej, poznając jej kluczowe koncepcje, technologie i transformacyjny potencjał dla firm z różnych branż."
-slug: "odkrywanie-mocy-sztucznej-inteligencji-generatywnej-nowa-era-biznesu"
 lang: pl
 ---
 

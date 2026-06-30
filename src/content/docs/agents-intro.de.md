@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Agentic AI", "KI-Agenten", "Generative AI", "KI-Strategie"]
 categories: ["Technologie", "KI-Strategie"]
 description: "Was Agentic AI ist, warum 2026 der Wendepunkt ist, das Autonomie-Spektrum und der Unterschied zwischen GenAI, Agenten und agentic Workflows."
-slug: "from-genai-to-agentic-ai"
 lang: de
 ---
 

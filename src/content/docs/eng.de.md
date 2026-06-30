@@ -6,7 +6,6 @@ author: "KI-Entwicklungsstrategie-Team"
 tags: ["Generative KI", "Entwicklerproduktivität", "KI-Coding-Assistenten", "Swarmia", "Softwareentwicklung"]
 categories: ["Technologie", "KI in der Entwicklung"]
 description: "Entdecken Sie, wie Generative KI die Softwareentwicklung revolutioniert, von KI-Coding-Assistenten bis zur Produktivitätsverfolgung, und lernen Sie Best Practices für KI-unterstützte Entwicklung kennen."
-slug: "steigerung-der-entwicklerproduktivitaet-generative-ki"
 weight: 9
 lang: de
 ---

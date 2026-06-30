@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["다중 에이전트", "에이전트 오케스트레이션", "AI 전략"]
 categories: ["기술", "AI 전략"]
 description: "다중 에이전트 시스템을 위한 패턴: 역할 할당, 위임, 핸드오프, swarm 토폴로지, 비용/레이턴시 트레이드오프."
-slug: "multi-agent-systems"
 lang: ko
 ---
 

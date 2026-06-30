@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Agentic AI", "AI முகவர்கள்", "Generative AI", "AI உத்தி"]
 categories: ["தொழில்நுட்பம்", "AI உத்தி"]
 description: "Agentic AI என்றால் என்ன, 2026 ஏன் மாறுதல் புள்ளி, சுயாட்சி நிழற்பட்டை, மற்றும் GenAI, முகவர்கள், மற்றும் agentic வொர்க்ஃப்ளோக்களுக்கு இடையே உள்ள வேறுபாடு."
-slug: "from-genai-to-agentic-ai"
 lang: ta
 ---
 

@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Agentic AI", "AI-agentit", "Generatiivinen AI", "AI-strategia"]
 categories: ["Teknologia", "AI-strategia"]
 description: "Mitä agentic AI on, miksi 2026 on käännekohta, autonomia-asteikko ja ero GenAI:n, agenttien ja agentic-workflowiden välillä."
-slug: "from-genai-to-agentic-ai"
 lang: fi
 ---
 

@@ -7,7 +7,6 @@ author: "Dipankar Sarkar"
 tags: ["Generatiivinen tekoäly", "Koneoppiminen", "Liiketoiminnan innovaatio", "Digitaalinen transformaatio"]
 categories: ["Teknologia", "Tekoälystrategia"]
 description: "Sukella generatiivisen tekoälyn maailmaan, ymmärtäen sen ydinkäsitteet, teknologiat ja muutosvoimaisen potentiaalin yrityksille eri toimialoilla."
-slug: "generatiivisen-tekoalyn-voiman-paljastaminen-uusi-liiketoiminnan-aikakausi"
 lang: fi
 ---
 

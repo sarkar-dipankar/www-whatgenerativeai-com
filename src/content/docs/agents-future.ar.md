@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Agentic AI", "مستقبل AI", "استراتيجية AI", "AI على الجهاز"]
 categories: ["تكنولوجيا", "استراتيجية AI"]
 description: "إلى أين تتجه Agentic AI: وكلاء على الجهاز، منظمات مستقلة، مفتوح مقابل مغلق، الويب agentic، وعلى ماذا يجب أن يراهن القادة."
-slug: "agents-future"
 lang: ar
 ---
 

@@ -6,7 +6,6 @@ author: "Tekoälystrategiatiimi"
 tags: ["Generatiivinen tekoäly", "Tekoälyn rajoitukset", "Teknologiastrategia", "Tekoälyn käyttöönotto"]
 categories: ["Teknologia", "Tekoälystrategia"]
 description: "Tutustu generatiivisen tekoälyn rajoituksiin ja ymmärrä, mitkä käyttötapaukset soveltuvat paremmin perinteisille lähestymistavoille, mahdollistaen tietoisemman päätöksenteon tekoälyn käyttöönotossa."
-slug: "rajoitusten-ymmartaminen-missa-genai-jaa-jalkeen"
 weight: 12
 lang: fi
 ---

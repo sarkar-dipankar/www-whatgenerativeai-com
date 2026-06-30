@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["முகவர் Evals", "Observability", "Tracing", "Langfuse"]
 categories: ["தொழில்நுட்பம்", "AI உத்தி"]
 description: "உற்பத்தியில் முகவர்களை எப்படி மதிப்பிடுவது மற்றும் கவனிப்பது: tracing, evals, guardrails, தோல்வி முறைகள், செலவு கண்காணிப்பு, மற்றும் human-in-the-loop."
-slug: "agents-evals-observability"
 lang: ta
 ---
 

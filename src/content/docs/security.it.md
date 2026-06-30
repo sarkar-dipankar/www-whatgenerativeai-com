@@ -6,7 +6,6 @@ author: "Team di Sicurezza e Conformità AI"
 tags: ["IA Generativa", "Cybersicurezza", "Privacy dei Dati", "Conformità Normativa", "Etica dell'IA"]
 categories: ["Tecnologia", "Sicurezza", "Legale"]
 description: "Esplora gli aspetti critici per garantire la sicurezza e mantenere la conformità normativa nelle implementazioni di GenAI, inclusa la protezione della privacy dei dati, le considerazioni normative e le migliori pratiche per un'integrazione sicura dell'IA."
-slug: "sicurezza-e-conformita-genai-salvaguardare-innovazione-era-ai"
 weight: 10
 lang: it
 ---

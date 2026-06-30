@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Sztuczna Inteligencja Generatywna", "Strukturyzacja Danych", "Zarządzanie Danymi", "Wdrażanie AI", "Potoki Danych"]
 categories: ["Technologia", "Zarządzanie Danymi"]
 description: "Dowiedz się, jak efektywnie strukturyzować i zarządzać danymi do wdrażania Sztucznej Inteligencji Generatywnej, w tym budować solidne potoki danych, zapewniać jakość danych i ustanawiać silne praktyki zarządzania."
-slug: "strukturyzacja-danych-dla-genai-podstawa-innowacji-opartych-na-ai"
 weight: 6
 lang: pl
 ---

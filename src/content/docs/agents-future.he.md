@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Agentic AI", "עתיד AI", "אסטרטגיית AI", "AI על-מכשיר"]
 categories: ["טכנולוגיה", "אסטרטגיית AI"]
 description: "לאן Agentic AI הולכת: סוכנים על-מכשיר, ארגונים אוטונומיים, מודלים פתוחים מול סגורים, האינטרנט האג'נטי, ועל מה מנהיגים כדאי להתערב."
-slug: "agents-future"
 lang: he
 ---
 

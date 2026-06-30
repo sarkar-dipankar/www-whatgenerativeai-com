@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["முகவர் உற்பத்தி", "Deployment", "AI கட்டமைப்பு", "செலவு மேம்பாடு"]
 categories: ["தொழில்நுட்பம்", "AI உத்தி"]
 description: "முகவர்களுக்கான உற்பத்தி கட்டமைப்பு: streaming, fallback, multi-tenancy, செலவு மேம்பாடு, versioning, மற்றும் முகவர்களை நம்பகமாக வைக்கும் operational முறைகள்."
-slug: "deploying-agents-in-production"
 lang: ta
 ---
 

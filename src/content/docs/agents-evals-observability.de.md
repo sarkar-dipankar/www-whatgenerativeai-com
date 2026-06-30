@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Agenten-Evals", "Observability", "Tracing", "Langfuse"]
 categories: ["Technologie", "KI-Strategie"]
 description: "Wie man Agenten in Produktion evaluiert und beobachtet: Tracing, Evals, Guardrails, Fehlermodi, Kosten-Monitoring und Human-in-the-Loop."
-slug: "agents-evals-observability"
 lang: de
 ---
 

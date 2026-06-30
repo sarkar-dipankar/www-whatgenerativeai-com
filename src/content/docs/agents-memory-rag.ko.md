@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["RAG", "에이전트 메모리", "Vector Database", "Knowledge Graph"]
 categories: ["기술", "AI 전략"]
 description: "에이전트가 어떻게 기억하는가: vector와 graph 메모리, 영구 상태, agent-native RAG, 장기 실행 에이전트를 위한 knowledge graph."
-slug: "agents-memory-rag"
 lang: ko
 ---
 

@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Multi-agent", "Agenttien orkestointi", "AI-strategia"]
 categories: ["Teknologia", "AI-strategia"]
 description: "Multi-agent-järjestelmien mallit: roolien jako, delegointi, siirrot, swarm-topologiat ja kustannus/viive-trade-offit."
-slug: "multi-agent-systems"
 lang: fi
 ---
 

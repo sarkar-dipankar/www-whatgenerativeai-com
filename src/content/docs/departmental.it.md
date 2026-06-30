@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["IA Generativa", "Innovazione Aziendale", "Tecnologia HR", "IA nel Marketing", "IA nella Finanza", "IA nelle Operazioni"]
 categories: ["Tecnologia", "Strategia Aziendale"]
 description: "Esplora come diversi dipartimenti possono sfruttare l'IA Generativa per migliorare le operazioni, guidare l'innovazione e creare vantaggi competitivi in tutta l'organizzazione."
-slug: "rivoluzionare-funzioni-aziendali-integrazione-genai-dipartimentale"
 weight: 4
 lang: it
 ---

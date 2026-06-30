@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Generatiivinen tekoäly", "Liiketoiminnan innovaatio", "Digitaalinen muutos", "Tekoälystrategia", "Koneoppiminen"]
 categories: ["Teknologia", "Liiketoimintastrategia", "Tekoäly"]
 description: "Esittelyssä GenAI-pelikirja, kattava opas organisaatioille, jotka haluavat hyödyntää generatiivisen tekoälyn voimaa. Opi, miten tämä resurssi voi auttaa sinua navigoimaan tekoälyn monimutkaisessa maailmassa ja ajamaan merkityksellistä muutosta liiketoiminnassasi."
-slug: "genai-pelikirjan-julkistaminen-opas-tekoalyvetoiseen-liiketoiminnan-muutokseen"
 lang: fi
 ---
 

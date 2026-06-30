@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["אבטחת AI", "Prompt Injection", "Governance", "EU AI Act"]
 categories: ["טכנולוגיה", "אבטחת AI"]
 description: "מודל האיום האבטחתי הספציפי לסוכן: prompt injection, exfiltration נתונים, OWASP LLM Top-10, הוראות EU AI Act, ועקבות audit."
-slug: "agents-security-governance"
 lang: he
 ---
 

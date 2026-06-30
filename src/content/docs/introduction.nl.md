@@ -7,7 +7,6 @@ author: "Dipankar Sarkar"
 tags: ["Generatieve AI", "Machine Learning", "Bedrijfsinnovatie", "Digitale Transformatie"]
 categories: ["Technologie", "AI-strategie"]
 description: "Duik in de wereld van Generatieve AI, begrijp de kernconcepten, technologieën en transformatieve potentie voor bedrijven in verschillende industrieën."
-slug: "onthulling-kracht-generatieve-ai-nieuw-tijdperk-bedrijfsleven"
 lang: nl
 ---
 

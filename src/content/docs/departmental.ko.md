@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["생성형 AI", "비즈니스 혁신", "HR 기술", "마케팅의 AI", "재무의 AI", "운영의 AI"]
 categories: ["기술", "비즈니스 전략"]
 description: "다양한 부서가 생성형 AI를 활용하여 운영을 개선하고, 혁신을 주도하며, 조직 전반에 걸쳐 경쟁 우위를 창출하는 방법을 탐구합니다."
-slug: "비즈니스-기능-혁신-부서별-genai-통합"
 weight: 4
 lang: ko
 ---

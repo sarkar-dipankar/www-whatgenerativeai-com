@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Agentic AI", "סוכני AI", "Generative AI", "אסטרטגיית AI"]
 categories: ["טכנולוגיה", "אסטרטגיית AI"]
 description: "מהי Agentic AI, למה 2026 היא נקודת המפנה, ספקטרום האוטונומיה, וההבדל בין GenAI, סוכנים ו-workflows אג'נטיים."
-slug: "from-genai-to-agentic-ai"
 lang: he
 ---
 

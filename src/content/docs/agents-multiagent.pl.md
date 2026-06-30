@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Multi-Agent", "Orkiestracja Agentów", "Strategia AI"]
 categories: ["Technologia", "Strategia AI"]
 description: "Wzorce dla systemów multi-agent: przypisanie ról, delegacja, handoffy, topologie swarm i kompromisy koszt/latencja."
-slug: "multi-agent-systems"
 lang: pl
 ---
 

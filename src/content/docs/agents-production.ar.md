@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["إنتاج الوكلاء", "النشر", "بنية AI", "تحسين التكلفة"]
 categories: ["تكنولوجيا", "استراتيجية AI"]
 description: "بنية الإنتاج للوكلاء: البث، fallbacks، multi-tenancy، تحسين التكلفة، الإصدارات، وأنماط التشغيل التي تبقي الوكلاء موثوقين."
-slug: "deploying-agents-in-production"
 lang: ar
 ---
 

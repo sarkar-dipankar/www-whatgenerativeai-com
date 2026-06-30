@@ -7,7 +7,6 @@ author: "Dipankar Sarkar"
 tags: ["IA Generativa", "Apprendimento Automatico", "Innovazione Aziendale", "Trasformazione Digitale"]
 categories: ["Tecnologia", "Strategia IA"]
 description: "Immergiti nel mondo dell'IA Generativa, comprendendo i suoi concetti fondamentali, le tecnologie e il potenziale trasformativo per le aziende in tutti i settori."
-slug: "svelare-potere-ia-generativa-nuova-era-business"
 lang: it
 ---
 

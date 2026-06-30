@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Multi-agent", "Agent-orkestratie", "AI-strategie"]
 categories: ["Technologie", "AI-strategie"]
 description: "Patronen voor multi-agent-systemen: roltoewijzing, delegatie, overdrachten, swarm-topologieën en de kosten/latentie-trade-offs."
-slug: "multi-agent-systems"
 lang: nl
 ---
 

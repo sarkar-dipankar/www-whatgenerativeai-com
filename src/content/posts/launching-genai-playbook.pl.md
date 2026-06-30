@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Sztuczna inteligencja generatywna", "Innowacje biznesowe", "Transformacja cyfrowa", "Strategia AI", "Uczenie maszynowe"]
 categories: ["Technologia", "Strategia biznesowa", "Sztuczna inteligencja"]
 description: "Przedstawiamy GenAI Playbook, kompleksowy przewodnik dla organizacji chcących wykorzystać moc sztucznej inteligencji generatywnej. Dowiedz się, jak ten zasób może pomóc Ci poruszać się po złożonym świecie AI i napędzać znaczącą transformację w Twoim biznesie."
-slug: "oglaszamy-genai-playbook-przewodnik-transformacja-biznesowa-napedzana-ai"
 lang: pl
 ---
 

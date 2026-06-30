@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["תפעול סוכנים", "פריסה", "ארכיטקטורת AI", "אופטימיזציית עלות"]
 categories: ["טכנולוגיה", "אסטרטגיית AI"]
 description: "ארכיטקטורת תפעול לסוכנים: streaming, fallbacks, multi-tenancy, אופטימיזציית עלות, versioning, ותבניות התפעול ששומרות על סוכנים אמינים."
-slug: "deploying-agents-in-production"
 lang: he
 ---
 

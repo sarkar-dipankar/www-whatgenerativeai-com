@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Produzione Agenti", "Deployment", "Architettura AI", "Ottimizzazione Costi"]
 categories: ["Tecnologia", "Strategia AI"]
 description: "Architettura di produzione per agenti: streaming, fallback, multi-tenancy, ottimizzazione costi, versioning e i pattern operativi che mantengono gli agenti affidabili."
-slug: "deploying-agents-in-production"
 lang: it
 ---
 

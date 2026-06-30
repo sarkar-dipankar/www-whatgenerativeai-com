@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["MCP", "Function Calling", "கருவி பயன்பாடு", "முகவர் கட்டமைப்பு"]
 categories: ["தொழில்நுட்பம்", "AI உத்தி"]
 description: "முகவர்கள் எப்படி வெளிப்புற அமைப்புகளை அழைக்கிறார்கள்: function calling, Model Context Protocol (MCP), கருவி வடிவமைப்பு, மற்றும் பாதுகாப்பு எல்லைகள்."
-slug: "tools-function-calling-mcp"
 lang: ta
 ---
 

@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["AI Agentic", "Przyszłość AI", "Strategia AI", "On-Device AI"]
 categories: ["Technologia", "Strategia AI"]
 description: "Dokąd zmierza AI agentic: agenci on-device, autonomiczne organizacje, modele open vs closed, web agentic i na co liderzy powinni stawiać."
-slug: "agents-future"
 lang: pl
 ---
 

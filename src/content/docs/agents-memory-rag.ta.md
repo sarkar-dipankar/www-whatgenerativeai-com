@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["RAG", "முகவர் நினைவு", "Vector Database", "Knowledge Graph"]
 categories: ["தொழில்நுட்பம்", "AI உத்தி"]
 description: "முகவர்கள் எப்படி நினைவு கொள்கிறார்கள்: vector மற்றும் graph நினைவு, persistent நிலை, agent-native RAG, மற்றும் நீண்ட-ஓடும் முகவர்களுக்கு knowledge graph."
-slug: "agents-memory-rag"
 lang: ta
 ---
 

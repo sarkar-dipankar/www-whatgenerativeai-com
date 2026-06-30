@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["에이전트 평가", "Observability", "Tracing", "Langfuse"]
 categories: ["기술", "AI 전략"]
 description: "프로덕션에서 에이전트를 어떻게 평가하고 관찰하는가: tracing, 평가, guardrails, 실패 모드, 비용 모니터링, human-in-the-loop."
-slug: "agents-evals-observability"
 lang: ko
 ---
 

@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Agentic AI", "AI-agents", "Generatieve AI", "AI-strategie"]
 categories: ["Technologie", "AI-strategie"]
 description: "Wat agentic AI is, waarom 2026 het kantelpunt is, het autonomiespectrum en het verschil tussen GenAI, agents en agentic workflows."
-slug: "from-genai-to-agentic-ai"
 lang: nl
 ---
 

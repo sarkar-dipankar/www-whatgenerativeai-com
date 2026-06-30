@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["AI 에이전트", "에이전트 아키텍처", "계획", "메모리"]
 categories: ["기술", "AI 전략"]
 description: "AI 에이전트의 내부 구조: LLM 코어, 에이전트 루프, 계획 전략, 메모리 유형, 컨텍스트 창 관리."
-slug: "anatomy-of-ai-agent"
 lang: ko
 ---
 

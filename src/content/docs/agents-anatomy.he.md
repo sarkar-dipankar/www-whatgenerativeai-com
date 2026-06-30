@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["סוכני AI", "ארכיטקטורת סוכן", "תכנון", "זיכרון"]
 categories: ["טכנולוגיה", "אסטרטגיית AI"]
 description: "המבנה הפנימי של סוכן AI: ליבת ה-LLM, לולאת הסוכן, אסטרטגיות תכנון, סוגי זיכרון וניהול חלון הקשר."
-slug: "anatomy-of-ai-agent"
 lang: he
 ---
 

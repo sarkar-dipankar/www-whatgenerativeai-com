@@ -7,7 +7,6 @@ author: "Dipankar Sarkar"
 tags: ["Generative KI", "Maschinelles Lernen", "Geschäftsinnovation", "Digitale Transformation"]
 categories: ["Technologie", "KI-Strategie"]
 description: "Tauchen Sie ein in die Welt der Generativen KI, verstehen Sie ihre Kernkonzepte, Technologien und das transformative Potenzial für Unternehmen in allen Branchen."
-slug: "enthuellung-der-macht-generativer-ki-neue-aera-des-geschaefts"
 lang: de
 ---
 

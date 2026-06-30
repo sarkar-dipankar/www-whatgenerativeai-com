@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["RAG", "Agenttimuisti", "Vektoritietokanta", "Tietämysgraafi"]
 categories: ["Teknologia", "AI-strategia"]
 description: "Miten agentit muistavat: vektori- ja graafimuisti, pysyvä tila, agent-natiivi RAG ja tietämysgraafit pitkäkestoisille agenteille."
-slug: "agents-memory-rag"
 lang: fi
 ---
 

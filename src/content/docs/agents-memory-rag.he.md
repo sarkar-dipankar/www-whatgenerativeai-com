@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["RAG", "זיכרון סוכן", "Vector Database", "Knowledge Graph"]
 categories: ["טכנולוגיה", "אסטרטגיית AI"]
 description: "כיצד סוכנים זוכרים: זיכרון וקטורי וגרפי, state קבוע, RAG agent-native, וknowledge graphs לסוכנים ארוכי-טווח."
-slug: "agents-memory-rag"
 lang: he
 ---
 

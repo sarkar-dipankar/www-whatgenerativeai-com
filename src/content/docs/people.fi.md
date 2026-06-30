@@ -6,7 +6,6 @@ author: "HR-innovaatiotiimi"
 tags: ["Generatiivinen tekoäly", "Henkilöstöanalytiikka", "HR-teknologia", "Osaamisen johtaminen", "Organisaatiodynamiikka"]
 categories: ["Henkilöstöhallinto", "Tekoäly liiketoiminnassa"]
 description: "Tutustu siihen, miten tekoälypohjainen henkilöstöanalytiikka voi muuttaa organisaatiodynamiikkaa, parantaa suorituskyvyn ennustamista ja mullistaa osaamisen johtamisen, samalla huomioiden keskeiset eettiset näkökohdat."
-slug: "hr-mullistaminen-tekoalypohjaisella-henkilostoanalytiikalla"
 weight: 8
 lang: fi
 ---

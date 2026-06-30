@@ -6,7 +6,6 @@ author: "KI-Implementierungsstrategie-Team"
 tags: ["Generative KI", "Anwendungsfallentwicklung", "KI-Strategie", "ROI-Messung", "KI-Implementierung"]
 categories: ["Technologie", "Geschäftsstrategie"]
 description: "Erfahren Sie, wie Sie Bereiche mit hoher Wirkung für die GenKI-Integration identifizieren, maßgeschneiderte KI-Modelle für spezifische Prozesse entwickeln und den ROI Ihrer GenKI-Implementierungen messen."
-slug: "erfolg-gestalten-entwicklung-interner-genki-anwendungsfaelle"
 weight: 7
 lang: de
 ---

@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Agentic AI", "AI 에이전트", "생성형 AI", "AI 전략"]
 categories: ["기술", "AI 전략"]
 description: "Agentic AI가 무엇인지, 2026년이 왜 변곡점인지, 자율성 스펙트럼, 그리고 GenAI, 에이전트, agentic 워크플로우의 차이."
-slug: "from-genai-to-agentic-ai"
 lang: ko
 ---
 

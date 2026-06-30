@@ -6,7 +6,6 @@ author: "Innovatie Strategie Team"
 tags: ["Generatieve AI", "Bedrijfsinnovatie", "Digitale Transformatie", "AI-cultuur", "Disruptieve Technologieën"]
 categories: ["Technologie", "Bedrijfsstrategie"]
 description: "Ontdek hoe organisaties Generatieve AI kunnen benutten om verder te gaan dan procesautomatisering, een cultuur van innovatie te bevorderen en transformatieve verandering in verschillende industrieën te stimuleren."
-slug: "van-automatisering-naar-innovatie-het-ontsluiten-van-genai-transformatieve-potentieel"
 weight: 5
 lang: nl
 ---

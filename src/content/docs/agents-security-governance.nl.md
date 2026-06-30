@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["AI-beveiliging", "Prompt-injectie", "Governance", "EU AI Act"]
 categories: ["Technologie", "AI-beveiliging"]
 description: "Het agent-specifieke beveiligingsbedreigingsmodel: prompt-injectie, data-exfiltratie, OWASP LLM Top-10, EU AI Act-bepalingen en audit-trails."
-slug: "agents-security-governance"
 lang: nl
 ---
 

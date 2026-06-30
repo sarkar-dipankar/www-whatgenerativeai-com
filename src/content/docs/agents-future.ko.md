@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Agentic AI", "AI의 미래", "AI 전략", "On-Device AI"]
 categories: ["기술", "AI 전략"]
 description: "Agentic AI가 어디로 가는가: on-device 에이전트, 자율 조직, 오픈 vs 클로즈드 모델, agentic 웹, 리더가 무엇에 베팅해야 하는가."
-slug: "agents-future"
 lang: ko
 ---
 

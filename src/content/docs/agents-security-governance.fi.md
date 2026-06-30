@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["AI-turvallisuus", "Prompt-injektio", "Hallinto", "EU AI Act"]
 categories: ["Teknologia", "AI-turvallisuus"]
 description: "Agentikohtainen turvallisuusuhkamalli: prompt-injektio, tietovuodot, OWASP LLM Top-10, EU AI Act -määräykset ja audit-polkit."
-slug: "agents-security-governance"
 lang: fi
 ---
 

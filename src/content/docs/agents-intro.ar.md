@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Agentic AI", "وكلاء AI", "Generative AI", "استراتيجية AI"]
 categories: ["تكنولوجيا", "استراتيجية AI"]
 description: "ما هي Agentic AI، ولماذا 2026 نقطة التحول، وطيف الاستقلالية، والفرق بين GenAI والوكلاء وagentic workflows."
-slug: "from-genai-to-agentic-ai"
 lang: ar
 ---
 

@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Agenttien arviointi", "Observability", "Tracing", "Langfuse"]
 categories: ["Teknologia", "AI-strategia"]
 description: "Miten arvioida ja havainnoida agentteja tuotannossa: tracing, evalit, guardrailit, virhetilat, kustannusvalvonta ja human-in-the-loop."
-slug: "agents-evals-observability"
 lang: fi
 ---
 

@@ -1,16 +1,8 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 
-// Generate unique IDs from the full filename (including lang suffix)
-// so that e.g. agents-tools-mcp.md and agents-tools-mcp.it.md don't collide
-// even if they share the same `slug` frontmatter.
-const generateId = ({ entry }: { entry: string; base: URL; data: Record<string, unknown> }): string => {
-  // entry is the relative path from base, e.g. "agents-tools-mcp.it.md"
-  return entry.replace(/\.md$/, "");
-};
-
 const docs = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/docs", generateId }),
+  loader: glob({ pattern: "**/*.md", base: "./src/content/docs" }),
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
@@ -27,7 +19,7 @@ const docs = defineCollection({
 });
 
 const posts = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/posts", generateId }),
+  loader: glob({ pattern: "**/*.md", base: "./src/content/posts" }),
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),

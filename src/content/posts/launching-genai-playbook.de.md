@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Generative KI", "Geschäftsinnovation", "Digitale Transformation", "KI-Strategie", "Maschinelles Lernen"]
 categories: ["Technologie", "Geschäftsstrategie", "Künstliche Intelligenz"]
 description: "Vorstellung des GenAI-Playbooks, eines umfassenden Leitfadens für Organisationen, die die Kraft der Generativen KI nutzen möchten. Erfahren Sie, wie diese Ressource Ihnen helfen kann, die komplexe Welt der KI zu navigieren und eine bedeutsame Transformation in Ihrem Unternehmen voranzutreiben."
-slug: "ankuendigung-genai-playbook-leitfaden-ki-gesteuerte-geschaeftstransformation"
 lang: de
 ---
 

@@ -6,7 +6,6 @@ author: "AI 전략팀"
 tags: ["생성형 AI", "AI 한계", "기술 전략", "AI 구현"]
 categories: ["기술", "AI 전략"]
 description: "생성형 AI의 한계를 탐구하고 전통적인 접근 방식이 더 적합한 사용 사례를 이해하여 AI 도입에 대한 더 정보에 입각한 의사 결정을 가능하게 합니다."
-slug: "genai-한계점-이해하기"
 weight: 12
 lang: ko
 ---

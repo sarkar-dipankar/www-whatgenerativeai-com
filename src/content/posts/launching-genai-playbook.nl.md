@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Generatieve AI", "Bedrijfsinnovatie", "Digitale Transformatie", "AI-strategie", "Machine Learning"]
 categories: ["Technologie", "Bedrijfsstrategie", "Kunstmatige Intelligentie"]
 description: "Introductie van het GenAI Playbook, een uitgebreide gids voor organisaties die de kracht van Generatieve AI willen benutten. Ontdek hoe deze bron u kan helpen bij het navigeren door de complexe wereld van AI en het stimuleren van betekenisvolle transformatie in uw bedrijf."
-slug: "aankondiging-genai-playbook-gids-ai-gedreven-bedrijfstransformatie"
 lang: nl
 ---
 

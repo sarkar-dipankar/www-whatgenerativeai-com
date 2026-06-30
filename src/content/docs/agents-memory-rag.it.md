@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["RAG", "Memoria Agenti", "Vector Database", "Knowledge Graph"]
 categories: ["Tecnologia", "Strategia AI"]
 description: "Come gli agenti ricordano: memoria vettoriale e a grafo, stato persistente, RAG agent-native e knowledge graph per agenti di lunga durata."
-slug: "agents-memory-rag"
 lang: it
 ---
 

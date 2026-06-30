@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Generatiivinen tekoäly", "Datan jäsentäminen", "Datan hallinta", "Tekoälyn käyttöönotto", "Dataputket"]
 categories: ["Teknologia", "Tiedonhallinta"]
 description: "Opi, miten jäsentää ja hallita dataa tehokkaasti generatiivisen tekoälyn käyttöönottoa varten, mukaan lukien vankkoja dataputkia, datan laadun varmistamista ja vahvojen hallintakäytäntöjen luomista."
-slug: "datan-jasenta-minen-genaille-perusta-tekoalyvetoiselle-innovaatiolle"
 weight: 6
 lang: fi
 ---

@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Intelligenza Artificiale Generativa", "Strumenti IA", "ChatGPT", "OpenAI", "Perplexity.ai", "Efficienza Aziendale"]
 categories: ["Tecnologia", "Implementazione IA"]
 description: "Scopri come sfruttare efficacemente gli strumenti di Intelligenza Artificiale Generativa esistenti come ChatGPT, l'API di OpenAI e Perplexity.ai per migliorare i processi aziendali e guidare l'innovazione."
-slug: "sfruttare-il-potere-degli-strumenti-genai-esistenti-guida-pratica-per-le-aziende"
 weight: 2
 lang: it
 ---

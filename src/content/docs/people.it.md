@@ -6,7 +6,6 @@ author: "Team di Innovazione HR"
 tags: ["IA Generativa", "Analisi delle Persone", "Tecnologia HR", "Gestione dei Talenti", "Dinamiche Organizzative"]
 categories: ["Risorse Umane", "IA nel Business"]
 description: "Esplora come l'analisi delle persone basata sull'IA può trasformare le dinamiche organizzative, migliorare la previsione delle prestazioni e rivoluzionare la gestione dei talenti, affrontando al contempo cruciali considerazioni etiche."
-slug: "rivoluzionare-hr-analisi-persone-basata-su-ia"
 weight: 8
 lang: it
 ---

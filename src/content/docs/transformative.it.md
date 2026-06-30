@@ -6,7 +6,6 @@ author: "Team di Strategia dell'Innovazione"
 tags: ["IA Generativa", "Innovazione Aziendale", "Trasformazione Digitale", "Cultura dell'IA", "Tecnologie Dirompenti"]
 categories: ["Tecnologia", "Strategia Aziendale"]
 description: "Esplora come le organizzazioni possono sfruttare l'IA Generativa per andare oltre l'automazione dei processi, favorendo una cultura dell'innovazione e guidando il cambiamento trasformativo in tutti i settori."
-slug: "dall-automazione-all-innovazione-liberare-il-potenziale-trasformativo-dell-ia-generativa"
 weight: 5
 lang: it
 ---

@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Generative KI", "Datenstrukturierung", "Data Governance", "KI-Implementierung", "Datenpipelines"]
 categories: ["Technologie", "Datenmanagement"]
 description: "Erfahren Sie, wie Sie Daten für die Implementierung von Generativer KI effektiv strukturieren und verwalten können, einschließlich des Aufbaus robuster Datenpipelines, der Sicherstellung von Datenqualität und der Etablierung starker Governance-Praktiken."
-slug: "strukturierung-von-daten-fuer-genki-grundlage-ki-getriebener-innovation"
 weight: 6
 lang: de
 ---

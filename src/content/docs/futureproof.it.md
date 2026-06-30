@@ -6,7 +6,6 @@ author: "Team di Previsione Strategica"
 tags: ["IA Generativa", "Futuro del Lavoro", "Strategia IA", "Adattamento Organizzativo", "Apprendimento Continuo"]
 categories: ["Tecnologia", "Strategia Aziendale", "Innovazione"]
 description: "Esplora strategie per rimanere all'avanguardia delle tendenze dell'IA generativa, promuovere l'apprendimento continuo e preparare la tua organizzazione per la prossima ondata di progressi dell'IA per garantire il successo a lungo termine in un mondo guidato dall'IA."
-slug: "preparare-la-tua-organizzazione-per-il-futuro-prosperare-in-un-futuro-guidato-dall-ia"
 weight: 11
 lang: it
 ---

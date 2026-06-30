@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Generative KI", "KI-Tools", "ChatGPT", "OpenAI", "Perplexity.ai", "Geschäftseffizienz"]
 categories: ["Technologie", "KI-Implementierung"]
 description: "Entdecken Sie, wie Sie bestehende Generative KI-Tools wie ChatGPT, OpenAIs API und Perplexity.ai effektiv nutzen können, um Geschäftsprozesse zu verbessern und Innovation voranzutreiben."
-slug: "nutzung-der-kraft-bestehender-genki-tools-praktischer-leitfaden-fuer-unternehmen"
 weight: 2
 lang: de
 ---

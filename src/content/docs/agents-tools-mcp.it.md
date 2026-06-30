@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["MCP", "Function Calling", "Uso di Strumenti", "Architettura Agenti"]
 categories: ["Tecnologia", "Strategia AI"]
 description: "Come gli agenti chiamano sistemi esterni: function calling, il Model Context Protocol (MCP), design degli strumenti e confini di sicurezza."
-slug: "tools-function-calling-mcp"
 lang: it
 ---
 

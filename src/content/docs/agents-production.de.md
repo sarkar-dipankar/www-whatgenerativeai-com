@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Agenten-Produktion", "Deployment", "KI-Architektur", "Kostenoptimimierung"]
 categories: ["Technologie", "KI-Strategie"]
 description: "Produktionsarchitektur für Agenten: Streaming, Fallbacks, Multi-Tenancy, Kostenoptimierung, Versioning und die operativen Muster, die Agenten zuverlässig halten."
-slug: "deploying-agents-in-production"
 lang: de
 ---
 

@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["பல-முகவர்", "முகவர் Orchestration", "AI உத்தி"]
 categories: ["தொழில்நுட்பம்", "AI உத்தி"]
 description: "பல-முகவர் அமைப்புகளுக்கான முறைகள்: பங்கு ஒதுக்கீடு, பிரதிநிதித்துவம், handoff-கள், swarm topologies, மற்றும் செலவு/தாமத பரிமாற்றங்கள்."
-slug: "multi-agent-systems"
 lang: ta
 ---
 

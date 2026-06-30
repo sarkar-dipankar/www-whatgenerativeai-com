@@ -6,7 +6,6 @@ author: "Strategisch Vooruitziend Team"
 tags: ["Generatieve AI", "Toekomst van Werk", "AI-strategie", "Organisatorische Aanpassing", "Continu Leren"]
 categories: ["Technologie", "Bedrijfsstrategie", "Innovatie"]
 description: "Verken strategieën om voorop te blijven bij GenAI-trends, continu leren te bevorderen en uw organisatie voor te bereiden op de volgende golf van AI-vooruitgang om langdurig succes in een door AI gedreven wereld te waarborgen."
-slug: "toekomstbestendig-maken-van-uw-organisatie-floreren-ai-gedreven-toekomst"
 weight: 11
 lang: nl
 ---

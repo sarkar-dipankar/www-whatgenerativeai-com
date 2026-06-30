@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["MCP", "Function Calling", "استخدام الأدوات", "بنية الوكيل"]
 categories: ["تكنولوجيا", "استراتيجية AI"]
 description: "كيف يستدعي الوكلاء الأنظمة الخارجية: function calling، Model Context Protocol (MCP)، تصميم الأدوات، وحدود الأمان."
-slug: "tools-function-calling-mcp"
 lang: ar
 ---
 

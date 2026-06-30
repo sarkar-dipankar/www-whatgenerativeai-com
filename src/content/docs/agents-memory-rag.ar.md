@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["RAG", "ذاكرة الوكيل", "Vector Database", "Knowledge Graph"]
 categories: ["تكنولوجيا", "استراتيجية AI"]
 description: "كيف يتذكر الوكلاء: ذاكرة متجهة ورسمية، state دائم، RAG agent-native، وknowledge graphs للوكلاء طويلي الأمد."
-slug: "agents-memory-rag"
 lang: ar
 ---
 

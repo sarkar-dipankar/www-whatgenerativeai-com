@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["تقييم الوكلاء", "Observability", "Tracing", "Langfuse"]
 categories: ["تكنولوجيا", "استراتيجية AI"]
 description: "كيف تقيّم وتراقب الوكلاء في الإنتاج: التتبع، التقييمات، guardrails، أوضاع الفشل، مراقبة التكلفة، وhuman-in-the-loop."
-slug: "agents-evals-observability"
 lang: ar
 ---
 

@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Generatiivinen tekoäly", "Tekoälytyökalut", "ChatGPT", "OpenAI", "Perplexity.ai", "Liiketoiminnan tehokkuus"]
 categories: ["Teknologia", "Tekoälyn käyttöönotto"]
 description: "Opi hyödyntämään tehokkaasti olemassa olevia generatiivisen tekoälyn työkaluja kuten ChatGPT:tä, OpenAI:n API:a ja Perplexity.ai:ta liiketoimintaprosessien tehostamiseksi ja innovaatioiden edistämiseksi."
-slug: "olemassa-olevien-genai-tyokalujen-voiman-hyodyntaminen-kaytannon-opas-yrityksille"
 weight: 2
 lang: fi
 ---

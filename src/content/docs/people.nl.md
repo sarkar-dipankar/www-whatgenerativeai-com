@@ -6,7 +6,6 @@ author: "HR Innovatieteam"
 tags: ["Generatieve AI", "People Analytics", "HR-technologie", "Talentmanagement", "Organisatiedynamiek"]
 categories: ["Human Resources", "AI in Bedrijven"]
 description: "Ontdek hoe AI-gestuurde people analytics de organisatiedynamiek kan transformeren, prestatievoorspelingen kan verbeteren en talentmanagement kan revolutioneren, terwijl cruciale ethische overwegingen worden aangepakt."
-slug: "revolutie-in-hr-ai-gestuurde-people-analytics"
 weight: 8
 lang: nl
 ---

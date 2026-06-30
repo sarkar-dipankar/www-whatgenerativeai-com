@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Generative KI", "Geschäftsinnovation", "HR-Technologie", "KI im Marketing", "KI in Finanzen", "KI im Betrieb"]
 categories: ["Technologie", "Geschäftsstrategie"]
 description: "Entdecken Sie, wie verschiedene Abteilungen Generative KI nutzen können, um Abläufe zu verbessern, Innovation voranzutreiben und abteilungsübergreifend Wettbewerbsvorteile zu schaffen."
-slug: "revolutionierung-der-geschaeftsfunktionen-abteilungsuebergreifende-genki-integration"
 weight: 4
 lang: de
 ---

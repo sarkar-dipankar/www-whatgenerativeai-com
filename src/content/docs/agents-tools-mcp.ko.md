@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["MCP", "Function Calling", "도구 사용", "에이전트 아키텍처"]
 categories: ["기술", "AI 전략"]
 description: "에이전트가 외부 시스템을 어떻게 호출하는가: function calling, Model Context Protocol (MCP), 도구 설계, 보안 경계."
-slug: "tools-function-calling-mcp"
 lang: ko
 ---
 

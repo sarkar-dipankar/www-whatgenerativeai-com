@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["AI-agents", "Agent-architectuur", "Planning", "Memory"]
 categories: ["Technologie", "AI-strategie"]
 description: "De interne structuur van een AI-agent: de LLM-kern, de agent-lus, planningsstrategieën, memory-types en contextvensterbeheer."
-slug: "anatomy-of-ai-agent"
 lang: nl
 ---
 

@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Agentic AI", "Toekomst van AI", "AI-strategie", "On-device-AI"]
 categories: ["Technologie", "AI-strategie"]
 description: "Waar agentic AI heen gaat: on-device-agents, autonome organisaties, open vs. gesloten modellen, het agentic web en waar leiders op moeten wedden."
-slug: "agents-future"
 lang: nl
 ---
 

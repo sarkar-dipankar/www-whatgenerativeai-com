@@ -6,7 +6,6 @@ author: "Zespół ds. Innowacji HR"
 tags: ["Sztuczna Inteligencja Generatywna", "Analityka Personalna", "Technologia HR", "Zarządzanie Talentami", "Dynamika Organizacyjna"]
 categories: ["Zasoby Ludzkie", "AI w Biznesie"]
 description: "Odkryj, jak analityka personalna oparta na AI może przekształcić dynamikę organizacyjną, ulepszyć przewidywanie wydajności i zrewolucjonizować zarządzanie talentami, jednocześnie uwzględniając kluczowe kwestie etyczne."
-slug: "rewolucja-hr-analityka-personalna-oparta-na-ai"
 weight: 8
 lang: pl
 ---

@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Agenci AI", "Architektura Agentów", "Planowanie", "Pamięć"]
 categories: ["Technologia", "Strategia AI"]
 description: "Wewnętrzna struktura agenta AI: rdzeń LLM, pętla agenta, strategie planowania, typy pamięci i zarządzanie oknem kontekstu."
-slug: "anatomy-of-ai-agent"
 lang: pl
 ---
 

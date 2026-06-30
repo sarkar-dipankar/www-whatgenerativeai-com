@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Agenti AI", "Architettura Agenti", "Pianificazione", "Memoria"]
 categories: ["Tecnologia", "Strategia AI"]
 description: "La struttura interna di un agente AI: il core LLM, il ciclo dell'agente, strategie di pianificazione, tipi di memoria e gestione della finestra di contesto."
-slug: "anatomy-of-ai-agent"
 lang: it
 ---
 

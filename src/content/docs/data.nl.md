@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Generatieve AI", "Data Structurering", "Data Governance", "AI Implementatie", "Data Pijplijnen"]
 categories: ["Technologie", "Databeheer"]
 description: "Leer hoe je data effectief kunt structureren en beheren voor de implementatie van Generatieve AI, inclusief het bouwen van robuuste data pijplijnen, het waarborgen van datakwaliteit en het vaststellen van sterke governance praktijken."
-slug: "data-structureren-voor-genai-fundament-ai-gedreven-innovatie"
 weight: 6
 lang: nl
 ---

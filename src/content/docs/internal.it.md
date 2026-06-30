@@ -6,7 +6,6 @@ author: "Team di Strategia di Implementazione AI"
 tags: ["IA Generativa", "Sviluppo di Casi d'Uso", "Strategia IA", "Misurazione ROI", "Implementazione IA"]
 categories: ["Tecnologia", "Strategia Aziendale"]
 description: "Impara come identificare aree ad alto impatto per l'integrazione dell'IA Generativa, sviluppare modelli di IA personalizzati per processi specifici e misurare il ROI delle tue implementazioni di IA Generativa."
-slug: "creare-successo-costruire-casi-uso-interni-ia-generativa"
 weight: 7
 lang: it
 ---

@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Generatiivinen tekoäly", "Liiketoiminnan innovaatio", "HR-teknologia", "Tekoäly markkinoinnissa", "Tekoäly rahoituksessa", "Tekoäly toiminnoissa"]
 categories: ["Teknologia", "Liiketoimintastrategia"]
 description: "Tutustu siihen, miten eri osastot voivat hyödyntää generatiivista tekoälyä parantaakseen toimintaansa, edistääkseen innovaatioita ja luodakseen kilpailuetuja koko organisaatiossa."
-slug: "liiketoimintafunktioiden-mullistaminen-osastokohtainen-genai-integraatio"
 weight: 4
 lang: fi
 ---

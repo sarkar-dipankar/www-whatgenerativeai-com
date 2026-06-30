@@ -6,7 +6,6 @@ author: "AI Beveiligings- en Nalevingsteam"
 tags: ["Generatieve AI", "Cyberbeveiliging", "Gegevensbescherming", "Regelgevende Naleving", "AI-ethiek"]
 categories: ["Technologie", "Beveiliging", "Juridisch"]
 description: "Verken de kritieke aspecten van het waarborgen van beveiliging en het handhaven van regelgevende naleving bij GenAI-implementaties, inclusief bescherming van gegevensprivacy, regelgevende overwegingen en beste praktijken voor veilige AI-integratie."
-slug: "genai-beveiliging-en-naleving-innovatie-beschermen-ai-tijdperk"
 weight: 10
 lang: nl
 ---

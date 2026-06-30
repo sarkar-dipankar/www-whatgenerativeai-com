@@ -6,7 +6,6 @@ author: "AI 구현 전략 팀"
 tags: ["생성형 AI", "사용 사례 개발", "AI 전략", "ROI 측정", "AI 구현"]
 categories: ["기술", "비즈니스 전략"]
 description: "GenAI 통합을 위한 고영향 영역을 식별하고, 특정 프로세스를 위한 맞춤형 AI 모델을 개발하며, GenAI 구현의 ROI를 측정하는 방법을 알아보세요."
-slug: "성공-구축-내부-genai-사용-사례-개발"
 weight: 7
 lang: ko
 ---

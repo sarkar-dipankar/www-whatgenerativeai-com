@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["AI 보안", "Prompt Injection", "Governance", "EU AI Act"]
 categories: ["기술", "AI 보안"]
 description: "에이전트 특정 보안 위협 모델: prompt injection, 데이터 반출, OWASP LLM Top-10, EU AI Act 조항, 감사 추적."
-slug: "agents-security-governance"
 lang: ko
 ---
 

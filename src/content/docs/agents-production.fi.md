@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Agenttituotanto", "Käyttöönotto", "AI-arkkitehtuuri", "Kustannusoptimointi"]
 categories: ["Teknologia", "AI-strategia"]
 description: "Tuotantoarkkitehtuuri agenteille: streaming, fallbackit, multi-tenancy, kustannusoptimointi, versionointi ja operatiiviset mallit, jotka pitävät agentit luotettavina."
-slug: "deploying-agents-in-production"
 lang: fi
 ---
 

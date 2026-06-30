@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["IA Generativa", "Strutturazione dei Dati", "Governance dei Dati", "Implementazione dell'IA", "Pipeline di Dati"]
 categories: ["Tecnologia", "Gestione dei Dati"]
 description: "Impara come strutturare e gestire efficacemente i dati per l'implementazione dell'IA Generativa, inclusa la costruzione di robuste pipeline di dati, garantendo la qualità dei dati e stabilendo solide pratiche di governance."
-slug: "strutturare-dati-per-genai-fondamenta-innovazione-guidata-ia"
 weight: 6
 lang: it
 ---

@@ -6,7 +6,6 @@ author: "Innovaatiostrategiatiimi"
 tags: ["Generatiivinen tekoäly", "Liiketoiminnan innovaatio", "Digitaalinen transformaatio", "Tekoälykulttuuri", "Disruptiiviset teknologiat"]
 categories: ["Teknologia", "Liiketoimintastrategia"]
 description: "Tutki, miten organisaatiot voivat hyödyntää generatiivista tekoälyä siirtyäkseen prosessien automatisoinnista eteenpäin, edistäen innovaatiokulttuuria ja ajaen muutosta eri toimialoilla."
-slug: "automatisoinnista-innovaatioon-genain-muutosvoimaisen-potentiaalin-vapauttaminen"
 weight: 5
 lang: fi
 ---

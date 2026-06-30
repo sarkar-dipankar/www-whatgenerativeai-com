@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Agent-evals", "Observability", "Tracing", "Langfuse"]
 categories: ["Technologie", "AI-strategie"]
 description: "Hoe agents in productie te evalueren en observeren: tracing, evals, guardrails, faalmodi, kostenmonitoring en human-in-the-loop."
-slug: "agents-evals-observability"
 lang: nl
 ---
 

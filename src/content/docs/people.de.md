@@ -6,7 +6,6 @@ author: "HR-Innovationsteam"
 tags: ["Generative KI", "People Analytics", "HR-Technologie", "Talentmanagement", "Organisationsdynamik"]
 categories: ["Personalwesen", "KI im Geschäftsleben"]
 description: "Entdecken Sie, wie KI-gestützte People Analytics die Organisationsdynamik transformieren, die Leistungsvorhersage verbessern und das Talentmanagement revolutionieren können, während gleichzeitig wichtige ethische Überlegungen berücksichtigt werden."
-slug: "revolutionierung-hr-ki-gestuetzte-people-analytics"
 weight: 8
 lang: de
 ---

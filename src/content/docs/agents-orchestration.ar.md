@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["LangGraph", "CrewAI", "OpenAI Agents SDK", "Claude Agent SDK", "التنسضج"]
 categories: ["تكنولوجيا", "استراتيجية AI"]
 description: "مقارنة عملية لـ LangGraph وCrewAI وAutoGen وOpenAI Agents SDK وClaude Agent SDK — ومتى تستخدم كلًا."
-slug: "agent-orchestration-frameworks"
 lang: ar
 ---
 

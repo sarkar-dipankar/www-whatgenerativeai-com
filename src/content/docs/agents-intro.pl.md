@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["AI Agentic", "Agenci AI", "Generative AI", "Strategia AI"]
 categories: ["Technologia", "Strategia AI"]
 description: "Czym jest AI agentic, dlaczego 2026 to punkt przegięcia, spektrum autonomii i różnica między GenAI, agentami i przepływami agentic."
-slug: "from-genai-to-agentic-ai"
 lang: pl
 ---
 

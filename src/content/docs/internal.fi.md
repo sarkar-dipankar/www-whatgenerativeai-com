@@ -6,7 +6,6 @@ author: "Tekoälyn käyttöönottostrategiatiimi"
 tags: ["Generatiivinen tekoäly", "Käyttötapausten kehittäminen", "Tekoälystrategia", "ROI-mittaus", "Tekoälyn käyttöönotto"]
 categories: ["Teknologia", "Liiketoimintastrategia"]
 description: "Opi tunnistamaan korkean vaikutuksen alueet GenAI-integraatiolle, kehittämään räätälöityjä tekoälymalleja tietyille prosesseille ja mittaamaan GenAI-toteutusten ROI:ta."
-slug: "menestyksen-luominen-sisaisten-genai-kayttotapausten-rakentaminen"
 weight: 7
 lang: fi
 ---

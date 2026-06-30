@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Generatieve AI", "Bedrijfsinnovatie", "HR-technologie", "AI in Marketing", "AI in Financiën", "AI in Operaties"]
 categories: ["Technologie", "Bedrijfsstrategie"]
 description: "Ontdek hoe verschillende afdelingen Generatieve AI kunnen benutten om operaties te verbeteren, innovatie te stimuleren en concurrentievoordelen te creëren in de hele organisatie."
-slug: "revolutioneren-bedrijfsfuncties-departementale-genai-integratie"
 weight: 4
 lang: nl
 ---

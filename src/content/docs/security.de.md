@@ -6,7 +6,6 @@ author: "KI-Sicherheits- und Compliance-Team"
 tags: ["Generative KI", "Cybersicherheit", "Datenschutz", "Regulatorische Compliance", "KI-Ethik"]
 categories: ["Technologie", "Sicherheit", "Recht"]
 description: "Erkunden Sie die kritischen Aspekte der Gewährleistung von Sicherheit und der Einhaltung regulatorischer Compliance bei GenKI-Implementierungen, einschließlich Datenschutz, regulatorischer Überlegungen und bewährter Praktiken für eine sichere KI-Integration."
-slug: "genki-sicherheit-und-compliance-innovation-im-ki-zeitalter-schuetzen"
 weight: 10
 lang: de
 ---

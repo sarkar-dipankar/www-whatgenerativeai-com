@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["AI-agentit", "Agenttiarkkitehtuuri", "Suunnittelu", "Muisti"]
 categories: ["Teknologia", "AI-strategia"]
 description: "AI-agentin sisäinen rakenne: LLM-ydin, agenttisilmukka, suunnittelustrategiat, muistityypit ja konteksti-ikkunan hallinta."
-slug: "anatomy-of-ai-agent"
 lang: fi
 ---
 

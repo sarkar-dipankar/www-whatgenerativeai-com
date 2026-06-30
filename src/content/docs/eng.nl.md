@@ -6,7 +6,6 @@ author: "AI-ontwikkelingsstrategieteam"
 tags: ["Generatieve AI", "Ontwikkelaarsproductiviteit", "AI-codeerassistenten", "Swarmia", "Softwareontwikkeling"]
 categories: ["Technologie", "AI in Ontwikkeling"]
 description: "Ontdek hoe Generatieve AI de softwareontwikkeling revolutioneert, van AI-codeerassistenten tot productiviteitsmonitoring, en leer beste praktijken voor AI-ondersteunde ontwikkeling."
-slug: "ontwikkelaarsproductiviteit-versterken-generatieve-ai"
 weight: 9
 lang: nl
 ---

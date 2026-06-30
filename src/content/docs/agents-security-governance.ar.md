@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["أمان AI", "حقن Prompt", "Governance", "EU AI Act"]
 categories: ["تكنولوجيا", "أمان AI"]
 description: "نموذج التهديد الأمني الخاص بالوكيل: حقن prompt، تسريب البيانات، OWASP LLM Top-10، أحكام EU AI Act، ومسارات audit."
-slug: "agents-security-governance"
 lang: ar
 ---
 

@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Sztuczna Inteligencja Generatywna", "Narzędzia AI", "ChatGPT", "OpenAI", "Perplexity.ai", "Efektywność Biznesowa"]
 categories: ["Technologia", "Wdrażanie AI"]
 description: "Odkryj, jak efektywnie wykorzystać istniejące narzędzia Sztucznej Inteligencji Generatywnej, takie jak ChatGPT, API OpenAI i Perplexity.ai, aby usprawnić procesy biznesowe i napędzać innowacje."
-slug: "wykorzystanie-mocy-istniejacych-narzedzi-genai-praktyczny-przewodnik-dla-firm"
 weight: 2
 lang: pl
 ---

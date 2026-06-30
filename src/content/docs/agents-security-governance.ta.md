@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["AI பாதுகாப்பு", "Prompt Injection", "Governance", "EU AI Act"]
 categories: ["தொழில்நுட்பம்", "AI பாதுகாப்பு"]
 description: "முகவர்-குறிப்பிட்ட பாதுகாப்பு அச்சுறுத்தல் மாதிரி: prompt injection, தரவு வெளியேற்றம், OWASP LLM Top-10, EU AI Act விதிகள், மற்றும் audit trail."
-slug: "agents-security-governance"
 lang: ta
 ---
 

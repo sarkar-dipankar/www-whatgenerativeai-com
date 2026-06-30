@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["생성형 AI", "AI 도구", "ChatGPT", "OpenAI", "Perplexity.ai", "비즈니스 효율성"]
 categories: ["기술", "AI 구현"]
 description: "ChatGPT, OpenAI의 API, Perplexity.ai와 같은 기존 생성형 AI 도구를 효과적으로 활용하여 비즈니스 프로세스를 향상시키고 혁신을 추진하는 방법을 알아보세요."
-slug: "기존-생성형-ai-도구의-힘을-활용하는-실용적인-비즈니스-가이드"
 weight: 2
 lang: ko
 ---

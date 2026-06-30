@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["에이전트 프로덕션", "배포", "AI 아키텍처", "비용 최적화"]
 categories: ["기술", "AI 전략"]
 description: "에이전트를 위한 프로덕션 아키텍처: 스트리밍, 폴백, 멀티테넌시, 비용 최적화, 버전 관리, 에이전트를 신뢰 가능하게 유지하는 운영 패턴."
-slug: "deploying-agents-in-production"
 lang: ko
 ---
 

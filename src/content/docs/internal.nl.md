@@ -6,7 +6,6 @@ author: "AI Implementatie Strategie Team"
 tags: ["Generatieve AI", "Use Case Ontwikkeling", "AI Strategie", "ROI Meting", "AI Implementatie"]
 categories: ["Technologie", "Bedrijfsstrategie"]
 description: "Leer hoe je gebieden met hoge impact voor GenAI-integratie identificeert, aangepaste AI-modellen ontwikkelt voor specifieke processen, en de ROI van je GenAI-implementaties meet."
-slug: "succes-creeren-interne-genai-use-cases-bouwen"
 weight: 7
 lang: nl
 ---

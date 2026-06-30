@@ -6,7 +6,6 @@ author: "Strategisen ennakoinnin tiimi"
 tags: ["Generatiivinen tekoäly", "Työn tulevaisuus", "Tekoälystrategia", "Organisaation sopeutuminen", "Jatkuva oppiminen"]
 categories: ["Teknologia", "Liiketoimintastrategia", "Innovaatio"]
 description: "Tutustu strategioihin, joilla pysyt generatiivisen tekoälyn trendien edellä, edistät jatkuvaa oppimista ja valmistelet organisaatiotasi tekoälyn seuraavaan aaltoon varmistaaksesi pitkän aikavälin menestyksen tekoälyvetoisessa maailmassa."
-slug: "organisaatiosi-tulevaisuuden-turvaaminen-menestyminen-tekoalyvetoisessa-tulevaisuudessa"
 weight: 11
 lang: fi
 ---

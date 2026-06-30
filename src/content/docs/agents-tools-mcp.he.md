@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["MCP", "Function Calling", "שימוש בכלים", "ארכיטקטורת סוכן"]
 categories: ["טכנולוגיה", "אסטרטגיית AI"]
 description: "כיצד סוכנים קוראים למערכות חיצוניות: function calling, Model Context Protocol (MCP), עיצוב כלים וגבולות אבטחה."
-slug: "tools-function-calling-mcp"
 lang: he
 ---
 

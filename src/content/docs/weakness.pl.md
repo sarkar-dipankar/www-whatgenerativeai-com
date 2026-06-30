@@ -6,7 +6,6 @@ author: "Zespół ds. Strategii AI"
 tags: ["Sztuczna Inteligencja Generatywna", "Ograniczenia AI", "Strategia Technologiczna", "Wdrażanie AI"]
 categories: ["Technologia", "Strategia AI"]
 description: "Poznaj ograniczenia Sztucznej Inteligencji Generatywnej i zrozum, które przypadki użycia są lepiej dostosowane do tradycyjnych podejść, umożliwiając bardziej świadome podejmowanie decyzji w adopcji AI."
-slug: "zrozumienie-ograniczen-gdzie-genai-zawodzi"
 weight: 12
 lang: pl
 ---

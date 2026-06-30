@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Multi-Agent", "Agenten-Orchestrierung", "KI-Strategie"]
 categories: ["Technologie", "KI-Strategie"]
 description: "Muster für Multi-Agent-Systeme: Rollenzuweisung, Delegation, Übergaben, Swarm-Topologien und Kosten-/Latenz-Trade-offs."
-slug: "multi-agent-systems"
 lang: de
 ---
 

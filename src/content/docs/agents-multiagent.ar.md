@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Multi-Agent", "تنسضج الوكلاء", "استراتيجية AI"]
 categories: ["تكنولوجيا", "استراتيجية AI"]
 description: "أنماط أنظمة multi-agent: تعيين الأدوار، التفويض، التسليمات، طوبولوجيات swarm، ومقايضات التكلفة/زمن الاستجابة."
-slug: "multi-agent-systems"
 lang: ar
 ---
 

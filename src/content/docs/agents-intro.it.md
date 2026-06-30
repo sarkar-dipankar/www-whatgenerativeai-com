@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["AI Agentic", "Agenti AI", "AI Generativa", "Strategia AI"]
 categories: ["Tecnologia", "Strategia AI"]
 description: "Cos'è l'AI agentic, perché il 2026 è il punto di flesso, lo spettro dell'autonomia e la differenza tra GenAI, agenti e flussi di lavoro agentic."
-slug: "from-genai-to-agentic-ai"
 lang: it
 ---
 

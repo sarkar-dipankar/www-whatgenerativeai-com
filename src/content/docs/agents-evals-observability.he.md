@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["הערכת סוכנים", "Observability", "Tracing", "Langfuse"]
 categories: ["טכנולוגיה", "אסטרטגיית AI"]
 description: "כיצד להעריך ולצפות בסוכנים בתפעול: tracing, evals, guardrails, מצבי כשל, ניטור עלות, וhuman-in-the-loop."
-slug: "agents-evals-observability"
 lang: he
 ---
 

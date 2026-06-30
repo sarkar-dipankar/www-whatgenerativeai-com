@@ -6,7 +6,6 @@ author: "Zespół ds. Strategii Innowacji"
 tags: ["Sztuczna Inteligencja Generatywna", "Innowacje Biznesowe", "Transformacja Cyfrowa", "Kultura AI", "Technologie Przełomowe"]
 categories: ["Technologia", "Strategia Biznesowa"]
 description: "Odkryj, jak organizacje mogą wykorzystać Sztuczną Inteligencję Generatywną, aby wyjść poza automatyzację procesów, wspierając kulturę innowacji i napędzając transformacyjne zmiany w różnych branżach."
-slug: "od-automatyzacji-do-innowacji-uwalnianie-transformacyjnego-potencjalu-genai"
 weight: 5
 lang: pl
 ---

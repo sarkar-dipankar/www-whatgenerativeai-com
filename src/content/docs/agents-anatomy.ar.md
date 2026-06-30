@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["وكلاء AI", "بنية الوكيل", "التخطيط", "الذاكرة"]
 categories: ["تكنولوجيا", "استراتيجية AI"]
 description: "البنية الداخلية لوكيل AI: نواة LLM، حلقة الوكيل، استراتيجيات التخطيط، أنواع الذاكرة، وإدارة نافذة السياق."
-slug: "anatomy-of-ai-agent"
 lang: ar
 ---
 

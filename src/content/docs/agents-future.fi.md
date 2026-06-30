@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Agentic AI", "Tulevaisuuden AI", "AI-strategia", "Laitteistolla-AI"]
 categories: ["Teknologia", "AI-strategia"]
 description: "Minne agentic AI on menossa: laitteisto-agentit, autonomiset organisaatiot, avoin vs. suljettu, agentic web ja mille johtajien kannattaa panostaa."
-slug: "agents-future"
 lang: fi
 ---
 

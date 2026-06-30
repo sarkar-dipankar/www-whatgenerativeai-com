@@ -6,7 +6,6 @@ author: "Dipankar Sarkar"
 tags: ["Agentic AI", "Zukunft der KI", "KI-Strategie", "On-Device-KI"]
 categories: ["Technologie", "KI-Strategie"]
 description: "Wohin Agentic AI steuert: On-Device-Agenten, autonome Organisationen, offene vs. geschlossene Modelle, das agentic Web und worauf Führungskräfte wetten sollten."
-slug: "agents-future"
 lang: de
 ---
 

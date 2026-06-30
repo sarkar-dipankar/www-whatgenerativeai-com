@@ -4,14 +4,17 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import Hero from "../components/Hero.astro";
 import Footer from "../components/Footer.astro";
-import { DEFAULT_LANG, LANGUAGES, ui, localizedPath } from "../i18n";
+import { DEFAULT_LANG, ui } from "../i18n";
 
 const lang = DEFAULT_LANG;
 const t = (k: keyof typeof ui.en) => ui.en[k];
 
 const allDocs = await getCollection("docs", (e) => e.data.lang === "en" && !e.data.draft && !e.id.startsWith("_index"));
-const chapters = allDocs.sort((a, b) => (a.data.weight ?? 99) - (b.data.weight ?? 99));
-const posts = (await getCollection("posts", (e) => e.data.lang === "en" && !e.data.draft)).sort((a, b) => +new Date(b.data.date ?? 0) - +new Date(a.data.date ?? 0)).slice(0, 3);
+const allChapters = allDocs.sort((a, b) => (a.data.weight ?? 99) - (b.data.weight ?? 99));
+const genaiChapters = allChapters.filter((c) => (c.data.weight ?? 0) < 20);
+const agenticChapters = allChapters.filter((c) => (c.data.weight ?? 0) >= 20);
+const posts = (await getCollection("posts", (e) => e.data.lang === "en" && !e.data.draft && !e.id.includes("_index")))
+  .sort((a, b) => +new Date(b.data.date ?? 0) - +new Date(a.data.date ?? 0));
 
 const homeJsonLd = {
   "@context": "https://schema.org",
@@ -25,53 +28,183 @@ const homeJsonLd = {
     "query-input": "required name=search_term_string",
   },
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    { "@type": "Question", name: "What is Generative AI?", acceptedAnswer: { "@type": "Answer", text: "Generative AI is a class of artificial intelligence systems that create new, original content — text, images, code, or data — based on patterns learned from training data. Unlike traditional AI that analyzes and predicts, Generative AI produces novel output that closely mimics human-created content." } },
+    { "@type": "Question", name: "What is agentic AI?", acceptedAnswer: { "@type": "Answer", text: "Agentic AI is an AI system built around an autonomous agent loop: the model receives a goal, reasons about the next step, takes an action (calling a tool, searching, writing code), observes the result, and repeats until the goal is met. Unlike a single prompt-response exchange, an agent runs over many cycles, maintains state, and can recover from failures." } },
+    { "@type": "Question", name: "How do businesses implement Generative AI?", acceptedAnswer: { "@type": "Answer", text: "Successful GenAI implementation starts with identifying high-impact use cases, structuring clean data, building internal proofs-of-concept, measuring ROI, and ensuring security and regulatory compliance. The GenAI Playbook walks through each step with practical examples across five phases." } },
+    { "@type": "Question", name: "What is the Model Context Protocol (MCP)?", acceptedAnswer: { "@type": "Answer", text: "The Model Context Protocol (MCP) is an open standard for exposing tools, resources, and prompts to AI applications. Open-sourced by Anthropic in 2024, it lets any AI model discover and call external tools uniformly — so you write the integration once and use it across all agents and models." } },
+    { "@type": "Question", name: "What are the limitations of Generative AI?", acceptedAnswer: { "@type": "Answer", text: "Generative AI can hallucinate, struggle with deterministic tasks, and raise data-privacy and compliance risks. Some workloads — precise calculations, regulated decisions, or tasks requiring guaranteed accuracy — are better served by traditional automation. Agents add scaffolding (planning, tool-use, self-check) that contains hallucination but doesn't eliminate it." } },
+    { "@type": "Question", name: "How do I secure AI agents in production?", acceptedAnswer: { "@type": "Answer", text: "Secure AI agents by treating tool output as untrusted (defense against prompt injection), scoping tools per task with allowlists, requiring human approval for destructive actions, validating tool arguments, rate-limiting, isolating credentials, and logging every tool call for audit." } },
+  ],
+};
 ---
 <BaseLayout
   lang="en"
-  title="What Generative AI — The GenAI Playbook for Business Leaders"
-  description="The open-source GenAI Playbook: a practical, executive guide to implementing Generative AI in your organization. Strategy, security, people, data, and real-world use cases — in 10 languages."
+  title="What Generative AI — The GenAI & Agentic AI Playbook for Business Leaders"
+  description="The open-source GenAI Playbook + Agentic AI Playbook: 21 chapters covering Generative AI implementation, AI agents, MCP, orchestration, security, and production deployment — in 10 languages. By Dipankar Sarkar."
   image="/header.png"
-  jsonLd={[homeJsonLd]}
+  jsonLd={[homeJsonLd, faqJsonLd]}
 >
   <Header lang="en" path="/" />
   <Hero lang="en" />
 
-  <!-- Chapters grid -->
-  <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-    <div class="flex items-end justify-between mb-8">
-      <div>
-        <h2 class="text-3xl font-bold text-ink-900 dark:text-ink-50">{t("chapters")}</h2>
-        <p class="mt-2 text-ink-600 dark:text-ink-400">11 chapters covering the full GenAI adoption journey — from core concepts to future-proofing your organization.</p>
+  <!-- Stats bar -->
+  <section class="border-b border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+        <div>
+          <p class="text-3xl font-bold text-primary-700 dark:text-primary-300">21</p>
+          <p class="text-sm text-stone-500 dark:text-stone-400 mt-1">Chapters</p>
+        </div>
+        <div>
+          <p class="text-3xl font-bold text-primary-700 dark:text-primary-300">10</p>
+          <p class="text-sm text-stone-500 dark:text-stone-400 mt-1">Languages</p>
+        </div>
+        <div>
+          <p class="text-3xl font-bold text-accent-600 dark:text-accent-400">20</p>
+          <p class="text-sm text-stone-500 dark:text-stone-400 mt-1">PDF downloads</p>
+        </div>
+        <div>
+          <p class="text-3xl font-bold text-accent-600 dark:text-accent-400">1</p>
+          <p class="text-sm text-stone-500 dark:text-stone-400 mt-1">Published book</p>
+        </div>
       </div>
-      <a href="/docs/genai-playbook/" class="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-brand-700 dark:text-brand-300 hover:underline">{t("viewAllChapters")} →</a>
-    </div>
-    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {chapters.map((c) => (
-        <a
-          href={`/docs/genai-playbook/${c.data.slug}/`}
-          class="group relative rounded-xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-6 hover:border-brand-400 hover:shadow-lg transition"
-        >
-          <div class="flex items-center gap-3 mb-3">
-            <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-brand-600 text-white text-sm font-bold">{c.data.weight}</span>
-            <h3 class="font-semibold text-ink-900 dark:text-ink-50 group-hover:text-brand-700 dark:group-hover:text-brand-300">{c.data.title}</h3>
-          </div>
-          <p class="text-sm text-ink-600 dark:text-ink-400 line-clamp-3">{c.data.description}</p>
-          <span class="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-brand-700 dark:text-brand-300">Read →</span>
-        </a>
-      ))}
     </div>
   </section>
 
-  <!-- Latest posts -->
+  <!-- Two playbook split -->
+  <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+    <div class="grid gap-8 lg:grid-cols-2">
+      <!-- GenAI Playbook -->
+      <div class="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 overflow-hidden">
+        <div class="bg-gradient-to-br from-primary-700 to-primary-900 p-6 text-white">
+          <p class="text-xs font-semibold uppercase tracking-widest text-primary-200">Playbook 1</p>
+          <h2 class="mt-2 text-2xl font-bold">The GenAI Playbook</h2>
+          <p class="mt-1 text-primary-100 text-sm">{genaiChapters.length} chapters · the foundation for business leaders</p>
+        </div>
+        <div class="p-6 space-y-3">
+          {genaiChapters.slice(0, 5).map((c) => (
+            <a href={`/docs/genai-playbook/${c.data.slug}/`} class="group flex items-center gap-3 rounded-lg p-2 -m-2 hover:bg-stone-50 dark:hover:bg-stone-800 transition">
+              <span class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-primary-100 text-primary-700 text-xs font-bold">{c.data.weight}</span>
+              <span class="text-sm font-medium text-stone-700 dark:text-stone-300 group-hover:text-primary-700 truncate">{c.data.title}</span>
+            </a>
+          ))}
+          <a href="/docs/genai-playbook/" class="inline-flex items-center gap-1 text-sm font-semibold text-primary-700 hover:underline mt-2">View all {genaiChapters.length} chapters →</a>
+        </div>
+      </div>
+
+      <!-- Agentic AI Playbook -->
+      <div class="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 overflow-hidden">
+        <div class="bg-gradient-to-br from-accent-500 to-accent-700 p-6 text-white">
+          <p class="text-xs font-semibold uppercase tracking-widest text-accent-100">Playbook 2 · New</p>
+          <h2 class="mt-2 text-2xl font-bold">The Agentic AI Playbook</h2>
+          <p class="mt-1 text-accent-50 text-sm">{agenticChapters.length} chapters · from GenAI to autonomous agents</p>
+        </div>
+        <div class="p-6 space-y-3">
+          {agenticChapters.slice(0, 5).map((c) => (
+            <a href={`/docs/genai-playbook/${c.data.slug}/`} class="group flex items-center gap-3 rounded-lg p-2 -m-2 hover:bg-stone-50 dark:hover:bg-stone-800 transition">
+              <span class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-accent-100 text-accent-700 text-xs font-bold">{c.data.weight}</span>
+              <span class="text-sm font-medium text-stone-700 dark:text-stone-300 group-hover:text-accent-600 truncate">{c.data.title}</span>
+            </a>
+          ))}
+          <a href="/docs/genai-playbook/from-genai-to-agentic-ai/" class="inline-flex items-center gap-1 text-sm font-semibold text-accent-600 hover:underline mt-2">View all {agenticChapters.length} chapters →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why this playbook -->
+  <section class="bg-white dark:bg-stone-900 border-y border-stone-200 dark:border-stone-800">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center max-w-2xl mx-auto mb-10">
+        <h2 class="text-3xl font-bold text-stone-900 dark:text-stone-50">Why this playbook exists</h2>
+        <p class="mt-3 text-stone-600 dark:text-stone-400">Most AI resources are either too academic to use or too shallow to trust. This playbook bridges the gap — executive-grade depth, practitioner-grade clarity.</p>
+      </div>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="rounded-xl border border-stone-200 dark:border-stone-800 p-6">
+          <div class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary-100 text-primary-700 mb-3">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <h3 class="font-semibold text-stone-900 dark:text-stone-50">Practical, not theoretical</h3>
+          <p class="mt-1 text-sm text-stone-600 dark:text-stone-400">Every chapter ends with actionable steps. No fluff, no buzzword bingo — just what works in 2026.</p>
+        </div>
+        <div class="rounded-xl border border-stone-200 dark:border-stone-800 p-6">
+          <div class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary-100 text-primary-700 mb-3">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
+          </div>
+          <h3 class="font-semibold text-stone-900 dark:text-stone-50">10 languages</h3>
+          <p class="mt-1 text-sm text-stone-600 dark:text-stone-400">English, Italian, Polish, Tamil, Korean, Hebrew, Finnish, Arabic, Dutch, German. Because AI adoption is global.</p>
+        </div>
+        <div class="rounded-xl border border-stone-200 dark:border-stone-800 p-6">
+          <div class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-accent-100 text-accent-700 mb-3">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <h3 class="font-semibold text-stone-900 dark:text-stone-50">Security-first</h3>
+          <p class="mt-1 text-sm text-stone-600 dark:text-stone-400">Dedicated chapters on prompt injection, OWASP LLM Top-10, EU AI Act compliance, and agent governance.</p>
+        </div>
+        <div class="rounded-xl border border-stone-200 dark:border-stone-800 p-6">
+          <div class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-accent-100 text-accent-700 mb-3">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.02 5.742 7.51 5.5 5.5 5.5c-1.414 0-2.828.094-4 .253v13c1.172-.159 2.586-.253 4-.253 2.01 0 4.52.242 6.5.753m0-13c1.98-.511 4.49-.753 6.5-.753 1.414 0 2.828.094 4 .253v13c-1.172-.159-2.586-.253-4-.253-2.01 0-4.52.242-6.5.753"/></svg>
+          </div>
+          <h3 class="font-semibold text-stone-900 dark:text-stone-50">Open source</h3>
+          <p class="mt-1 text-sm text-stone-600 dark:text-stone-400">Apache 2.0 licensed. Fork it, contribute, adapt it to your org. Downloadable as PDF in every language.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Book feature -->
+  <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+    <div class="grid gap-8 md:grid-cols-[200px_1fr] items-center rounded-2xl border border-stone-200 dark:border-stone-800 bg-gradient-to-br from-stone-50 to-primary-50/30 dark:from-stone-900 dark:to-primary-950/30 p-8">
+      <div class="flex justify-center">
+        <div class="relative w-40 aspect-[2/3] rounded-lg overflow-hidden shadow-xl border border-stone-300 dark:border-stone-700 bg-gradient-to-br from-primary-600 to-primary-800">
+          <div class="absolute inset-0 p-4 flex flex-col text-white">
+            <p class="text-[9px] font-semibold uppercase tracking-widest opacity-80">Packt</p>
+            <h3 class="mt-auto text-base font-bold leading-tight">AI for Everyday Automation</h3>
+            <p class="mt-1 text-[10px] opacity-90">7 AI workflows to save hours at work</p>
+            <p class="mt-2 text-[10px] font-medium opacity-90">Dipankar Sarkar</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-widest text-accent-600 dark:text-accent-400">Also by the author</p>
+        <h2 class="mt-2 text-2xl font-bold text-stone-900 dark:text-stone-50">AI for Everyday Automation</h2>
+        <p class="mt-1 text-stone-600 dark:text-stone-400">7 AI Workflows to Save Hours at Work Every Week · Packt Publishing · June 2026</p>
+        <p class="mt-3 text-stone-600 dark:text-stone-400 leading-relaxed">Build smarter daily workflows with ChatGPT, Claude, and Perplexity. Seven practical workflows for automating emails, meetings, research, reports, task tracking, spreadsheets, and professional communication. Includes ready-to-use prompts and templates.</p>
+        <div class="mt-4 flex gap-3 flex-wrap">
+          <a href="/book/" class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-white font-semibold text-sm hover:bg-primary-700 transition">Read more →</a>
+          <a href="https://www.amazon.com/AI-Everyday-Automation-Workflows-Hours/dp/1808089812/" rel="nofollow noopener" class="inline-flex items-center gap-2 rounded-lg border border-stone-300 dark:border-stone-700 px-4 py-2 text-stone-800 dark:text-stone-100 font-semibold text-sm hover:bg-stone-100 dark:hover:bg-stone-800 transition">Buy on Amazon</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog highlights -->
   {posts.length > 0 && (
-    <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 border-t border-ink-200 dark:border-ink-800">
-      <h2 class="text-2xl font-bold text-ink-900 dark:text-ink-50 mb-6">Latest from the blog</h2>
-      <div class="grid gap-5 sm:grid-cols-3">
-        {posts.map((p) => (
-          <a href={`/posts/${p.data.slug}/`} class="group rounded-xl border border-ink-200 dark:border-ink-800 p-5 hover:border-brand-400 transition">
-            <p class="text-xs text-ink-500">{new Date(p.data.date ?? Date.now()).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}</p>
-            <h3 class="mt-1 font-semibold text-ink-900 dark:text-ink-50 group-hover:text-brand-700">{p.data.title}</h3>
-            <p class="mt-1 text-sm text-ink-600 dark:text-ink-400 line-clamp-2">{p.data.description}</p>
+    <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 border-t border-stone-200 dark:border-stone-800">
+      <div class="flex items-end justify-between mb-8">
+        <div>
+          <h2 class="text-3xl font-bold text-stone-900 dark:text-stone-50">From the blog</h2>
+          <p class="mt-2 text-stone-600 dark:text-stone-400">Practical insights on Generative AI, agentic systems, and AI-driven business transformation.</p>
+        </div>
+        <a href="/posts/" class="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-primary-700 hover:underline">All posts →</a>
+      </div>
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {posts.slice(0, 6).map((p) => (
+          <a href={`/posts/${p.data.slug}/`} class="group rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-6 hover:border-primary-400 hover:shadow-lg transition flex flex-col">
+            <div class="flex flex-wrap gap-1.5 mb-3">
+              {p.data.tags.slice(0, 2).map((tag) => (
+                <span class="text-xs rounded-full bg-primary-50 dark:bg-stone-800 text-primary-700 dark:text-primary-300 px-2.5 py-0.5">#{tag}</span>
+              ))}
+            </div>
+            <p class="text-xs text-stone-500">{new Date(p.data.date ?? Date.now()).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}</p>
+            <h3 class="mt-1 font-bold text-stone-900 dark:text-stone-50 group-hover:text-primary-700 leading-snug">{p.data.title}</h3>
+            <p class="mt-2 text-sm text-stone-600 dark:text-stone-400 line-clamp-3 flex-1">{p.data.description}</p>
+            <span class="mt-3 text-xs font-semibold text-primary-700">Read →</span>
           </a>
         ))}
       </div>
@@ -79,24 +212,50 @@ const homeJsonLd = {
   )}
 
   <!-- FAQ for AI-search citation -->
-  <section class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-16 border-t border-ink-200 dark:border-ink-800">
-    <h2 class="text-2xl font-bold text-ink-900 dark:text-ink-50 mb-6 text-center">Frequently asked questions</h2>
+  <section class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-16 border-t border-stone-200 dark:border-stone-800">
+    <h2 class="text-3xl font-bold text-stone-900 dark:text-stone-50 mb-8 text-center">Frequently asked questions</h2>
     <div class="space-y-4">
-      <details class="group rounded-lg border border-ink-200 dark:border-ink-800 p-4 open:bg-brand-50/40 dark:open:bg-ink-900">
-        <summary class="cursor-pointer font-semibold text-ink-900 dark:text-ink-50">What is Generative AI?</summary>
-        <p class="mt-2 text-ink-600 dark:text-ink-400">Generative AI is a class of artificial intelligence systems that create new, original content — text, images, code, or data — based on patterns learned from training data. Unlike traditional AI that analyzes and predicts, Generative AI produces novel output that closely mimics human-created content.</p>
+      <details class="group rounded-xl border border-stone-200 dark:border-stone-800 p-5 open:bg-primary-50/30 dark:open:bg-stone-900">
+        <summary class="cursor-pointer font-semibold text-stone-900 dark:text-stone-50 list-none flex items-center justify-between">
+          What is Generative AI?
+          <svg class="h-5 w-5 text-primary-600 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <p class="mt-3 text-stone-600 dark:text-stone-400">Generative AI is a class of artificial intelligence systems that create new, original content — text, images, code, or data — based on patterns learned from training data. Unlike traditional AI that analyzes and predicts, Generative AI produces novel output that closely mimics human-created content.</p>
       </details>
-      <details class="group rounded-lg border border-ink-200 dark:border-ink-800 p-4 open:bg-brand-50/40 dark:open:bg-ink-900">
-        <summary class="cursor-pointer font-semibold text-ink-900 dark:text-ink-50">How do businesses implement Generative AI?</summary>
-        <p class="mt-2 text-ink-600 dark:text-ink-400">Successful GenAI implementation starts with identifying high-impact use cases, structuring clean data, building internal proofs-of-concept, measuring ROI, and ensuring security and regulatory compliance. The GenAI Playbook walks through each step with practical examples.</p>
+      <details class="group rounded-xl border border-stone-200 dark:border-stone-800 p-5 open:bg-primary-50/30 dark:open:bg-stone-900">
+        <summary class="cursor-pointer font-semibold text-stone-900 dark:text-stone-50 list-none flex items-center justify-between">
+          What is agentic AI?
+          <svg class="h-5 w-5 text-primary-600 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <p class="mt-3 text-stone-600 dark:text-stone-400">Agentic AI is an AI system built around an autonomous agent loop: the model receives a goal, reasons about the next step, takes an action (calling a tool, searching, writing code), observes the result, and repeats until the goal is met. Unlike a single prompt–response exchange, an agent runs over many cycles, maintains state, and can recover from failures.</p>
       </details>
-      <details class="group rounded-lg border border-ink-200 dark:border-ink-800 p-4 open:bg-brand-50/40 dark:open:bg-ink-900">
-        <summary class="cursor-pointer font-semibold text-ink-900 dark:text-ink-50">What are the limitations of Generative AI?</summary>
-        <p class="mt-2 text-ink-600 dark:text-ink-400">Generative AI can hallucinate, struggle with deterministic tasks, and raise data-privacy and compliance risks. Some workloads — precise calculations, regulated decisions, or tasks requiring guaranteed accuracy — are better served by traditional automation.</p>
+      <details class="group rounded-xl border border-stone-200 dark:border-stone-800 p-5 open:bg-primary-50/30 dark:open:bg-stone-900">
+        <summary class="cursor-pointer font-semibold text-stone-900 dark:text-stone-50 list-none flex items-center justify-between">
+          What is the Model Context Protocol (MCP)?
+          <svg class="h-5 w-5 text-primary-600 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <p class="mt-3 text-stone-600 dark:text-stone-400">The Model Context Protocol (MCP) is an open standard for exposing tools, resources, and prompts to AI applications. Open-sourced by Anthropic in 2024, it lets any AI model discover and call external tools uniformly — so you write the integration once and use it across all agents and models.</p>
       </details>
-      <details class="group rounded-lg border border-ink-200 dark:border-ink-800 p-4 open:bg-brand-50/40 dark:open:bg-ink-900">
-        <summary class="cursor-pointer font-semibold text-ink-900 dark:text-ink-50">How do I secure Generative AI in my organization?</summary>
-        <p class="mt-2 text-ink-600 dark:text-ink-400">Secure GenAI by protecting training and prompt data, applying least-privilege access, logging model inputs/outputs, validating outputs, and aligning with regulations like GDPR and the EU AI Act. The Playbook's security chapter covers these in depth.</p>
+      <details class="group rounded-xl border border-stone-200 dark:border-stone-800 p-5 open:bg-primary-50/30 dark:open:bg-stone-900">
+        <summary class="cursor-pointer font-semibold text-stone-900 dark:text-stone-50 list-none flex items-center justify-between">
+          How do businesses implement Generative AI?
+          <svg class="h-5 w-5 text-primary-600 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <p class="mt-3 text-stone-600 dark:text-stone-400">Successful GenAI implementation starts with identifying high-impact use cases, structuring clean data, building internal proofs-of-concept, measuring ROI, and ensuring security and regulatory compliance. The GenAI Playbook walks through each step with practical examples across five phases.</p>
+      </details>
+      <details class="group rounded-xl border border-stone-200 dark:border-stone-800 p-5 open:bg-primary-50/30 dark:open:bg-stone-900">
+        <summary class="cursor-pointer font-semibold text-stone-900 dark:text-stone-50 list-none flex items-center justify-between">
+          How do I secure AI agents in production?
+          <svg class="h-5 w-5 text-primary-600 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <p class="mt-3 text-stone-600 dark:text-stone-400">Secure AI agents by treating tool output as untrusted (defense against prompt injection), scoping tools per task with allowlists, requiring human approval for destructive actions, validating tool arguments, rate-limiting, isolating credentials, and logging every tool call for audit.</p>
+      </details>
+      <details class="group rounded-xl border border-stone-200 dark:border-stone-800 p-5 open:bg-primary-50/30 dark:open:bg-stone-900">
+        <summary class="cursor-pointer font-semibold text-stone-900 dark:text-stone-50 list-none flex items-center justify-between">
+          What are the limitations of Generative AI?
+          <svg class="h-5 w-5 text-primary-600 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <p class="mt-3 text-stone-600 dark:text-stone-400">Generative AI can hallucinate, struggle with deterministic tasks, and raise data-privacy and compliance risks. Some workloads — precise calculations, regulated decisions, or tasks requiring guaranteed accuracy — are better served by traditional automation. Agents add scaffolding (planning, tool-use, self-check) that contains hallucination but doesn't eliminate it.</p>
       </details>
     </div>
   </section>

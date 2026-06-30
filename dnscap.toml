@@ -1,0 +1,2 @@
+# dnscap.toml — empty by design. All values inferred from the
+# directory name + env vars.

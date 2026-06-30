@@ -1,18 +1,19 @@
 #####################################################################
 #                            Build Stage                            #
 #####################################################################
-FROM hugomods/hugo:exts-0.136.4 as builder
-# Build site
-COPY . /src
-# Replace below build command at will.
-RUN hugo --minify --enableGitInfo
-# Set the fallback 404 page if defaultContentLanguageInSubdir is enabled,
-# please replace the `en` with your default language code.
-# RUN cp ./public/en/404.html ./public/404.html
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN npm ci --legacy-peer-deps
+COPY . .
+RUN npm run build
 
 #####################################################################
 #                            Final Stage                            #
 #####################################################################
-FROM hugomods/hugo:nginx
-# Copy the generated files to keep the image as small as possible.
-COPY --from=builder /src/public /site
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+# SPA-like fallback for static Astro site
+RUN printf 'server {\n  listen 80;\n  location / {\n    root /usr/share/nginx/html;\n    index index.html;\n    try_files $uri $uri/index.html $uri.html =404;\n  }\n}\n' > /etc/nginx/conf.d/default.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

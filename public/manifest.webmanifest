@@ -1,0 +1,12 @@
+{
+  "name": "What Generative AI",
+  "short_name": "GenAI Playbook",
+  "description": "The GenAI Playbook for Business Leaders — an open-source guide to implementing Generative AI.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0d9488",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

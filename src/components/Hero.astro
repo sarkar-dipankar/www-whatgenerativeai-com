@@ -1,0 +1,51 @@
+---
+import type { LanguageCode } from "../i18n";
+import { DEFAULT_LANG, ui, localizedPath } from "../i18n";
+interface Props { lang?: LanguageCode }
+const { lang = DEFAULT_LANG } = Astro.props;
+const t = (k: keyof typeof ui.en) => (ui as any)[lang]?.[k] ?? ui.en[k];
+const docsHref = localizedPath(lang, "/docs/genai-playbook/");
+---
+<section class="relative overflow-hidden">
+  <!-- Gradient backdrop -->
+  <div class="absolute inset-0 -z-10 bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700"></div>
+  <!-- Dot pattern overlay -->
+  <div class="absolute inset-0 -z-10 opacity-[0.07]" style="background-image:radial-gradient(circle at 1px 1px, white 1px, transparent 0);background-size:24px 24px"></div>
+  <!-- Glow -->
+  <div class="absolute -top-24 -right-24 -z-10 h-96 w-96 rounded-full bg-accent-500/20 blur-3xl"></div>
+  <div class="absolute -bottom-32 -left-32 -z-10 h-96 w-96 rounded-full bg-primary-400/20 blur-3xl"></div>
+
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-32">
+    <div class="max-w-3xl">
+      <p class="inline-flex items-center gap-2 rounded-full border border-primary-400/30 bg-white/10 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-primary-100">
+        <span class="h-1.5 w-1.5 rounded-full bg-accent-400 animate-pulse"></span>
+        Open-source · 10 languages · Apache-2.0
+      </p>
+      <h1 class="mt-5 text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white">
+        The <span class="text-accent-300">GenAI Playbook</span><br class="hidden sm:block" /> for business leaders
+      </h1>
+      <p class="mt-5 text-lg sm:text-xl text-primary-100/90 leading-relaxed max-w-2xl">
+        A practical, executive-grade guide to implementing Generative AI — strategy, security, people, data, and real-world use cases. Now with a full <strong class="text-white">Agentic AI Playbook</strong> covering agents, MCP, orchestration, and production deployment.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href={docsHref} class="inline-flex items-center gap-2 rounded-lg bg-accent-500 px-5 py-3 text-stone-900 font-semibold shadow-xl shadow-accent-500/20 hover:bg-accent-400 transition">
+          {t("startReading")}
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+        </a>
+        <a href={localizedPath(lang, "/book/")} class="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 backdrop-blur-sm px-5 py-3 text-white font-semibold hover:bg-white/20 transition">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.02 5.742 7.51 5.5 5.5 5.5c-1.414 0-2.828.094-4 .253v13c1.172-.159 2.586-.253 4-.253 2.01 0 4.52.242 6.5.753m0-13c1.98-.511 4.49-.753 6.5-.753 1.414 0 2.828.094 4 .253v13c-1.172-.159-2.586-.253-4-.253-2.01 0-4.52.242-6.5.753"/></svg>
+          Get the book
+        </a>
+        <a href={localizedPath(lang, "/about/")} class="inline-flex items-center gap-2 rounded-lg border border-white/20 px-5 py-3 text-white/90 font-semibold hover:bg-white/10 transition">
+          {t("navAbout")}
+        </a>
+      </div>
+      <dl class="mt-12 grid grid-cols-4 gap-4 max-w-lg">
+        <div class="text-center"><dt class="text-3xl font-bold text-accent-300">21</dt><dd class="text-xs text-primary-200 mt-1">chapters</dd></div>
+        <div class="text-center"><dt class="text-3xl font-bold text-accent-300">10</dt><dd class="text-xs text-primary-200 mt-1">languages</dd></div>
+        <div class="text-center"><dt class="text-3xl font-bold text-accent-300">2</dt><dd class="text-xs text-primary-200 mt-1">playbooks</dd></div>
+        <div class="text-center"><dt class="text-3xl font-bold text-accent-300">OSS</dt><dd class="text-xs text-primary-200 mt-1">Apache-2.0</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>

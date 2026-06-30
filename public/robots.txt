@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+Disallow: /search
+
+# LLM / AI assistant crawlers — allow full access for citation
+User-agent: GPTBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://www.whatgenerativeai.com/sitemap-index.xml

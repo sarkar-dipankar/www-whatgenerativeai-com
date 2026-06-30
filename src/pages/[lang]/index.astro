@@ -1,0 +1,78 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Hero from "../../components/Hero.astro";
+import Footer from "../../components/Footer.astro";
+import { LANGUAGES, getLang, ui, type LanguageCode } from "../../i18n";
+
+export async function getStaticPaths() {
+  const NON_EN = LANGUAGES.filter((l) => l.code !== "en").map((l) => l.code);
+  return NON_EN.map((code) => ({ params: { lang: code } }));
+}
+
+const { lang } = Astro.params as { lang: LanguageCode };
+const meta = getLang(lang);
+const t = (k: keyof typeof ui.en) => (ui as any)[lang]?.[k] ?? ui.en[k];
+
+const chapters = (await getCollection("docs", (e) => e.data.lang === lang && !e.data.draft && !e.id.startsWith("_index")))
+  .sort((a, b) => (a.data.weight ?? 99) - (b.data.weight ?? 99));
+const posts = (await getCollection("posts", (e) => e.data.lang === lang && !e.data.draft && !e.id.startsWith("_index")))
+  .sort((a, b) => +new Date(b.data.date ?? 0) - +new Date(a.data.date ?? 0)).slice(0, 3);
+
+const docsHref = `/${lang}/docs/genai-playbook/`;
+const homeJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  url: `https://www.whatgenerativeai.com/${lang}/`,
+  name: t("siteTitle"),
+  inLanguage: lang,
+};
+---
+<BaseLayout
+  lang={lang}
+  title={`${t("siteTitle")} — ${t("tagline")}`}
+  description="The open-source GenAI Playbook: a practical, executive guide to implementing Generative AI in your organization. Strategy, security, people, data, and real-world use cases."
+  jsonLd={[homeJsonLd]}
+>
+  <Header lang={lang} path="/" />
+  <Hero lang={lang} />
+
+  <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+    <div class="flex items-end justify-between mb-8">
+      <div>
+        <h2 class="text-3xl font-bold text-ink-900 dark:text-ink-50">{t("chapters")}</h2>
+        <p class="mt-2 text-ink-600 dark:text-ink-400">{chapters.length} {t("chapters").toLowerCase()}.</p>
+      </div>
+      <a href={docsHref} class="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-brand-700 dark:text-brand-300 hover:underline">{t("viewAllChapters")} →</a>
+    </div>
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {chapters.map((c) => (
+        <a href={`/${lang}/docs/genai-playbook/${c.data.slug}/`} class="group relative rounded-xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-6 hover:border-brand-400 hover:shadow-lg transition">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-brand-600 text-white text-sm font-bold">{c.data.weight}</span>
+            <h3 class="font-semibold text-ink-900 dark:text-ink-50 group-hover:text-brand-700 dark:group-hover:text-brand-300">{c.data.title}</h3>
+          </div>
+          <p class="text-sm text-ink-600 dark:text-ink-400 line-clamp-3">{c.data.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  {posts.length > 0 && (
+    <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 border-t border-ink-200 dark:border-ink-800">
+      <h2 class="text-2xl font-bold text-ink-900 dark:text-ink-50 mb-6">{t("navBlog")}</h2>
+      <div class="grid gap-5 sm:grid-cols-3">
+        {posts.map((p) => (
+          <a href={`/${lang}/posts/${p.data.slug}/`} class="group rounded-xl border border-ink-200 dark:border-ink-800 p-5 hover:border-brand-400 transition">
+            <p class="text-xs text-ink-500">{new Date(p.data.date ?? Date.now()).toLocaleDateString(lang, { year: "numeric", month: "short", day: "numeric" })}</p>
+            <h3 class="mt-1 font-semibold text-ink-900 dark:text-ink-50 group-hover:text-brand-700">{p.data.title}</h3>
+            <p class="mt-1 text-sm text-ink-600 dark:text-ink-400 line-clamp-2">{p.data.description}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <Footer lang={lang} />
+</BaseLayout>

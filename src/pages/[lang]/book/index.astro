@@ -1,0 +1,61 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import { LANGUAGES, type LanguageCode } from "../../../i18n";
+
+export async function getStaticPaths() {
+  const NON_EN = LANGUAGES.filter((l) => l.code !== "en").map((l) => l.code);
+  return NON_EN.map((code) => ({ params: { lang: code } }));
+}
+const { lang } = Astro.params as { lang: LanguageCode };
+const siteUrl = "https://www.whatgenerativeai.com";
+const url = `${siteUrl}/${lang}/book/`;
+const amazonUrl = "https://www.amazon.com/AI-Everyday-Automation-Workflows-Hours/dp/1808089812/";
+const kindleUrl = "https://www.amazon.com/AI-Everyday-Automation-workflows-hours-ebook/dp/B0GZGPHQPV/";
+const bookJsonLd = {
+  "@context": "https://schema.org", "@type": "Book",
+  name: "AI for Everyday Automation: 7 AI Workflows to Save Hours at Work Every Week",
+  description: "Build smarter daily workflows with ChatGPT, Claude, and Perplexity to boost productivity.",
+  url, isbn: "978-1808089817", bookFormat: "https://schema.org/Paperback", inLanguage: "en", numberOfPages: 106,
+  datePublished: "2026-06-29",
+  author: { "@type": "Person", name: "Dipankar Sarkar", url: "https://www.dipankar.co", sameAs: ["https://twitter.com/dipankarsarkar", "https://www.linkedin.com/in/dipankarsarkar", "https://github.com/dipankar"] },
+  publisher: { "@type": "Organization", name: "Packt Publishing" },
+  offers: { "@type": "Offer", price: "17.99", priceCurrency: "USD", availability: "https://schema.org/InStock", url: amazonUrl },
+};
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org", "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/${lang}/` },
+    { "@type": "ListItem", position: 2, name: "Book", item: url },
+  ],
+};
+---
+<BaseLayout lang={lang} title="AI for Everyday Automation — Dipankar Sarkar" description="AI for Everyday Automation: 7 AI Workflows to Save Hours at Work Every Week. By Dipankar Sarkar, published by Packt." image="/book-cover.svg" jsonLd={[bookJsonLd, breadcrumbJsonLd]}>
+  <Header lang={lang} path="/book/" />
+  <main id="main" class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12">
+    <nav class="text-sm text-ink-500 mb-6" aria-label="Breadcrumb"><a href={`/${lang}/`} class="hover:text-brand-700">Home</a> <span aria-hidden="true">/</span> <span class="text-ink-700">Book</span></nav>
+    <div class="grid gap-8 md:grid-cols-[220px_1fr]">
+      <div class="flex flex-col items-center gap-4">
+        <div class="relative w-40 aspect-[2/3] rounded-lg overflow-hidden shadow-xl border border-ink-200 dark:border-ink-700 bg-gradient-to-br from-brand-600 to-brand-800">
+          <div class="absolute inset-0 p-4 flex flex-col text-white">
+            <p class="text-[9px] font-semibold uppercase tracking-widest opacity-80">Packt</p>
+            <h2 class="mt-auto text-base font-bold leading-tight">AI for Everyday Automation</h2>
+            <p class="mt-1 text-[10px] opacity-90">7 AI workflows to save hours at work every week</p>
+          </div>
+        </div>
+        <a href={amazonUrl} rel="nofollow noopener" class="block w-full text-center rounded-lg bg-brand-600 px-4 py-2.5 text-white font-semibold hover:bg-brand-700 transition text-sm">Buy on Amazon</a>
+        <a href={kindleUrl} rel="nofollow noopener" class="block w-full text-center rounded-lg border border-ink-300 dark:border-ink-700 px-4 py-2 text-ink-800 dark:text-ink-100 font-semibold hover:bg-ink-100 dark:hover:bg-ink-800 transition text-sm">Kindle edition</a>
+      </div>
+      <article class="prose">
+        <h1>AI for Everyday Automation</h1>
+        <p class="text-lg text-ink-600 dark:text-ink-400 -mt-2">7 AI Workflows to Save Hours at Work Every Week</p>
+        <p>By <strong>Dipankar Sarkar</strong> · Packt Publishing · June 29, 2026 · ISBN 978-1808089817 · 106 pages.</p>
+        <p>Build smarter daily workflows with ChatGPT, Claude, and Perplexity to boost productivity. Seven practical workflows for automating emails, meetings, research, reports, task tracking, spreadsheets, content creation, and professional communication.</p>
+        <p><a href={amazonUrl} rel="nofollow noopener">Buy on Amazon →</a></p>
+        <p><a href="/book/">Read the full book page (English) →</a></p>
+      </article>
+    </div>
+  </main>
+  <Footer lang={lang} />
+</BaseLayout>

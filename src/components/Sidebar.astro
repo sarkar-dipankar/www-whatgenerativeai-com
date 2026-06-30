@@ -1,0 +1,43 @@
+---
+import type { LanguageCode } from "../i18n";
+import { DEFAULT_LANG, ui, localizedPath } from "../i18n";
+import Search from "./Search.astro";
+
+interface Props { lang?: LanguageCode; activeSlug?: string }
+const { lang = DEFAULT_LANG, activeSlug } = Astro.props;
+const t = (k: keyof typeof ui.en) => (ui as any)[lang]?.[k] ?? ui.en[k];
+
+// Chapter list (slug, weight, title) — read from content collection at build
+const { getCollection } = await import("astro:content");
+const allDocs = await getCollection("docs", (e) => e.data.lang === lang && !e.data.draft);
+const chapters = allDocs
+  .filter((d) => d.id !== "GenAI-Playbook/_index" && !d.id.startsWith("_index"))
+  .sort((a, b) => (a.data.weight ?? 99) - (b.data.weight ?? 99))
+  .map((d) => ({
+    slug: d.data.slug ?? d.id.replace(/\.md$/, ""),
+    title: d.data.title,
+    weight: d.data.weight ?? 0,
+  }));
+
+const active = (s: string) => activeSlug && activeSlug === s;
+const base = localizedPath(lang, "/docs/genai-playbook/");
+---
+<aside class="hidden lg:block w-72 shrink-0 border-r border-ink-200 dark:border-ink-800 h-[calc(100vh-4rem)] sticky top-16 overflow-y-auto px-4 py-6">
+  <Search lang={lang} />
+  <nav class="mt-6" aria-label={t("chapters")}>
+    <p class="px-2 mb-2 text-xs font-semibold uppercase tracking-wider text-ink-500 dark:text-ink-400">{t("chapters")}</p>
+    <ul class="space-y-0.5">
+      {chapters.map((c) => (
+        <li>
+          <a
+            href={`${base}${c.slug}/`}
+            class={`flex items-start gap-2 rounded-md px-2 py-1.5 text-sm transition ${active(c.slug) ? "bg-brand-50 text-brand-700 font-semibold dark:bg-ink-800 dark:text-brand-300" : "text-ink-700 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-ink-800"}`}
+          >
+            <span class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded bg-brand-100 text-[10px] font-bold text-brand-700 dark:bg-ink-700 dark:text-brand-300">{c.weight}</span>
+            <span class="leading-snug">{c.title}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</aside>

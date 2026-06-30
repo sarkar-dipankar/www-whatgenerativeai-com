@@ -1,0 +1,156 @@
+---
+import "../styles/global.css";
+import type { LanguageCode } from "../i18n";
+import { LANGUAGES, DEFAULT_LANG, getLang, isRtl, localizedPath, ui } from "../i18n";
+
+interface Props {
+  lang?: LanguageCode;
+  title: string;
+  description: string;
+  canonical?: string;
+  image?: string;
+  type?: "website" | "article";
+  publishedTime?: string;
+  modifiedTime?: string;
+  author?: string;
+  tags?: string[];
+  jsonLd?: object[];
+  noindex?: boolean;
+}
+
+const {
+  lang = DEFAULT_LANG,
+  title,
+  description,
+  canonical,
+  image = "/header.png",
+  type = "website",
+  publishedTime,
+  modifiedTime,
+  author = "Dipankar Sarkar",
+  tags = [],
+  jsonLd = [],
+  noindex = false,
+} = Astro.props;
+
+const siteUrl = "https://www.whatgenerativeai.com";
+const meta = getLang(lang);
+const canonicalUrl = new URL(canonical ?? Astro.url.pathname, siteUrl).href;
+const imageUrl = new URL(image, siteUrl).href;
+const t = (k: keyof typeof ui.en) => (ui as any)[lang]?.[k] ?? ui.en[k];
+
+// hreflang alternates across all languages (same path, different prefix)
+const pathWithoutLang = Astro.url.pathname.replace(/^\/(it|pl|ta|ko|he|fi|ar|nl|de)(\/|$)/, "/");
+const alternates = LANGUAGES.map((l) => ({
+  hreflang: l.code,
+  href: new URL(localizedPath(l.code, pathWithoutLang === "/" ? "" : pathWithoutLang), siteUrl).href,
+}));
+const xDefault = new URL(localizedPath(DEFAULT_LANG, pathWithoutLang === "/" ? "" : pathWithoutLang), siteUrl).href;
+
+// Base JSON-LD present on every page
+const baseJsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${siteUrl}/#website`,
+    url: siteUrl,
+    name: "What Generative AI",
+    description: ui.en.tagline,
+    inLanguage: "en",
+    publisher: { "@id": `${siteUrl}/#org` },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": `${siteUrl}/#org`,
+    name: "What Generative AI",
+    url: siteUrl,
+    logo: `${siteUrl}/header.png`,
+    founder: {
+      "@type": "Person",
+      name: "Dipankar Sarkar",
+      url: "https://www.dipankar.co",
+      sameAs: ["https://twitter.com/dipankarsarkar", "https://www.linkedin.com/in/dipankarsarkar", "https://github.com/dipankar", "https://www.amazon.com/Dipankar-Sarkar/e/B0053F136C/"],
+    },
+  },
+];
+
+const allJsonLd = [...baseJsonLd, ...jsonLd];
+---
+<!doctype html>
+<html lang={lang} dir={meta.dir} class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- hreflang alternates -->
+    {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+    <link rel="alternate" hreflang="x-default" href={xDefault} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={author} />
+    {tags.length > 0 && <meta name="keywords" content={tags.join(", ")} />}
+    <meta name="generator" content={Astro.generator} />
+    {noindex && <meta name="robots" content="noindex,nofollow" />}
+    {!noindex && <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="What Generative AI" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={lang === "en" ? "en_US" : lang} />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+    {tags.map((tag) => <meta property="article:tag" content={tag} />)}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@dipankarsarkar" />
+    <meta name="twitter:creator" content="@dipankarsarkar" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+
+    <!-- RSS / sitemap hints -->
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title="What Generative AI (EN)" href="/rss.xml" />
+
+    <!-- Performance: preconnect Pagefind + fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- JSON-LD structured data -->
+    {allJsonLd.map((j) => <script type="application/ld+json" set:html={JSON.stringify(j)} />)}
+
+    <slot name="head" />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-brand-600 focus:text-white focus:px-3 focus:py-2 focus:rounded">
+      Skip to content
+    </a>
+    <slot />
+    <script is:inline>
+      // Theme toggle (no framework, instant, no-flash)
+      (function () {
+        const key = "wgai-theme";
+        const m = localStorage.getItem(key);
+        if (m === "dark" || (!m && matchMedia("(prefers-color-scheme: dark)").matches)) {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
+  </body>
+</html>

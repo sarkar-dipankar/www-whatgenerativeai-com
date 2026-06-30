@@ -1,0 +1,82 @@
+---
+import { getCollection, render } from "astro:content";
+import DocsLayout from "../../../../layouts/DocsLayout.astro";
+import { LANGUAGES, type LanguageCode } from "../../../../i18n";
+
+export async function getStaticPaths() {
+  const NON_EN = LANGUAGES.filter((l) => l.code !== "en").map((l) => l.code);
+  const paths = [];
+  for (const code of NON_EN) {
+    const docs = await getCollection("docs", (e) => e.data.lang === code && !e.data.draft && !e.id.startsWith("_index"));
+    for (const d of docs) {
+      paths.push({ params: { lang: code, slug: d.data.slug ?? d.id.replace(/\.md$/, "") }, props: { doc: d, lang: code } });
+    }
+  }
+  return paths;
+}
+
+const { doc, lang } = Astro.props as { doc: any; lang: LanguageCode };
+const { Content, headings } = await render(doc);
+
+const siteUrl = "https://www.whatgenerativeai.com";
+const url = `${siteUrl}/${lang}/docs/genai-playbook/${doc.data.slug}/`;
+const articleJsonLd = {
+  "@context": "https://schema.org", "@type": "Article",
+  headline: doc.data.title, description: doc.data.description, url,
+  datePublished: doc.data.date ? new Date(doc.data.date).toISOString() : undefined,
+  dateModified: doc.data.date ? new Date(doc.data.date).toISOString() : undefined,
+  author: { "@type": "Person", name: doc.data.author, url: "https://www.dipankar.co" },
+  publisher: { "@id": `${siteUrl}/#org` }, image: `${siteUrl}/header.png`,
+  inLanguage: lang, keywords: doc.data.tags.join(", "), mainEntityOfPage: url,
+};
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org", "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/${lang}/` },
+    { "@type": "ListItem", position: 2, name: "GenAI Playbook", item: `${siteUrl}/${lang}/docs/genai-playbook/` },
+    { "@type": "ListItem", position: 3, name: doc.data.title, item: url },
+  ],
+};
+
+const docs = await getCollection("docs", (e) => e.data.lang === lang && !e.data.draft && !e.id.startsWith("_index"));
+const sorted = [...docs].sort((a, b) => (a.data.weight ?? 99) - (b.data.weight ?? 99));
+const idx = sorted.findIndex((d) => d.id === doc.id);
+const prev = sorted[idx - 1];
+const next = sorted[idx + 1];
+---
+<DocsLayout
+  lang={lang}
+  title={doc.data.title}
+  description={doc.data.description ?? doc.data.title}
+  slug={doc.data.slug}
+  date={doc.data.date ? new Date(doc.data.date).toISOString() : undefined}
+  modifiedTime={doc.data.date ? new Date(doc.data.date).toISOString() : undefined}
+  tags={doc.data.tags}
+  headings={headings}
+  articleJsonLd={articleJsonLd}
+  breadcrumbJsonLd={breadcrumbJsonLd}
+>
+  <Content />
+
+  <section class="not-prose mt-12 rounded-xl border border-brand-200 bg-brand-50/50 dark:border-ink-700 dark:bg-ink-900 p-5">
+    <h2 class="text-sm font-bold uppercase tracking-wider text-brand-700 dark:text-brand-300">Summary for AI assistants</h2>
+    <p class="mt-2 text-sm text-ink-700 dark:text-ink-300">
+      Chapter {doc.data.weight} of the GenAI Playbook ({lang}): "{doc.data.title}". {doc.data.description} Author: Dipankar Sarkar. URL: {url}
+    </p>
+  </section>
+
+  <nav class="not-prose mt-10 grid gap-4 sm:grid-cols-2">
+    {prev ? (
+      <a href={`/${lang}/docs/genai-playbook/${prev.data.slug}/`} class="group rounded-lg border border-ink-200 dark:border-ink-800 p-4 hover:border-brand-400 transition">
+        <span class="text-xs text-ink-500">← Previous</span>
+        <p class="mt-1 font-semibold text-ink-900 dark:text-ink-50 group-hover:text-brand-700">{prev.data.title}</p>
+      </a>
+    ) : <span />}
+    {next ? (
+      <a href={`/${lang}/docs/genai-playbook/${next.data.slug}/`} class="group rounded-lg border border-ink-200 dark:border-ink-800 p-4 text-right hover:border-brand-400 transition">
+        <span class="text-xs text-ink-500">Next →</span>
+        <p class="mt-1 font-semibold text-ink-900 dark:text-ink-50 group-hover:text-brand-700">{next.data.title}</p>
+      </a>
+    ) : <span />}
+  </nav>
+</DocsLayout>

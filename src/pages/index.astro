@@ -1,0 +1,105 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Footer from "../components/Footer.astro";
+import { DEFAULT_LANG, LANGUAGES, ui, localizedPath } from "../i18n";
+
+const lang = DEFAULT_LANG;
+const t = (k: keyof typeof ui.en) => ui.en[k];
+
+const allDocs = await getCollection("docs", (e) => e.data.lang === "en" && !e.data.draft && !e.id.startsWith("_index"));
+const chapters = allDocs.sort((a, b) => (a.data.weight ?? 99) - (b.data.weight ?? 99));
+const posts = (await getCollection("posts", (e) => e.data.lang === "en" && !e.data.draft)).sort((a, b) => +new Date(b.data.date ?? 0) - +new Date(a.data.date ?? 0)).slice(0, 3);
+
+const homeJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://www.whatgenerativeai.com/#website",
+  url: "https://www.whatgenerativeai.com",
+  name: "What Generative AI",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: "https://www.whatgenerativeai.com/?q={search_term_string}",
+    "query-input": "required name=search_term_string",
+  },
+};
+---
+<BaseLayout
+  lang="en"
+  title="What Generative AI — The GenAI Playbook for Business Leaders"
+  description="The open-source GenAI Playbook: a practical, executive guide to implementing Generative AI in your organization. Strategy, security, people, data, and real-world use cases — in 10 languages."
+  image="/header.png"
+  jsonLd={[homeJsonLd]}
+>
+  <Header lang="en" path="/" />
+  <Hero lang="en" />
+
+  <!-- Chapters grid -->
+  <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+    <div class="flex items-end justify-between mb-8">
+      <div>
+        <h2 class="text-3xl font-bold text-ink-900 dark:text-ink-50">{t("chapters")}</h2>
+        <p class="mt-2 text-ink-600 dark:text-ink-400">11 chapters covering the full GenAI adoption journey — from core concepts to future-proofing your organization.</p>
+      </div>
+      <a href="/docs/genai-playbook/" class="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-brand-700 dark:text-brand-300 hover:underline">{t("viewAllChapters")} →</a>
+    </div>
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {chapters.map((c) => (
+        <a
+          href={`/docs/genai-playbook/${c.data.slug}/`}
+          class="group relative rounded-xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-6 hover:border-brand-400 hover:shadow-lg transition"
+        >
+          <div class="flex items-center gap-3 mb-3">
+            <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-brand-600 text-white text-sm font-bold">{c.data.weight}</span>
+            <h3 class="font-semibold text-ink-900 dark:text-ink-50 group-hover:text-brand-700 dark:group-hover:text-brand-300">{c.data.title}</h3>
+          </div>
+          <p class="text-sm text-ink-600 dark:text-ink-400 line-clamp-3">{c.data.description}</p>
+          <span class="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-brand-700 dark:text-brand-300">Read →</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- Latest posts -->
+  {posts.length > 0 && (
+    <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 border-t border-ink-200 dark:border-ink-800">
+      <h2 class="text-2xl font-bold text-ink-900 dark:text-ink-50 mb-6">Latest from the blog</h2>
+      <div class="grid gap-5 sm:grid-cols-3">
+        {posts.map((p) => (
+          <a href={`/posts/${p.data.slug}/`} class="group rounded-xl border border-ink-200 dark:border-ink-800 p-5 hover:border-brand-400 transition">
+            <p class="text-xs text-ink-500">{new Date(p.data.date ?? Date.now()).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}</p>
+            <h3 class="mt-1 font-semibold text-ink-900 dark:text-ink-50 group-hover:text-brand-700">{p.data.title}</h3>
+            <p class="mt-1 text-sm text-ink-600 dark:text-ink-400 line-clamp-2">{p.data.description}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- FAQ for AI-search citation -->
+  <section class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-16 border-t border-ink-200 dark:border-ink-800">
+    <h2 class="text-2xl font-bold text-ink-900 dark:text-ink-50 mb-6 text-center">Frequently asked questions</h2>
+    <div class="space-y-4">
+      <details class="group rounded-lg border border-ink-200 dark:border-ink-800 p-4 open:bg-brand-50/40 dark:open:bg-ink-900">
+        <summary class="cursor-pointer font-semibold text-ink-900 dark:text-ink-50">What is Generative AI?</summary>
+        <p class="mt-2 text-ink-600 dark:text-ink-400">Generative AI is a class of artificial intelligence systems that create new, original content — text, images, code, or data — based on patterns learned from training data. Unlike traditional AI that analyzes and predicts, Generative AI produces novel output that closely mimics human-created content.</p>
+      </details>
+      <details class="group rounded-lg border border-ink-200 dark:border-ink-800 p-4 open:bg-brand-50/40 dark:open:bg-ink-900">
+        <summary class="cursor-pointer font-semibold text-ink-900 dark:text-ink-50">How do businesses implement Generative AI?</summary>
+        <p class="mt-2 text-ink-600 dark:text-ink-400">Successful GenAI implementation starts with identifying high-impact use cases, structuring clean data, building internal proofs-of-concept, measuring ROI, and ensuring security and regulatory compliance. The GenAI Playbook walks through each step with practical examples.</p>
+      </details>
+      <details class="group rounded-lg border border-ink-200 dark:border-ink-800 p-4 open:bg-brand-50/40 dark:open:bg-ink-900">
+        <summary class="cursor-pointer font-semibold text-ink-900 dark:text-ink-50">What are the limitations of Generative AI?</summary>
+        <p class="mt-2 text-ink-600 dark:text-ink-400">Generative AI can hallucinate, struggle with deterministic tasks, and raise data-privacy and compliance risks. Some workloads — precise calculations, regulated decisions, or tasks requiring guaranteed accuracy — are better served by traditional automation.</p>
+      </details>
+      <details class="group rounded-lg border border-ink-200 dark:border-ink-800 p-4 open:bg-brand-50/40 dark:open:bg-ink-900">
+        <summary class="cursor-pointer font-semibold text-ink-900 dark:text-ink-50">How do I secure Generative AI in my organization?</summary>
+        <p class="mt-2 text-ink-600 dark:text-ink-400">Secure GenAI by protecting training and prompt data, applying least-privilege access, logging model inputs/outputs, validating outputs, and aligning with regulations like GDPR and the EU AI Act. The Playbook's security chapter covers these in depth.</p>
+      </details>
+    </div>
+  </section>
+
+  <Footer lang="en" />
+</BaseLayout>

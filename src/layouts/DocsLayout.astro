@@ -1,0 +1,68 @@
+---
+import type { LanguageCode } from "../i18n";
+import { DEFAULT_LANG, ui, localizedPath } from "../i18n";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Sidebar from "../components/Sidebar.astro";
+import Toc from "../components/Toc.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  lang?: LanguageCode;
+  title: string;
+  description: string;
+  slug?: string;
+  date?: string;
+  modifiedTime?: string;
+  tags?: string[];
+  headings: { depth: number; slug: string; text: string }[];
+  articleJsonLd?: object;
+  breadcrumbJsonLd?: object;
+}
+const {
+  lang = DEFAULT_LANG,
+  title,
+  description,
+  slug,
+  date,
+  modifiedTime,
+  tags = [],
+  headings,
+  articleJsonLd,
+  breadcrumbJsonLd,
+} = Astro.props;
+const t = (k: keyof typeof ui.en) => (ui as any)[lang]?.[k] ?? ui.en[k];
+const jsonLd = [articleJsonLd, breadcrumbJsonLd].filter(Boolean) as object[];
+const base = localizedPath(lang, "/docs/genai-playbook/");
+---
+<BaseLayout
+  lang={lang}
+  title={title}
+  description={description}
+  type="article"
+  publishedTime={date}
+  modifiedTime={modifiedTime}
+  tags={tags}
+  jsonLd={jsonLd}
+>
+  <Header lang={lang} path="/docs/genai-playbook/" />
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex">
+    <Sidebar lang={lang} activeSlug={slug} />
+    <main id="main" class="flex-1 min-w-0 py-8 lg:px-8">
+      <div class="flex gap-8">
+        <article class="prose min-w-0 flex-1 max-w-3xl">
+          <p class="text-xs uppercase tracking-wider text-brand-700 dark:text-brand-300 font-semibold mb-2">GenAI Playbook</p>
+          <h1 class="!mt-0">{title}</h1>
+          {date && (
+            <p class="text-sm text-ink-500 dark:text-ink-400 -mt-2 mb-2">
+              {t("published")} <time datetime={date}>{new Date(date).toLocaleDateString(lang === "en" ? "en-US" : lang, { year: "numeric", month: "long", day: "numeric" })}</time> · {t("author")}: Dipankar Sarkar
+            </p>
+          )}
+          <slot />
+        </article>
+        <Toc lang={lang} headings={headings} />
+      </div>
+    </main>
+  </div>
+  <Footer lang={lang} />
+</BaseLayout>

@@ -12,8 +12,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
         with:
-          submodules: true  # Fetch Hugo themes (true OR recursive)
-          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+          fetch-depth: 0    # Fetch all history for Lastmod dates
       
       - name: Create tarball of codebase
         run: tar -cf deploy.tar --exclude=deploy.tar .

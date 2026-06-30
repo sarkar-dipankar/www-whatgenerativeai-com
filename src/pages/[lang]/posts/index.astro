@@ -1,0 +1,34 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import { LANGUAGES, ui, type LanguageCode } from "../../../i18n";
+
+export async function getStaticPaths() {
+  const NON_EN = LANGUAGES.filter((l) => l.code !== "en").map((l) => l.code);
+  return NON_EN.map((code) => ({ params: { lang: code } }));
+}
+
+const { lang } = Astro.params as { lang: LanguageCode };
+const t = (k: keyof typeof ui.en) => (ui as any)[lang]?.[k] ?? ui.en[k];
+const posts = (await getCollection("posts", (e) => e.data.lang === lang && !e.data.draft && !e.id.startsWith("_index")))
+  .sort((a, b) => +new Date(b.data.date ?? 0) - +new Date(a.data.date ?? 0));
+---
+<BaseLayout lang={lang} title={`${t("navBlog")} — ${t("siteTitle")}`} description="Announcements and essays on Generative AI adoption.">
+  <Header lang={lang} path="/posts/" />
+  <main id="main" class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12">
+    <nav class="text-sm text-ink-500 mb-3" aria-label="Breadcrumb"><a href={`/${lang}/`} class="hover:text-brand-700">Home</a> <span aria-hidden="true">/</span> <span class="text-ink-700">{t("navBlog")}</span></nav>
+    <h1 class="text-4xl font-bold text-ink-900 dark:text-ink-50">{t("navBlog")}</h1>
+    <div class="mt-8 space-y-6">
+      {posts.map((p) => (
+        <a href={`/${lang}/posts/${p.data.slug}/`} class="group block rounded-xl border border-ink-200 dark:border-ink-800 p-6 hover:border-brand-400 hover:shadow-lg transition">
+          <p class="text-xs text-ink-500">{new Date(p.data.date ?? Date.now()).toLocaleDateString(lang, { year: "numeric", month: "long", day: "numeric" })} · {p.data.author}</p>
+          <h2 class="mt-1 text-xl font-bold text-ink-900 dark:text-ink-50 group-hover:text-brand-700">{p.data.title}</h2>
+          <p class="mt-2 text-ink-600 dark:text-ink-400">{p.data.description}</p>
+        </a>
+      ))}
+    </div>
+  </main>
+  <Footer lang={lang} />
+</BaseLayout>

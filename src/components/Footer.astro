@@ -1,0 +1,36 @@
+---
+import type { LanguageCode } from "../i18n";
+import { DEFAULT_LANG, ui } from "../i18n";
+interface Props { lang?: LanguageCode }
+const { lang = DEFAULT_LANG } = Astro.props;
+const t = (k: keyof typeof ui.en) => (ui as any)[lang]?.[k] ?? ui.en[k];
+const year = new Date().getFullYear();
+---
+<footer class="mt-16 border-t border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-950">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 grid gap-8 md:grid-cols-4 text-sm">
+    <div class="md:col-span-2">
+      <p class="font-bold text-ink-900 dark:text-ink-50">{t("siteTitle")}</p>
+      <p class="mt-2 text-ink-600 dark:text-ink-400 max-w-md">{t("tagline")}. {t("footerLicense")}. Open source: <a class="text-brand-700 hover:underline" href="https://github.com/dipankar/whatgenerativeai">GitHub</a>.</p>
+    </div>
+    <div>
+      <p class="font-semibold text-ink-800 dark:text-ink-100">{t("navDocs")}</p>
+      <ul class="mt-2 space-y-1 text-ink-600 dark:text-ink-400">
+        <li><a class="hover:text-brand-700" href={`/${lang === "en" ? "" : lang + "/"}docs/genai-playbook/`}>{t("chapters")}</a></li>
+        <li><a class="hover:text-brand-700" href={`/${lang === "en" ? "" : lang + "/"}book/`}>Book</a></li>
+        <li><a class="hover:text-brand-700" href={`/${lang === "en" ? "" : lang + "/"}posts/`}>{t("navBlog")}</a></li>
+        <li><a class="hover:text-brand-700" href={`/${lang === "en" ? "" : lang + "/"}about/`}>{t("navAbout")}</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-semibold text-ink-800 dark:text-ink-100">LLM-friendly</p>
+      <ul class="mt-2 space-y-1 text-ink-600 dark:text-ink-400">
+        <li><a class="hover:text-brand-700" href="/llms.txt">llms.txt</a></li>
+        <li><a class="hover:text-brand-700" href="/rss.xml">RSS</a></li>
+        <li><a class="hover:text-brand-700" href="/sitemap-index.xml">Sitemap</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-ink-200 dark:border-ink-800 py-4 text-center text-xs text-ink-500 dark:text-ink-400">
+    © {year} {t("siteTitle")} · {t("footerLicense")} · Author <a class="hover:text-brand-700" href="https://www.dipankar.co">Dipankar Sarkar</a>
+  </div>
+</footer>

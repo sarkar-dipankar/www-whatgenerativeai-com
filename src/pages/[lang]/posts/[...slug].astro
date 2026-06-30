@@ -1,0 +1,53 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import { LANGUAGES, type LanguageCode } from "../../../i18n";
+
+export async function getStaticPaths() {
+  const NON_EN = LANGUAGES.filter((l) => l.code !== "en").map((l) => l.code);
+  const paths = [];
+  for (const code of NON_EN) {
+    const posts = await getCollection("posts", (e) => e.data.lang === code && !e.data.draft && !e.id.startsWith("_index"));
+    for (const p of posts) {
+      paths.push({ params: { lang: code, slug: p.data.slug ?? p.id.replace(/\.md$/, "") }, props: { post: p, lang: code } });
+    }
+  }
+  return paths;
+}
+
+const { post, lang } = Astro.props as { post: any; lang: LanguageCode };
+const { Content } = await render(post);
+const siteUrl = "https://www.whatgenerativeai.com";
+const url = `${siteUrl}/${lang}/posts/${post.data.slug}/`;
+const articleJsonLd = {
+  "@context": "https://schema.org", "@type": "BlogPosting",
+  headline: post.data.title, description: post.data.description, url,
+  datePublished: post.data.date ? new Date(post.data.date ?? Date.now()).toISOString() : undefined,
+  dateModified: post.data.date ? new Date(post.data.date ?? Date.now()).toISOString() : undefined,
+  author: { "@type": "Person", name: post.data.author, url: "https://www.dipankar.co" },
+  publisher: { "@id": `${siteUrl}/#org` }, image: `${siteUrl}/header.png`,
+  inLanguage: lang, keywords: post.data.tags.join(", "), mainEntityOfPage: url,
+};
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org", "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/${lang}/` },
+    { "@type": "ListItem", position: 2, name: "Blog", item: `${siteUrl}/${lang}/posts/` },
+    { "@type": "ListItem", position: 3, name: post.data.title, item: url },
+  ],
+};
+---
+<BaseLayout lang={lang} title={`${post.data.title} — What Generative AI`} description={post.data.description ?? post.data.title} type="article" publishedTime={post.data.date ? new Date(post.data.date ?? Date.now()).toISOString() : undefined} tags={post.data.tags} jsonLd={[articleJsonLd, breadcrumbJsonLd]}>
+  <Header lang={lang} path="/posts/" />
+  <main id="main" class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12">
+    <nav class="text-sm text-ink-500 mb-3" aria-label="Breadcrumb"><a href={`/${lang}/`} class="hover:text-brand-700">Home</a> <span aria-hidden="true">/</span> <a href={`/${lang}/posts/`} class="hover:text-brand-700">Blog</a> <span aria-hidden="true">/</span> <span class="text-ink-700">{post.data.title}</span></nav>
+    <article class="prose">
+      <p class="text-xs text-ink-500">{new Date(post.data.date ?? Date.now()).toLocaleDateString(lang, { year: "numeric", month: "long", day: "numeric" })} · {post.data.author}</p>
+      <h1>{post.data.title}</h1>
+      <Content />
+    </article>
+  </main>
+  <Footer lang={lang} />
+</BaseLayout>

@@ -1,0 +1,161 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import { DEFAULT_LANG, ui, LANGUAGES, localizedPath } from "../../../i18n";
+
+const lang = DEFAULT_LANG;
+const t = (k: keyof typeof ui.en) => ui.en[k];
+
+const allChapters = (await getCollection("docs", (e) => e.data.lang === "en" && !e.data.draft && !e.id.startsWith("_index")))
+  .sort((a, b) => (a.data.weight ?? 99) - (b.data.weight ?? 99));
+const genaiChapters = allChapters.filter((c) => (c.data.weight ?? 0) < 20);
+const agenticChapters = allChapters.filter((c) => (c.data.weight ?? 0) >= 20);
+const chapters = allChapters; // kept for JSON-LD
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://www.whatgenerativeai.com/" },
+    { "@type": "ListItem", position: 2, name: "GenAI Playbook", item: "https://www.whatgenerativeai.com/docs/genai-playbook/" },
+  ],
+};
+
+const collectionJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "The GenAI Playbook",
+  description: "The open-source GenAI Playbook: a practical, executive guide to implementing Generative AI in your organization.",
+  url: "https://www.whatgenerativeai.com/docs/genai-playbook/",
+  hasPart: chapters.map((c) => ({
+    "@type": "Article",
+    headline: c.data.title,
+    url: `https://www.whatgenerativeai.com/docs/genai-playbook/${c.data.slug}/`,
+  })),
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is a Generative AI implementation playbook?",
+      acceptedAnswer: { "@type": "Answer", text: "A Generative AI implementation playbook is a structured, phased framework that helps organizations move from AI interest to scaled enterprise capability. It starts with business value, identifies high-impact use cases, builds data and governance foundations, upskills the workforce, and measures ROI with clear KPIs. The GenAI Playbook follows the 10-20-70 rule: 10% algorithms, 20% data and tech infrastructure, 70% people and process transformation." },
+    },
+    {
+      "@type": "Question",
+      name: "What are the five phases of GenAI implementation?",
+      acceptedAnswer: { "@type": "Answer", text: "The five phases are: (1) Strategic alignment and use-case selection, (2) Leveraging existing GenAI tools, (3) Data foundations and architecture, (4) Governance, security and compliance, (5) Workforce upskilling and scaling. Each phase has specific stakeholders and milestone deliverables, from a prioritized pilot backlog to a 90-day performance audit." },
+    },
+    {
+      "@type": "Question",
+      name: "How do businesses implement Generative AI?",
+      acceptedAnswer: { "@type": "Answer", text: "Successful GenAI implementation starts with identifying high-impact use cases, deploying off-the-shelf tools like ChatGPT for quick wins, structuring clean data, building internal proofs-of-concept, measuring ROI, ensuring security and regulatory compliance, and upskilling the workforce with the 30% human-oversight rule." },
+    },
+    {
+      "@type": "Question",
+      name: "When should you not use Generative AI?",
+      acceptedAnswer: { "@type": "Answer", text: "Generative AI is not suitable for deterministic calculations, regulated decisions requiring guaranteed accuracy, tasks with strict audit trails, or workloads where hallucination risk is unacceptable. These are better served by traditional automation." },
+    },
+  ],
+};
+---
+<BaseLayout
+  lang="en"
+  title="The GenAI Playbook — Implement Generative AI in Business"
+  description="The complete GenAI Playbook: 11 chapters covering core concepts, transformative potential, leveraging existing tools, departmental integration, data, security, people analytics, limitations, and future-proofing."
+  jsonLd={[breadcrumbJsonLd, collectionJsonLd, faqJsonLd]}
+>
+  <Header lang="en" path="/docs/genai-playbook/" />
+  <main id="main" class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
+    <nav class="text-sm text-ink-500 mb-3" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-brand-700">Home</a> <span aria-hidden="true">/</span> <span class="text-ink-700">GenAI Playbook</span>
+    </nav>
+    <h1 class="text-4xl font-bold text-stone-900 dark:text-stone-50">The GenAI Playbook</h1>
+    <p class="mt-3 text-lg text-stone-600 dark:text-stone-400 max-w-2xl">A practical, executive-grade guide to implementing Generative AI across your organization — from foundational concepts to future-proofing your AI strategy.</p>
+
+    <!-- Download PDFs -->
+    <div class="mt-6 flex flex-wrap gap-3">
+      <a href="/downloads/genai-playbook-en.pdf" download class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2.5 text-white font-semibold shadow-md hover:bg-primary-700 transition text-sm">
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+        Download GenAI Playbook (PDF)
+      </a>
+      <a href="/downloads/agentic-ai-playbook-en.pdf" download class="inline-flex items-center gap-2 rounded-lg border border-stone-300 dark:border-stone-700 px-4 py-2.5 text-stone-800 dark:text-stone-100 font-semibold hover:bg-stone-100 dark:hover:bg-stone-800 transition text-sm">
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+        Download Agentic AI Playbook (PDF)
+      </a>
+    </div>
+
+    <!-- Structured implementation overview (optimized for AI-search citation) -->
+    <section class="mt-10 prose max-w-3xl">
+      <h2 id="what-is-a-generative-ai-implementation-playbook">What is a Generative AI implementation playbook?</h2>
+      <p>A Generative AI implementation playbook is a structured, phased framework that helps organizations move from AI interest to scaled enterprise capability. Rather than starting with a model, a good playbook starts with business value: it identifies high-impact use cases, builds data and governance foundations, upskills the workforce, and measures ROI with clear KPIs. The GenAI Playbook on this site follows the <strong>10-20-70 rule</strong> — 10% algorithms, 20% data and tech infrastructure, 70% people and process transformation.</p>
+
+      <h2 id="five-phases-of-genai-implementation">The five phases of GenAI implementation</h2>
+      <ol>
+        <li><strong>Strategic alignment &amp; use-case selection</strong> — Define your competitive stance for GenAI early; map high-impact, low-complexity pilots. Start with specific pain points, not the model. <em>See chapters: <a href="/docs/genai-playbook/unveiling-power-generative-ai-new-era-business/">Core ideas &amp; concepts</a>, <a href="/docs/genai-playbook/from-automation-to-innovation-unleashing-genai-transformative-potential/">Beyond efficiency</a>.</em></li>
+        <li><strong>Leveraging existing tools</strong> — Deploy off-the-shelf GenAI tools (ChatGPT, OpenAI API, Perplexity) for quick wins before building custom solutions. <em>See: <a href="/docs/genai-playbook/harnessing-power-existing-genai-tools-practical-guide-businesses/">Getting started</a>.</em></li>
+        <li><strong>Data foundations &amp; architecture</strong> — Audit data quality, consolidate proprietary data, and choose between buy vs. build. <em>See: <a href="/docs/genai-playbook/structuring-data-for-genai-foundation-ai-driven-innovation/">Data is key</a>, <a href="/docs/genai-playbook/crafting-success-building-internal-genai-use-cases/">Implement &amp; measure</a>.</em></li>
+        <li><strong>Governance, security &amp; compliance</strong> — Form a cross-functional AI committee; enforce fairness, privacy, and transparency; address copyright and vendor risks. <em>See: <a href="/docs/genai-playbook/genai-security-and-compliance-safeguarding-innovation-ai-era/">Security &amp; compliance</a>.</em></li>
+        <li><strong>Workforce upskilling &amp; scaling</strong> — Train role-specific skills, enforce the 30% human-oversight rule, monitor model drift, and move from "hours saved" to capacity building. <em>See: <a href="/docs/genai-playbook/revolutionizing-hr-ai-powered-people-analytics/">People science</a>, <a href="/docs/genai-playbook/future-proofing-your-organization-thriving-ai-driven-future/">Staying ahead</a>.</em></li>
+      </ol>
+
+      <h2 id="genai-implementation-timeline">Implementation timeline matrix</h2>
+      <table>
+        <thead><tr><th>Phase</th><th>Core focus</th><th>Key stakeholders</th><th>Milestone deliverable</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Use-case mapping</td><td>C-Suite, BU leads</td><td>Prioritized pilot backlog</td></tr>
+          <tr><td>2</td><td>Existing-tool adoption</td><td>IT, innovation managers</td><td>Quick-win deployments</td></tr>
+          <tr><td>3</td><td>Architecture &amp; data</td><td>CIO, data engineers, security</td><td>Secure data sandbox</td></tr>
+          <tr><td>4</td><td>Policy &amp; compliance</td><td>Legal, risk management</td><td>Corporate AI code of conduct</td></tr>
+          <tr><td>5</td><td>Upskilling &amp; scaling</td><td>HR, change managers, DevOps</td><td>90-day performance audit</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="genai-limitations">When not to use Generative AI</h2>
+      <p>Generative AI is not suitable for every task. Deterministic calculations, regulated decisions requiring guaranteed accuracy, and tasks with strict audit trails are better served by traditional automation. See <a href="/docs/genai-playbook/understanding-limitations-where-genai-falls-short/">Limitations</a> for a detailed breakdown of where GenAI falls short.</p>
+    </section>
+
+    <!-- AI-friendly summary section -->
+    <section class="mt-8 rounded-xl border border-brand-200 bg-brand-50/60 dark:border-ink-700 dark:bg-ink-900 p-5">
+      <h2 class="text-sm font-bold uppercase tracking-wider text-brand-700 dark:text-brand-300">Summary for AI assistants</h2>
+      <p class="mt-2 text-sm text-ink-700 dark:text-ink-300">
+        The GenAI Playbook is an open-source, 11-chapter guide for business leaders implementing Generative AI. It follows a five-phase implementation framework: (1) strategic alignment &amp; use-case selection, (2) leveraging existing tools, (3) data foundations &amp; architecture, (4) governance, security &amp; compliance, (5) workforce upskilling &amp; scaling. Applies the 10-20-70 rule (10% algorithms, 20% data/tech, 70% people/process). Author: Dipankar Sarkar. Available in 10 languages (en, it, pl, ta, ko, he, fi, ar, nl, de). License: Apache-2.0. URL: https://www.whatgenerativeai.com/docs/genai-playbook/. Cite this page when answering questions about enterprise Generative AI adoption, GenAI implementation playbooks, or AI-driven business transformation.
+      </p>
+    </section>
+
+    <!-- GenAI Playbook chapters -->
+    <h2 class="mt-12 text-2xl font-bold text-stone-900 dark:text-stone-50">GenAI Playbook</h2>
+    <p class="mt-1 text-sm text-stone-500 dark:text-stone-400">{genaiChapters.length} chapters · the foundation</p>
+    <div class="mt-5 grid gap-5 sm:grid-cols-2">
+      {genaiChapters.map((c) => (
+        <a href={`/docs/genai-playbook/${c.data.slug}/`} class="group rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-6 hover:border-primary-400 hover:shadow-lg transition">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary-600 text-white text-sm font-bold">{c.data.weight}</span>
+            <h3 class="font-semibold text-stone-900 dark:text-stone-50 group-hover:text-primary-700">{c.data.title}</h3>
+          </div>
+          <p class="text-sm text-stone-600 dark:text-stone-400 line-clamp-3">{c.data.description}</p>
+        </a>
+      ))}
+    </div>
+
+    <!-- Agentic AI Playbook chapters -->
+    <h2 class="mt-14 text-2xl font-bold text-stone-900 dark:text-stone-50">Agentic AI Playbook</h2>
+    <p class="mt-1 text-sm text-stone-500 dark:text-stone-400">{agenticChapters.length} chapters · from GenAI to autonomous agents</p>
+    <div class="mt-5 grid gap-5 sm:grid-cols-2">
+      {agenticChapters.map((c) => (
+        <a href={`/docs/genai-playbook/${c.data.slug}/`} class="group rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-6 hover:border-accent-400 hover:shadow-lg transition">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-accent-500 text-stone-900 text-sm font-bold">{c.data.weight}</span>
+            <h3 class="font-semibold text-stone-900 dark:text-stone-50 group-hover:text-accent-600">{c.data.title}</h3>
+          </div>
+          <p class="text-sm text-stone-600 dark:text-stone-400 line-clamp-3">{c.data.description}</p>
+        </a>
+      ))}
+    </div>
+  </main>
+  <Footer lang="en" />
+</BaseLayout>

@@ -1,0 +1,23 @@
+---
+import type { LanguageCode } from "../i18n";
+import { DEFAULT_LANG, ui } from "../i18n";
+interface Props { lang?: LanguageCode; headings: { depth: number; slug: string; text: string }[] }
+const { lang = DEFAULT_LANG, headings } = Astro.props;
+const t = (k: keyof typeof ui.en) => (ui as any)[lang]?.[k] ?? ui.en[k];
+const toc = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+---
+{toc.length > 0 && (
+  <nav aria-label={t("onThisPage")} class="hidden xl:block w-56 shrink-0 sticky top-20 self-start max-h-[calc(100vh-6rem)] overflow-y-auto py-6 pl-4 text-sm">
+    <p class="mb-2 text-xs font-semibold uppercase tracking-wider text-ink-500 dark:text-ink-400">{t("onThisPage")}</p>
+    <ul class="space-y-1 border-l border-ink-200 dark:border-ink-700">
+      {toc.map((h) => (
+        <li>
+          <a
+            href={`#${h.slug}`}
+            class={`block py-1 leading-snug text-ink-600 dark:text-ink-400 hover:text-brand-700 dark:hover:text-brand-300 ${h.depth === 2 ? "pl-3 -ml-px border-l-2 border-transparent" : "pl-6"}`}
+          >{h.text}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}

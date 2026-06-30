@@ -1,0 +1,69 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import Header from "../../../../components/Header.astro";
+import Footer from "../../../../components/Footer.astro";
+import { LANGUAGES, getLang, ui, type LanguageCode } from "../../../../i18n";
+
+export async function getStaticPaths() {
+  const NON_EN = LANGUAGES.filter((l) => l.code !== "en").map((l) => l.code);
+  return NON_EN.map((code) => ({ params: { lang: code } }));
+}
+
+const { lang } = Astro.params as { lang: LanguageCode };
+const t = (k: keyof typeof ui.en) => (ui as any)[lang]?.[k] ?? ui.en[k];
+const langName: Record<string, string> = { en: "English", it: "Italiano", pl: "Polski", ta: "தமிழ்", ko: "한국어", he: "עברית", fi: "Suomi", ar: "العربية", nl: "Nederlands", de: "Deutsch" };
+
+const chapters = (await getCollection("docs", (e) => e.data.lang === lang && !e.data.draft && !e.id.startsWith("_index")))
+  .sort((a, b) => (a.data.weight ?? 99) - (b.data.weight ?? 99));
+
+const siteUrl = "https://www.whatgenerativeai.com";
+const url = `${siteUrl}/${lang}/docs/genai-playbook/`;
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org", "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/${lang}/` },
+    { "@type": "ListItem", position: 2, name: "GenAI Playbook", item: url },
+  ],
+};
+const collectionJsonLd = {
+  "@context": "https://schema.org", "@type": "CollectionPage",
+  name: t("siteTitle"), url, inLanguage: lang,
+  hasPart: chapters.map((c) => ({ "@type": "Article", headline: c.data.title, url: `${siteUrl}/${lang}/docs/genai-playbook/${c.data.slug}/` })),
+};
+---
+<BaseLayout
+  lang={lang}
+  title={`${t("siteTitle")} — ${t("tagline")}`}
+  description="The complete GenAI Playbook: chapters covering core concepts, transformative potential, leveraging existing tools, departmental integration, data, security, people analytics, limitations, and future-proofing."
+  jsonLd={[breadcrumbJsonLd, collectionJsonLd]}
+>
+  <Header lang={lang} path="/docs/genai-playbook/" />
+  <main id="main" class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
+    <nav class="text-sm text-ink-500 mb-3" aria-label="Breadcrumb">
+      <a href={`/${lang}/`} class="hover:text-brand-700">Home</a> <span aria-hidden="true">/</span> <span class="text-ink-700">{t("navDocs")}</span>
+    </nav>
+    <h1 class="text-4xl font-bold text-ink-900 dark:text-ink-50">{t("siteTitle")}</h1>
+    <p class="mt-3 text-lg text-ink-600 dark:text-ink-400 max-w-2xl">{t("tagline")}.</p>
+
+    <section class="mt-8 rounded-xl border border-brand-200 bg-brand-50/60 dark:border-ink-700 dark:bg-ink-900 p-5">
+      <h2 class="text-sm font-bold uppercase tracking-wider text-brand-700 dark:text-brand-300">{t("citationSummary")}</h2>
+      <p class="mt-2 text-sm text-ink-700 dark:text-ink-300">
+        {chapters.length} chapters · {langName[lang] ?? lang} · Author: Dipankar Sarkar · License: Apache-2.0 · Cite: {url}
+      </p>
+    </section>
+
+    <div class="mt-10 grid gap-5 sm:grid-cols-2">
+      {chapters.map((c) => (
+        <a href={`/${lang}/docs/genai-playbook/${c.data.slug}/`} class="group rounded-xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-6 hover:border-brand-400 hover:shadow-lg transition">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-brand-600 text-white text-sm font-bold">{c.data.weight}</span>
+            <h2 class="font-semibold text-ink-900 dark:text-ink-50 group-hover:text-brand-700">{c.data.title}</h2>
+          </div>
+          <p class="text-sm text-ink-600 dark:text-ink-400 line-clamp-3">{c.data.description}</p>
+        </a>
+      ))}
+    </div>
+  </main>
+  <Footer lang={lang} />
+</BaseLayout>

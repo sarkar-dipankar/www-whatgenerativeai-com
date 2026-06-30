@@ -1,0 +1,50 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import { LANGUAGES, ui, type LanguageCode } from "../../../i18n";
+
+export async function getStaticPaths() {
+  const NON_EN = LANGUAGES.filter((l) => l.code !== "en").map((l) => l.code);
+  return NON_EN.map((code) => ({ params: { lang: code } }));
+}
+const { lang } = Astro.params as { lang: LanguageCode };
+const t = (k: keyof typeof ui.en) => (ui as any)[lang]?.[k] ?? ui.en[k];
+const siteUrl = "https://www.whatgenerativeai.com";
+const url = `${siteUrl}/${lang}/about/`;
+const personJsonLd = {
+  "@context": "https://schema.org", "@type": "Person",
+  name: "Dipankar Sarkar", url: "https://www.dipankar.co",
+  jobTitle: "Author, GenAI Playbook",
+  sameAs: ["https://twitter.com/dipankarsarkar", "https://www.linkedin.com/in/dipankarsarkar", "https://github.com/dipankar", "https://www.amazon.com/Dipankar-Sarkar/e/B0053F136C/"],
+  knowsAbout: ["Generative AI", "AI Strategy", "Digital Transformation", "AI Security", "People Analytics"],
+  worksFor: { "@type": "Organization", name: "What Generative AI" },
+};
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org", "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/${lang}/` },
+    { "@type": "ListItem", position: 2, name: t("navAbout"), item: url },
+  ],
+};
+---
+<BaseLayout lang={lang} title={`${t("navAbout")} — ${t("siteTitle")}`} description="Dipankar Sarkar — author of the GenAI Playbook." jsonLd={[personJsonLd, breadcrumbJsonLd]}>
+  <Header lang={lang} path="/about/" />
+  <main id="main" class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12">
+    <nav class="text-sm text-ink-500 mb-3" aria-label="Breadcrumb"><a href={`/${lang}/`} class="hover:text-brand-700">Home</a> <span aria-hidden="true">/</span> <span class="text-ink-700">{t("navAbout")}</span></nav>
+    <article class="prose">
+      <h1>Dipankar Sarkar</h1>
+      <p class="text-lg text-ink-600 dark:text-ink-400 -mt-2">{t("siteTitle")} — {t("navAbout")}</p>
+      <p>Dipankar Sarkar is the author of <strong>The GenAI Playbook</strong> — an open-source, executive-grade guide to implementing Generative AI in organizations.</p>
+      <p>The Playbook is published in 10 languages under the Apache 2.0 license.</p>
+      <h2>Connect</h2>
+      <ul>
+        <li>Email: <a href="mailto:me@dipankar.co">me@dipankar.co</a></li>
+        <li>X/Twitter: <a href="https://twitter.com/dipankarsarkar">@dipankarsarkar</a></li>
+        <li>LinkedIn: <a href="https://www.linkedin.com/in/dipankarsarkar">dipankarsarkar</a></li>
+        <li>GitHub: <a href="https://github.com/dipankar">dipankar</a></li>
+      </ul>
+    </article>
+  </main>
+  <Footer lang={lang} />
+</BaseLayout>

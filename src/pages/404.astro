@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { DEFAULT_LANG, ui } from "../i18n";
+const t = (k: keyof typeof ui.en) => ui.en[k];
+---
+<BaseLayout lang="en" title="Page not found — What Generative AI" description="The page you were looking for could not be found." noindex>
+  <Header lang="en" />
+  <main id="main" class="mx-auto max-w-2xl px-4 py-24 text-center">
+    <p class="text-6xl font-extrabold text-brand-600">404</p>
+    <h1 class="mt-4 text-3xl font-bold text-ink-900 dark:text-ink-50">Page not found</h1>
+    <p class="mt-2 text-ink-600 dark:text-ink-400">The page you're looking for doesn't exist or has moved.</p>
+    <a href="/" class="mt-6 inline-flex items-center gap-2 rounded-lg bg-brand-600 px-5 py-3 text-white font-semibold hover:bg-brand-700 transition">← Back home</a>
+  </main>
+  <Footer lang="en" />
+</BaseLayout>

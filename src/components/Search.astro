@@ -1,0 +1,39 @@
+---
+import type { LanguageCode } from "../i18n";
+import { DEFAULT_LANG, ui } from "../i18n";
+interface Props { lang?: LanguageCode }
+const { lang = DEFAULT_LANG } = Astro.props;
+const t = (k: keyof typeof ui.en) => (ui as any)[lang]?.[k] ?? ui.en[k];
+---
+<div class="relative">
+  <div id="pagefind-search" data-lang={lang} class="wgai-search"></div>
+  <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+  <style>
+    .wgai-search :global(.pagefind-ui) {
+      --pagefind-ui-primary: var(--color-brand-600, #1a66f2);
+      --pagefind-ui-text: var(--color-ink-700, #334155);
+      --pagefind-ui-background: #ffffff;
+      --pagefind-ui-border: var(--color-ink-200, #e2e8f0);
+      border-radius: 0.5rem;
+    }
+    .dark .wgai-search :global(.pagefind-ui) {
+      --pagefind-ui-text: var(--color-ink-200, #e2e8f0);
+      --pagefind-ui-background: var(--color-ink-900, #0f172a);
+      --pagefind-ui-border: var(--color-ink-700, #334155);
+    }
+  </style>
+</div>
+<script>
+  const el = document.getElementById("pagefind-search");
+  if (el) {
+    // @ts-expect-error - pagefind-ui.js is generated at build time by astro-pagefind
+    import(/* @vite-ignore */ "/pagefind/pagefind-ui.js").then(({ PagefindUI }) => {
+      new PagefindUI({
+        element: "#pagefind-search",
+        showImages: false,
+        pageSize: 8,
+        translations: {},
+      });
+    }).catch(() => {});
+  }
+</script>

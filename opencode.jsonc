@@ -1,0 +1,30 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": ["AGENTS.md"],
+  "default_agent": "build",
+  "agent": {
+    "seo-auditor": {
+      "description": "Audits pages for SEO and AI-search citability: meta, JSON-LD, hreflang, semantic HTML, LCP, llms.txt coverage. Use when optimizing or diagnosing ranking.",
+      "mode": "subagent",
+      "model": "ollama-cloud/glm-5.2",
+      "permission": { "edit": "allow", "bash": { "astro *": "allow", "npm *": "allow", "rg *": "allow", "*": "ask" } }
+    },
+    "ai-cite-researcher": {
+      "description": "Drives CDP browser tabs (Google AI, Perplexity, ChatGPT, Claude) to capture how AIs cite the site and surfaces content gaps. Use when researching AI-search citation and persona queries.",
+      "mode": "subagent",
+      "model": "ollama-cloud/glm-5.2",
+      "permission": { "edit": "allow", "bash": "allow" }
+    },
+    "content-writer": {
+      "description": "Rewrites/creates markdown chapters, FAQ blocks, llms.txt summaries and translations optimized for both classic SEO and AI citations. Use when producing or refreshing content.",
+      "mode": "subagent",
+      "model": "ollama-cloud/glm-5.2",
+      "permission": { "edit": "allow", "bash": { "rg *": "allow", "*": "ask" } }
+    }
+  },
+  "permission": {
+    "edit": "ask",
+    "bash": { "git *": "allow", "npm *": "allow", "node *": "allow", "astro *": "allow", "npx *": "allow", "rg *": "allow", "*": "ask" },
+    "external_directory": { "/tmp/opencode/**": "allow", "*": "ask" }
+  }
+}

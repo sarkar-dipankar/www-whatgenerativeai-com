@@ -1,0 +1,59 @@
+---
+import type { LanguageCode } from "../i18n";
+import { LANGUAGES, DEFAULT_LANG, getLang, localizedPath, ui } from "../i18n";
+interface Props { lang?: LanguageCode; class?: string }
+const { lang = DEFAULT_LANG, class: cls = "" } = Astro.props;
+const current = getLang(lang);
+const path = Astro.url.pathname.replace(/^\/(it|pl|ta|ko|he|fi|ar|nl|de)(\/|$)/, "/");
+const stripSlash = (s: string) => s.replace(/\/$/, "") || "/";
+const cleanPath = stripSlash(path);
+const langHref = (code: string) => {
+  if (cleanPath === "/") return localizedPath(code, "/");
+  return localizedPath(code, cleanPath) + "/";
+};
+---
+<div class={`relative ${cls}`} data-language-switcher>
+  <button
+    id="lang-toggle"
+    type="button"
+    class="inline-flex items-center gap-1.5 h-9 px-3 rounded-md hover:bg-ink-100 dark:hover:bg-ink-800 text-ink-600 dark:text-ink-300 text-sm font-medium"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+  >
+    <span aria-hidden="true">{current.flag}</span>
+    <span class="hidden sm:inline">{current.nativeName}</span>
+    <svg class="h-4 w-4 opacity-60" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+  </button>
+  <ul id="lang-menu" role="listbox" hidden class="absolute right-0 mt-2 w-44 rounded-lg border border-ink-200 bg-white shadow-lg dark:bg-ink-900 dark:border-ink-700 py-1 z-50">
+    {LANGUAGES.map((l) => (
+      <li role="option" aria-selected={l.code === lang}>
+        <a
+          href={langHref(l.code)}
+          class={`flex items-center gap-2 px-3 py-1.5 text-sm hover:bg-ink-100 dark:hover:bg-ink-800 ${l.code === lang ? "font-semibold text-brand-700 dark:text-brand-300" : "text-ink-700 dark:text-ink-200"}`}
+        >
+          <span aria-hidden="true">{l.flag}</span>
+          <span>{l.nativeName}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>
+<script is:inline>
+  (function () {
+    const root = document.querySelector("[data-language-switcher]");
+    if (!root) return;
+    const btn = root.querySelector("#lang-toggle");
+    const menu = root.querySelector("#lang-menu");
+    btn.addEventListener("click", () => {
+      const open = !menu.hasAttribute("hidden");
+      menu.toggleAttribute("hidden", open);
+      btn.setAttribute("aria-expanded", String(!open));
+    });
+    document.addEventListener("click", (e) => {
+      if (!root.contains(e.target)) {
+        menu.setAttribute("hidden", "");
+        btn.setAttribute("aria-expanded", "false");
+      }
+    });
+  })();
+</script>

@@ -1,0 +1,35 @@
+---
+import type { LanguageCode } from "../i18n";
+import { LANGUAGES, DEFAULT_LANG, getLang, localizedPath, ui } from "../i18n";
+import ThemeToggle from "./ThemeToggle.astro";
+
+interface Props {
+  lang?: LanguageCode;
+  path?: string;
+}
+const { lang = DEFAULT_LANG, path = "/" } = Astro.props;
+const meta = getLang(lang);
+const t = (k: keyof typeof ui.en) => (ui as any)[lang]?.[k] ?? ui.en[k];
+const navPath = localizedPath(lang, path);
+---
+<header class="sticky top-0 z-40 border-b border-stone-200/70 bg-stone-50/85 backdrop-blur-md dark:bg-stone-950/85 dark:border-stone-800">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+    <a href={localizedPath(lang, "/")} class="flex items-center gap-2 font-bold text-stone-900 dark:text-stone-50 hover:text-primary-700 dark:hover:text-primary-300">
+      <svg class="h-7 w-7" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect width="32" height="32" rx="8" fill="url(#g)" />
+        <path d="M9 22V10h5a4 4 0 0 1 0 8H9" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M14 18l7 4" stroke="#fff" stroke-width="2.4" stroke-linecap="round" />
+        <defs><linearGradient id="g" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#0d9488" /><stop offset="1" stop-color="#0f766e" /></linearGradient></defs>
+      </svg>
+      <span class="hidden sm:inline text-base tracking-tight">What Generative AI</span>
+    </a>
+
+    <nav class="flex items-center gap-1 sm:gap-2 text-sm font-medium" aria-label={t("language")}>
+      <a href={localizedPath(lang, "/docs/genai-playbook/")} class="px-2.5 py-2 rounded-md hover:bg-ink-100 dark:hover:bg-ink-800 text-ink-700 dark:text-ink-200">{t("navDocs")}</a>
+      <a href={localizedPath(lang, "/book/")} class="px-2.5 py-2 rounded-md hover:bg-ink-100 dark:hover:bg-ink-800 text-ink-700 dark:text-ink-200">Book</a>
+      <a href={localizedPath(lang, "/posts/")} class="px-2.5 py-2 rounded-md hover:bg-ink-100 dark:hover:bg-ink-800 text-ink-700 dark:text-ink-200">{t("navBlog")}</a>
+      <a href={localizedPath(lang, "/about/")} class="px-2.5 py-2 rounded-md hover:bg-ink-100 dark:hover:bg-ink-800 text-ink-700 dark:text-ink-200">{t("navAbout")}</a>
+      <ThemeToggle lang={lang} />
+    </nav>
+  </div>
+</header>

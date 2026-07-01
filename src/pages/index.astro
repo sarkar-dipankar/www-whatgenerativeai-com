@@ -78,40 +78,55 @@ const faqJsonLd = {
 
   <!-- Two playbook split -->
   <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-    <div class="grid gap-8 lg:grid-cols-2">
-      <!-- GenAI Playbook -->
-      <div class="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 overflow-hidden">
+    <div class="text-center mb-10">
+      <h2 class="text-3xl font-bold text-stone-900 dark:text-stone-50">Two playbooks, one guide</h2>
+      <p class="mt-2 text-stone-600 dark:text-stone-400">Start with the GenAI foundation, then master agentic AI.</p>
+    </div>
+    <div class="flex flex-col lg:flex-row gap-6 lg:gap-8 items-stretch">
+      <!-- GenAI Playbook (left) -->
+      <div class="flex-1 lg:mr-4 rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
         <div class="bg-gradient-to-br from-primary-700 to-primary-900 p-6 text-white">
-          <p class="text-xs font-semibold uppercase tracking-widest text-primary-200">Playbook 1</p>
-          <h2 class="mt-2 text-2xl font-bold">The GenAI Playbook</h2>
-          <p class="mt-1 text-primary-100 text-sm">{genaiChapters.length} chapters · the foundation for business leaders</p>
+          <div class="flex items-center justify-between">
+            <p class="text-xs font-semibold uppercase tracking-widest text-primary-200">Playbook 1</p>
+            <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/15 text-xs font-bold text-white">{genaiChapters.length}</span>
+          </div>
+          <h3 class="mt-2 text-2xl font-bold">The GenAI Playbook</h3>
+          <p class="mt-1 text-primary-100 text-sm">The foundation for business leaders</p>
         </div>
-        <div class="p-6 space-y-3">
-          {genaiChapters.slice(0, 5).map((c) => (
+        <div class="p-6 space-y-2.5">
+          {genaiChapters.slice(0, 6).map((c) => (
             <a href={`/docs/genai-playbook/${c.data.slug}/`} class="group flex items-center gap-3 rounded-lg p-2 -m-2 hover:bg-stone-50 dark:hover:bg-stone-800 transition">
               <span class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-primary-100 text-primary-700 text-xs font-bold">{c.data.weight}</span>
               <span class="text-sm font-medium text-stone-700 dark:text-stone-300 group-hover:text-primary-700 truncate">{c.data.title}</span>
             </a>
           ))}
-          <a href="/docs/genai-playbook/" class="inline-flex items-center gap-1 text-sm font-semibold text-primary-700 hover:underline mt-2">View all {genaiChapters.length} chapters →</a>
+          <a href="/docs/genai-playbook/" class="inline-flex items-center gap-1 text-sm font-semibold text-primary-700 hover:underline pt-2">View all {genaiChapters.length} chapters →</a>
         </div>
       </div>
 
-      <!-- Agentic AI Playbook -->
-      <div class="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 overflow-hidden">
+      <!-- Visual divider (desktop only) -->
+      <div class="hidden lg:flex items-center justify-center">
+        <div class="h-48 w-px bg-gradient-to-b from-transparent via-stone-300 dark:via-stone-700 to-transparent"></div>
+      </div>
+
+      <!-- Agentic AI Playbook (right) -->
+      <div class="flex-1 lg:ml-4 rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
         <div class="bg-gradient-to-br from-accent-500 to-accent-700 p-6 text-white">
-          <p class="text-xs font-semibold uppercase tracking-widest text-accent-100">Playbook 2 · New</p>
-          <h2 class="mt-2 text-2xl font-bold">The Agentic AI Playbook</h2>
-          <p class="mt-1 text-accent-50 text-sm">{agenticChapters.length} chapters · from GenAI to autonomous agents</p>
+          <div class="flex items-center justify-between">
+            <p class="text-xs font-semibold uppercase tracking-widest text-accent-100">Playbook 2 · New</p>
+            <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/15 text-xs font-bold text-white">{agenticChapters.length}</span>
+          </div>
+          <h3 class="mt-2 text-2xl font-bold">The Agentic AI Playbook</h3>
+          <p class="mt-1 text-accent-50 text-sm">From GenAI to autonomous agents</p>
         </div>
-        <div class="p-6 space-y-3">
-          {agenticChapters.slice(0, 5).map((c) => (
+        <div class="p-6 space-y-2.5">
+          {agenticChapters.slice(0, 6).map((c) => (
             <a href={`/docs/genai-playbook/${c.data.slug}/`} class="group flex items-center gap-3 rounded-lg p-2 -m-2 hover:bg-stone-50 dark:hover:bg-stone-800 transition">
               <span class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-accent-100 text-accent-700 text-xs font-bold">{c.data.weight}</span>
               <span class="text-sm font-medium text-stone-700 dark:text-stone-300 group-hover:text-accent-600 truncate">{c.data.title}</span>
             </a>
           ))}
-          <a href="/docs/genai-playbook/from-genai-to-agentic-ai/" class="inline-flex items-center gap-1 text-sm font-semibold text-accent-600 hover:underline mt-2">View all {agenticChapters.length} chapters →</a>
+          <a href="/docs/genai-playbook/from-genai-to-agentic-ai/" class="inline-flex items-center gap-1 text-sm font-semibold text-accent-600 hover:underline pt-2">View all {agenticChapters.length} chapters →</a>
         </div>
       </div>
     </div>

@@ -7,8 +7,10 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "preview": "astro build && astro preview --port 4321",
+    "serve": "astro preview --port 4321",
+    "astro": "astro",
+    "pdfs": "python3 scripts/generate-pdfs.py"
   },
   "dependencies": {
     "astro": "^7.0.0",

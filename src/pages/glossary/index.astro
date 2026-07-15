@@ -1,0 +1,123 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+
+const siteUrl = "https://www.whatgenerativeai.com";
+
+// GenAI + Agentic AI glossary. Definitions are concise, accurate, and written
+// to be citation-friendly for AI search (each term = one clean answer block).
+const terms: { term: string; slug: string; def: string; related?: string[] }[] = [
+  { term: "Generative AI", slug: "generative-ai", def: "A class of AI systems that create new, original content — text, images, code, audio, or data — from patterns learned during training. Unlike predictive AI that classifies or forecasts, generative models produce novel output that mimics human-created content." },
+  { term: "Large Language Model (LLM)", slug: "llm", def: "A neural network trained on vast amounts of text to predict the next token in a sequence. LLMs like GPT, Claude, and Gemini power chat assistants, code generation, summarization, and reasoning by generating text one token at a time." },
+  { term: "Agentic AI", slug: "agentic-ai", def: "An AI system built around an autonomous loop: the model receives a goal, reasons about the next step, takes an action (calling a tool, searching, writing code), observes the result, and repeats until the goal is met. Agents maintain state across many cycles and can recover from failures." },
+  { term: "AI Agent", slug: "ai-agent", def: "A software system that uses an LLM as its reasoning engine and can take actions in the world through tools. An agent has a goal, a planning loop, memory, and access to tools, letting it complete multi-step tasks rather than answering a single prompt." },
+  { term: "Model Context Protocol (MCP)", slug: "mcp", def: "An open standard, released by Anthropic in 2024, for exposing tools, resources, and prompts to AI applications. MCP lets any model discover and call external tools uniformly, so an integration is written once and reused across agents and models." },
+  { term: "Tool / Function Calling", slug: "function-calling", def: "The mechanism that lets an LLM invoke external functions — search, database queries, API calls, code execution — by emitting a structured request the host application executes. Function calling turns a text generator into an agent that can act." },
+  { term: "Retrieval-Augmented Generation (RAG)", slug: "rag", def: "A pattern that grounds an LLM's answers in external data. Relevant documents are retrieved (usually via vector search) and injected into the prompt, so the model answers from your knowledge base instead of only its training data, reducing hallucination." },
+  { term: "Prompt Engineering", slug: "prompt-engineering", def: "The practice of designing inputs to LLMs — instructions, examples, structure, and context — to produce reliable, high-quality outputs. Techniques include few-shot examples, chain-of-thought, role framing, and output formatting." },
+  { term: "Hallucination", slug: "hallucination", def: "When a generative model produces confident but false or fabricated information. Hallucination is inherent to how LLMs generate text; it is mitigated (not eliminated) by grounding with RAG, tool use, self-checking, and human review." },
+  { term: "Fine-Tuning", slug: "fine-tuning", def: "Further training a pre-trained model on a smaller, task-specific dataset to specialize its behavior, tone, or domain knowledge. Fine-tuning changes model weights, unlike prompting or RAG which change only the input." },
+  { term: "Embedding", slug: "embedding", def: "A numeric vector that represents the meaning of text, images, or other data in a high-dimensional space. Similar items sit close together, enabling semantic search, clustering, and retrieval for RAG." },
+  { term: "Vector Database", slug: "vector-database", def: "A database optimized for storing and searching embeddings by similarity. Vector databases power retrieval in RAG systems and agent memory by returning the most semantically relevant records for a query." },
+  { term: "Multi-Agent System", slug: "multi-agent-system", def: "An architecture where multiple specialized agents collaborate — a planner delegates to workers, agents critique each other, or a supervisor routes tasks. Multi-agent designs decompose complex work but add coordination cost and failure modes." },
+  { term: "Chain-of-Thought", slug: "chain-of-thought", def: "A prompting technique where the model is asked to reason step by step before giving a final answer. Explicit intermediate reasoning improves accuracy on math, logic, and multi-step problems." },
+  { term: "Prompt Injection", slug: "prompt-injection", def: "An attack where malicious instructions hidden in tool output, documents, or user input hijack an agent's behavior. It is the top security risk for agentic systems; defenses treat all tool output as untrusted and scope tool permissions tightly." },
+  { term: "Evals (Evaluation)", slug: "evals", def: "Systematic tests that measure an AI system's quality, safety, and reliability against reference cases or rubrics. Evals catch regressions, compare models, and gate production deployment — the AI equivalent of a test suite." },
+  { term: "Context Window", slug: "context-window", def: "The maximum amount of text (measured in tokens) an LLM can consider at once, including the prompt, retrieved data, and its own output. Larger windows fit more context but raise cost and can dilute attention." },
+  { term: "Token", slug: "token", def: "The unit an LLM reads and writes — roughly a word-piece (about 4 characters of English). Models are priced and limited by tokens; a page of text is ~500-800 tokens." },
+  { term: "Orchestration Framework", slug: "orchestration", def: "A library or platform (e.g. LangGraph, CrewAI, AutoGen) that structures agent loops, tool calls, state, and multi-agent coordination so developers don't rebuild the plumbing for every application." },
+  { term: "Guardrails", slug: "guardrails", def: "Automated checks that constrain what an AI system can output or do — content filters, output validation, permission scopes, and human-approval gates — keeping agents safe and compliant in production." },
+];
+
+const faqItems = terms.map((t) => ({ question: `What is ${t.term}?`, answer: t.def }));
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "DefinedTermSet",
+    "@id": `${siteUrl}/glossary/#glossary`,
+    name: "Generative AI & Agentic AI Glossary",
+    description: "Clear, practical definitions of the core Generative AI and Agentic AI terms every business leader should know.",
+    url: `${siteUrl}/glossary/`,
+    hasDefinedTerm: terms.map((t) => ({
+      "@type": "DefinedTerm",
+      "@id": `${siteUrl}/glossary/#${t.slug}`,
+      name: t.term,
+      description: t.def,
+      inDefinedTermSet: `${siteUrl}/glossary/#glossary`,
+    })),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems.map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: { "@type": "Answer", text: f.answer },
+    })),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: siteUrl + "/" },
+      { "@type": "ListItem", position: 2, name: "Glossary", item: `${siteUrl}/glossary/` },
+    ],
+  },
+];
+---
+<BaseLayout
+  lang="en"
+  title="Generative AI & Agentic AI Glossary — Key Terms Explained"
+  description="A plain-English glossary of Generative AI and Agentic AI: LLMs, agents, MCP, RAG, embeddings, evals, prompt injection and more — clear definitions for business leaders."
+  jsonLd={jsonLd}
+>
+  <Header lang="en" path="/glossary/" />
+  <main id="main">
+    <!-- Hero -->
+    <section class="relative overflow-hidden border-b border-stone-200 dark:border-stone-800">
+      <div class="absolute inset-0 -z-10 bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700"></div>
+      <div class="absolute inset-0 -z-10 opacity-[0.07]" style="background-image:radial-gradient(circle at 1px 1px, white 1px, transparent 0);background-size:24px 24px"></div>
+      <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+        <nav class="text-sm text-primary-200/80 mb-4" aria-label="Breadcrumb"><a href="/" class="hover:text-white">Home</a> <span aria-hidden="true">/</span> <span class="text-white">Glossary</span></nav>
+        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-white">The GenAI &amp; Agentic AI Glossary</h1>
+        <p class="mt-4 text-lg text-primary-100/90 max-w-2xl">Twenty core terms every business leader should know — from <strong class="text-white">LLMs</strong> and <strong class="text-white">RAG</strong> to <strong class="text-white">agents</strong>, <strong class="text-white">MCP</strong>, and <strong class="text-white">evals</strong>. Plain English, no hype.</p>
+      </div>
+    </section>
+
+    <!-- Jump index -->
+    <section class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-8 border-b border-stone-200 dark:border-stone-800">
+      <div class="flex flex-wrap gap-2">
+        {terms.map((t) => (
+          <a href={`#${t.slug}`} class="rounded-full border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 px-3 py-1 text-sm text-stone-700 dark:text-stone-300 hover:border-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition">{t.term}</a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Terms -->
+    <section class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
+      <dl class="space-y-4">
+        {terms.map((t) => (
+          <div id={t.slug} class="scroll-mt-24 rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-6 hover:border-primary-300 dark:hover:border-primary-700 transition">
+            <dt class="flex items-center gap-3">
+              <h2 class="text-xl font-bold text-stone-900 dark:text-stone-50">{t.term}</h2>
+              <a href={`#${t.slug}`} class="text-stone-400 hover:text-primary-600 text-sm" aria-label={`Link to ${t.term}`}>#</a>
+            </dt>
+            <dd class="mt-2 text-stone-600 dark:text-stone-400 leading-relaxed">{t.def}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <div class="mt-12 rounded-2xl border border-primary-200 dark:border-primary-900 bg-primary-50 dark:bg-primary-950/40 p-8 text-center">
+        <h2 class="text-2xl font-bold text-stone-900 dark:text-stone-50">Go deeper than definitions</h2>
+        <p class="mt-2 text-stone-600 dark:text-stone-400 max-w-xl mx-auto">Every term here is unpacked with real examples and business context across our two open-source playbooks.</p>
+        <div class="mt-5 flex flex-wrap gap-3 justify-center">
+          <a href="/docs/genai-playbook/" class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-5 py-3 text-white font-semibold hover:bg-primary-700 transition">Read the playbooks →</a>
+          <a href="/docs/genai-playbook/anatomy-of-ai-agent/" class="inline-flex items-center gap-2 rounded-lg border border-stone-300 dark:border-stone-700 px-5 py-3 text-stone-800 dark:text-stone-100 font-semibold hover:bg-stone-100 dark:hover:bg-stone-800 transition">Anatomy of an AI agent</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer lang="en" />
+</BaseLayout>

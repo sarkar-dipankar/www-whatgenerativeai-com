@@ -29,7 +29,7 @@ const breadcrumbJsonLd = {
 const collectionJsonLd = {
   "@context": "https://schema.org", "@type": "CollectionPage",
   name: t("siteTitle"), url, inLanguage: lang,
-  hasPart: chapters.map((c) => ({ "@type": "Article", headline: c.data.title, url: `${siteUrl}/${lang}/docs/genai-playbook/${c.data.slug}/` })),
+  hasPart: chapters.map((c) => ({ "@type": "Article", headline: c.data.title, url: `${siteUrl}/${lang}/docs/genai-playbook/${c.data.slug ?? c.id}/` })),
 };
 ---
 <BaseLayout
@@ -55,7 +55,7 @@ const collectionJsonLd = {
 
     <div class="mt-10 grid gap-5 sm:grid-cols-2">
       {chapters.map((c) => (
-        <a href={`/${lang}/docs/genai-playbook/${c.data.slug}/`} class="group rounded-xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-6 hover:border-brand-400 hover:shadow-lg transition">
+        <a href={`/${lang}/docs/genai-playbook/${c.data.slug ?? c.id}/`} class="group rounded-xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-6 hover:border-brand-400 hover:shadow-lg transition">
           <div class="flex items-center gap-3 mb-2">
             <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-brand-600 text-white text-sm font-bold">{c.data.weight}</span>
             <h2 class="font-semibold text-ink-900 dark:text-ink-50 group-hover:text-brand-700">{c.data.title}</h2>

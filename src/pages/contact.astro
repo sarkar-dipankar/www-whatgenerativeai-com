@@ -1,113 +1,127 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 
-const title = 'Contact';
-const description = 'Get in touch with the team. Send us a message and we will get back to you.';
+const title = 'Contact — What Generative AI';
+const description = 'Questions about the GenAI or Agentic AI Playbook? Suggest a chapter, request a translation, report an error, or ask about implementing Generative AI in your organization.';
 
-// The form POSTs to the current path. The worker intercepts POST
-// requests on any path, validates the Turnstile token, and sends
-// the form data via email. The {{TURNSTILE_SITEKEY}} placeholder
-// is replaced at runtime by the worker with the per-zone sitekey.
+// The form POSTs to /contact. The per-zone Cloudflare Worker intercepts
+// POST /contact, validates the Turnstile token, and emails the submission.
+// The {{TURNSTILE_SITEKEY}} placeholder is replaced at runtime by the
+// worker with the per-zone sitekey.
 ---
 
 <BaseLayout title={title} description={description}>
-  <section style="padding: 4rem 0; min-height: 60vh;">
-    <div style="max-width: 640px; margin: 0 auto; padding: 0 1.5rem;">
-      <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Contact</h1>
-      <p style="margin-bottom: 2rem; opacity: 0.7; font-size: 1.1rem;">
-        Send us a message and we will get back to you as soon as possible.
-      </p>
+  <Header lang="en" path="/contact" />
+  <main id="main" class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 py-12">
+    <nav class="text-sm text-stone-500 mb-3" aria-label="Breadcrumb"><a href="/" class="hover:text-primary-700">Home</a> <span aria-hidden="true">/</span> <span class="text-stone-700 dark:text-stone-300">Contact</span></nav>
 
-      <form id="contact-form" method="POST" action="/contact" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 1.5rem;">
-        <div>
-          <label for="name" style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.95rem;">Name <span style="color: #e53e3e;">*</span></label>
-          <input type="text" id="name" name="name" required placeholder="Your name"
-            style="width: 100%; padding: 0.75rem; border: 1px solid rgba(128,128,128,0.3); border-radius: 6px; font-size: 1rem; font-family: inherit; background: rgba(255,255,255,0.05); color: inherit; box-sizing: border-box;" />
-        </div>
+    <h1 class="text-3xl sm:text-4xl font-bold text-stone-900 dark:text-stone-50 mb-3">Contact</h1>
+    <p class="text-stone-600 dark:text-stone-400 leading-relaxed mb-8">
+      Have a question about the <strong>GenAI Playbook</strong> or <strong>Agentic AI Playbook</strong>? Want to suggest a chapter, request a translation, flag an error, or talk through applying Generative AI in your organization? Send a note and the author will get back to you. Prefer email? Reach us at <a href="mailto:contact@whatgenerativeai.com" class="text-primary-700 dark:text-primary-400 hover:underline">contact@whatgenerativeai.com</a>.
+    </p>
 
-        <div>
-          <label for="email" style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.95rem;">Email <span style="color: #e53e3e;">*</span></label>
-          <input type="email" id="email" name="email" required placeholder="you@example.com"
-            style="width: 100%; padding: 0.75rem; border: 1px solid rgba(128,128,128,0.3); border-radius: 6px; font-size: 1rem; font-family: inherit; background: rgba(255,255,255,0.05); color: inherit; box-sizing: border-box;" />
-        </div>
+    <form id="contact-form" method="POST" action="/contact" enctype="multipart/form-data" class="flex flex-col gap-5">
+      <input type="hidden" name="form_type" value="whatgenerativeai-contact" />
+      <input type="hidden" name="subject" value="GenAI Playbook — new enquiry from whatgenerativeai.com" />
 
-        <div>
-          <label for="company" style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.95rem;">Company</label>
-          <input type="text" id="company" name="company" placeholder="Your company (optional)"
-            style="width: 100%; padding: 0.75rem; border: 1px solid rgba(128,128,128,0.3); border-radius: 6px; font-size: 1rem; font-family: inherit; background: rgba(255,255,255,0.05); color: inherit; box-sizing: border-box;" />
-        </div>
-
-        <div>
-          <label for="message" style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.95rem;">Message <span style="color: #e53e3e;">*</span></label>
-          <textarea id="message" name="message" rows="6" required placeholder="Tell us what you need..."
-            style="width: 100%; padding: 0.75rem; border: 1px solid rgba(128,128,128,0.3); border-radius: 6px; font-size: 1rem; font-family: inherit; background: rgba(255,255,255,0.05); color: inherit; box-sizing: border-box; resize: vertical;"></textarea>
-        </div>
-
-        <div>
-          <label for="attachment" style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.95rem;">Attachment (optional, max 4 MB)</label>
-          <input type="file" id="attachment" name="attachment"
-            style="font-size: 0.9rem; font-family: inherit;" />
-        </div>
-
-        <div class="cf-turnstile" data-sitekey="{{TURNSTILE_SITEKEY}}"></div>
-
-        <button type="submit" id="submit-btn"
-          style="padding: 0.75rem 2rem; background: #3b82f6; color: white; border: none; border-radius: 6px; font-size: 1rem; cursor: pointer; font-family: inherit; transition: background 0.2s; align-self: flex-start;">
-          Send Message
-        </button>
-      </form>
-
-      <div id="form-success" style="display: none; margin-top: 2rem; padding: 1.5rem; border-radius: 6px; background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7;">
-        <p style="margin: 0;">Thank you! Your message has been sent. We will get back to you soon.</p>
+      <div>
+        <label for="name" class="block mb-1.5 font-semibold text-sm text-stone-800 dark:text-stone-200">Name <span class="text-red-500">*</span></label>
+        <input type="text" id="name" name="name" required autocomplete="name" placeholder="Your name"
+          class="w-full rounded-md border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 px-3 py-2.5 text-stone-900 dark:text-stone-100 focus:outline-none focus:ring-2 focus:ring-primary-500" />
       </div>
 
-      <div id="form-error" style="display: none; margin-top: 2rem; padding: 1.5rem; border-radius: 6px; background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5;">
-        <p style="margin: 0;" id="form-error-text">Sorry, something went wrong. Please try again or email us directly.</p>
+      <div>
+        <label for="email" class="block mb-1.5 font-semibold text-sm text-stone-800 dark:text-stone-200">Email <span class="text-red-500">*</span></label>
+        <input type="email" id="email" name="email" required autocomplete="email" placeholder="you@example.com"
+          class="w-full rounded-md border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 px-3 py-2.5 text-stone-900 dark:text-stone-100 focus:outline-none focus:ring-2 focus:ring-primary-500" />
       </div>
+
+      <div>
+        <label for="company" class="block mb-1.5 font-semibold text-sm text-stone-800 dark:text-stone-200">Company or organization <span class="text-stone-400 font-normal">(optional)</span></label>
+        <input type="text" id="company" name="company" autocomplete="organization" placeholder="Where you're adopting GenAI"
+          class="w-full rounded-md border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 px-3 py-2.5 text-stone-900 dark:text-stone-100 focus:outline-none focus:ring-2 focus:ring-primary-500" />
+      </div>
+
+      <div>
+        <label for="message" class="block mb-1.5 font-semibold text-sm text-stone-800 dark:text-stone-200">Message <span class="text-red-500">*</span></label>
+        <textarea id="message" name="message" rows="6" required placeholder="Chapter suggestion, translation request, errata, or an implementation question…"
+          class="w-full rounded-md border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 px-3 py-2.5 text-stone-900 dark:text-stone-100 focus:outline-none focus:ring-2 focus:ring-primary-500 resize-y"></textarea>
+      </div>
+
+      <div>
+        <label for="attachment" class="block mb-1.5 font-semibold text-sm text-stone-800 dark:text-stone-200">Attachment <span class="text-stone-400 font-normal">(optional, max 4 MB)</span></label>
+        <input type="file" id="attachment" name="attachment" class="text-sm text-stone-600 dark:text-stone-400" />
+      </div>
+
+      <div class="cf-turnstile" data-sitekey="{{TURNSTILE_SITEKEY}}"></div>
+
+      <button type="submit" id="submit-btn"
+        class="self-start rounded-lg bg-primary-600 px-6 py-2.5 font-semibold text-white hover:bg-primary-700 transition disabled:opacity-60">
+        Send message
+      </button>
+    </form>
+
+    <div id="form-success" role="status" class="hidden mt-6 rounded-md border border-green-300 bg-green-50 text-green-800 px-4 py-4">
+      <p class="m-0">Thank you! Your message has been sent — the author will get back to you soon.</p>
     </div>
-  </section>
+
+    <div id="form-error" role="alert" class="hidden mt-6 rounded-md border border-red-300 bg-red-50 text-red-800 px-4 py-4">
+      <p class="m-0" id="form-error-text">Sorry, something went wrong. Please try again or email <a href="mailto:contact@whatgenerativeai.com" class="underline">contact@whatgenerativeai.com</a>.</p>
+    </div>
+  </main>
+  <Footer lang="en" />
 </BaseLayout>
 
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script>
-  const form = document.getElementById('contact-form');
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
   const successDiv = document.getElementById('form-success');
   const errorDiv = document.getElementById('form-error');
   const errorText = document.getElementById('form-error-text');
-  const submitBtn = document.getElementById('submit-btn');
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement | null;
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending...';
-    submitBtn.style.opacity = '0.6';
+  function resetTurnstile() {
+    const w = window as unknown as { turnstile?: { reset: () => void } };
+    if (w.turnstile) w.turnstile.reset();
+  }
 
-    try {
-      const formData = new FormData(form);
-      const response = await fetch(form.action, {
-        method: 'POST',
-        body: formData,
-      });
-      const result = await response.json();
-
-      if (result.success) {
-        form.style.display = 'none';
-        successDiv.style.display = 'block';
-      } else {
-        errorText.textContent = result.error || 'Something went wrong.';
-        errorDiv.style.display = 'block';
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Send Message';
-        submitBtn.style.opacity = '1';
-        if (window.turnstile) turnstile.reset();
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending…';
       }
-    } catch (err) {
-      errorText.textContent = 'Network error. Please try again.';
-      errorDiv.style.display = 'block';
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Send Message';
-      submitBtn.style.opacity = '1';
-      if (window.turnstile) turnstile.reset();
-    }
-  });
+
+      const fail = (msg: string) => {
+        if (errorText) errorText.textContent = msg;
+        if (errorDiv) errorDiv.classList.remove('hidden');
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Send message';
+        }
+        resetTurnstile();
+      };
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+        });
+        const result = await response.json();
+
+        if (result.success) {
+          form.style.display = 'none';
+          if (errorDiv) errorDiv.classList.add('hidden');
+          if (successDiv) successDiv.classList.remove('hidden');
+        } else {
+          fail(result.error || 'Something went wrong. Please try again.');
+        }
+      } catch (err) {
+        fail('Network error. Please try again.');
+      }
+    });
+  }
 </script>

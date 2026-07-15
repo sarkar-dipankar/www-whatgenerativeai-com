@@ -22,7 +22,7 @@ const posts = (await getCollection("posts", (e) => e.data.lang === lang && !e.da
     <h1 class="text-4xl font-bold text-ink-900 dark:text-ink-50">{t("navBlog")}</h1>
     <div class="mt-8 space-y-6">
       {posts.map((p) => (
-        <a href={`/${lang}/posts/${p.data.slug}/`} class="group block rounded-xl border border-ink-200 dark:border-ink-800 p-6 hover:border-brand-400 hover:shadow-lg transition">
+        <a href={`/${lang}/posts/${p.data.slug ?? p.id}/`} class="group block rounded-xl border border-ink-200 dark:border-ink-800 p-6 hover:border-brand-400 hover:shadow-lg transition">
           <p class="text-xs text-ink-500">{new Date(p.data.date ?? Date.now()).toLocaleDateString(lang, { year: "numeric", month: "long", day: "numeric" })} · {p.data.author}</p>
           <h2 class="mt-1 text-xl font-bold text-ink-900 dark:text-ink-50 group-hover:text-brand-700">{p.data.title}</h2>
           <p class="mt-2 text-ink-600 dark:text-ink-400">{p.data.description}</p>

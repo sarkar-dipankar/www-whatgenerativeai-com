@@ -1,0 +1,11 @@
+{
+  "$comment": "aeo-toolkit per-site config. Defaults and rationale: aeo/config.py",
+  "site_url": "https://www.whatgenerativeai.com",
+  "family": "www-whatgenerativeai-com",
+  "role": "core",
+  "model": "minishlab/potion-retrieval-32M",
+  "generated_prefixes": [],
+  "exempt_prefixes": [],
+  "thresholds": {},
+  "calibrated": ""
+}

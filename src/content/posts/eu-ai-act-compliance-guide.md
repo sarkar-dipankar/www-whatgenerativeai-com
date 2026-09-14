@@ -1,6 +1,6 @@
 ---
 title: "EU AI Act Compliance: What AI Teams Need to Know in 2026"
-description: "The EU AI Act is fully in force in 2026. Here's what AI teams need to know about risk classifications, obligations, and practical compliance steps for GenAI and agents."
+description: "The EU AI Act is fully in force in 2026. What AI teams need to know about risk classifications, obligations, and practical compliance steps for GenAI and agents."
 slug: "eu-ai-act-compliance-guide"
 date: "2026-06-15"
 author: "Dipankar Sarkar"

@@ -5,7 +5,7 @@ date: "2024-08-27"
 author: "Innovation Strategy Team"
 tags: ["Generative AI", "Business Innovation", "Digital Transformation", "AI Culture", "Disruptive Technologies"]
 categories: ["Technology", "Business Strategy"]
-description: "Explore how organizations can leverage Generative AI to move beyond process automation, fostering a culture of innovation and driving transformative change across industries."
+description: "How organizations use Generative AI to move beyond process automation, building a culture of innovation and driving transformative change across industries."
 slug: "from-automation-to-innovation-unleashing-genai-transformative-potential"
 weight: 5
 lang: en

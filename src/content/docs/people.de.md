@@ -1,6 +1,6 @@
 ---
 
-title: "People Science"
+title: "KI-gestützte People Analytics"
 date: "2024-08-27"
 author: "HR-Innovationsteam"
 tags: ["Generative KI", "People Analytics", "HR-Technologie", "Talentmanagement", "Organisationsdynamik"]

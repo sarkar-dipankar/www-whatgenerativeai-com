@@ -17,7 +17,7 @@ An agent without tools is just a chatbot. Tools turn a language model into a sys
 
 ## Function calling: the primitive
 
-Function calling lets a model emit a **structured request to call a function**, instead of (or alongside) text. The model doesn't execute the function — it returns a JSON-like call, and your runtime executes it.
+Function calling lets a model emit a **structured request to call a function**, instead of (or alongside) text. The model doesn't execute the function — it returns a JSON-like call, and your runtime executes it. The same schema-constrained-generation mechanism that makes this reliable is covered in more depth in [structured outputs: getting reliable JSON from LLMs](/posts/structured-outputs-reliable-json-from-llms/).
 
 Example: you give the model a tool spec:
 

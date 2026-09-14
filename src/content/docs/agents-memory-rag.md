@@ -13,7 +13,7 @@ lang: en
 # Memory, RAG & Knowledge for Agents
 **Giving agents a long-term memory**
 
-A model's context window is short-term memory. An agent that runs for hours, across sessions, or over a large knowledge base needs more. This chapter covers the memory architectures that make agents useful beyond a single chat: retrieval-augmented generation (RAG), vector and graph stores, and the "agent-native" RAG patterns that emerged in 2025–2026.
+A model's context window is short-term memory. An agent that runs for hours, across sessions, or over a large knowledge base needs more. This chapter covers the memory architectures that make agents useful beyond a single chat: retrieval-augmented generation (RAG), vector and graph stores, and the "agent-native" RAG patterns that emerged in 2025–2026. Deciding what to retrieve and how to assemble it is one piece of the broader discipline covered in [context engineering vs prompt engineering](/posts/context-engineering-vs-prompt-engineering/).
 
 ## The memory problem
 

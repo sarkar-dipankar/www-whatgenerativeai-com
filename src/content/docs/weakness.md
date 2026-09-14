@@ -5,7 +5,7 @@ date: "2024-08-27"
 author: "AI Strategy Team"
 tags: ["Generative AI", "AI Limitations", "Technology Strategy", "AI Implementation"]
 categories: ["Technology", "AI Strategy"]
-description: "Explore the limitations of Generative AI and understand which use cases are better suited for traditional approaches, enabling more informed decision-making in AI adoption."
+description: "The limitations of Generative AI and which use cases are better suited to traditional approaches, for more informed AI-adoption decisions."
 slug: "understanding-limitations-where-genai-falls-short"
 weight: 12
 lang: en

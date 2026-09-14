@@ -34,10 +34,14 @@ const {
 const t = (k: keyof typeof ui.en) => (ui as any)[lang]?.[k] ?? ui.en[k];
 const jsonLd = [articleJsonLd, breadcrumbJsonLd].filter(Boolean) as object[];
 const base = localizedPath(lang, "/docs/genai-playbook/");
+// Chapter titles are short nav-style labels ("Data is key", "Limitations"), so the
+// <title> tag needs the site suffix to clear the 30-65 char SEO window. The H1
+// below stays the clean chapter title — no suffix there.
+const pageTitle = `${title} — ${t("siteTitle")}`;
 ---
 <BaseLayout
   lang={lang}
-  title={title}
+  title={pageTitle}
   description={description}
   type="article"
   publishedTime={date}

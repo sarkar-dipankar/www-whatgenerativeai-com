@@ -53,6 +53,24 @@ An LLM that sends emails, modifies production databases, or spends money without
 
 **Use instead**: Agents with human-in-the-loop approval gates for any destructive action. See the [Security chapter](/docs/genai-playbook/agents-security-governance/).
 
+## A quick test before you commit to GenAI
+
+Before building a feature around an LLM, ask three questions:
+
+1. **Can a wrong answer be caught before it causes harm?** If a human reviews the output before it's acted on, GenAI's occasional errors are a quality-control problem. If the output triggers an action directly — a payment, a send, a database write — a hallucination becomes an incident.
+2. **Does "close enough" count as correct?** Drafting, summarizing, and brainstorming tolerate a range of good answers. Calculating a tax liability or matching a legal clause does not — there is exactly one right answer, and a fluent wrong one is worse than an obvious error because it's harder to catch.
+3. **Will the same input need the same output tomorrow?** If yes, and the business depends on that repeatability, a rule engine or a template will outperform a model that can drift between runs even at temperature zero.
+
+If the answer to any of these points toward "no," that's a signal to use GenAI for a supporting role (drafting, summarizing, suggesting) rather than the decision itself.
+
+## Where teams get burned in practice
+
+The failures above are rarely the "the model made stuff up" story people expect. More often:
+
+- **A team ships a support bot that answers policy questions from training data, not the current policy.** The model wasn't wrong when it was trained — it's wrong because the policy changed and nobody wired up retrieval. This looks like a hallucination bug but is really a missing-RAG bug.
+- **A cost-estimation feature drifts slightly between identical requests.** Nobody notices until finance reconciles two "identical" quotes that don't match, and the root cause is temperature and sampling, not a code defect.
+- **An agent with a destructive tool (delete, refund, cancel) gets prompt-injected through a document it was asked to summarize.** The fix isn't a smarter model — it's treating all tool output as untrusted input and gating the destructive action behind human approval, regardless of how confident the agent sounds.
+
 ## The agentic shift changes the framing
 
 In 2024 the question was "can this LLM do X?" In 2026 it's "can an agent that uses this LLM, plus tools, plus verification, reliably do X?" Agents don't eliminate hallucination — they add scaffolding (planning, tool-use, self-check) that contains it.

@@ -1,6 +1,6 @@
 ---
-title: "LangGraph vs CrewAI vs OpenAI Agents SDK: Choosing an Agent Framework"
-description: "A practical comparison of the five agent orchestration frameworks that matter in 2026 — LangGraph, CrewAI, AutoGen, OpenAI Agents SDK, and Claude Agent SDK — with a decision tree."
+title: "LangGraph vs CrewAI vs OpenAI Agents SDK: Which to Choose"
+description: "A practical comparison of agent orchestration frameworks that matter in 2026 — LangGraph, CrewAI, AutoGen, OpenAI Agents SDK — with a decision tree."
 slug: "ai-agent-orchestration-langgraph-vs-crewai"
 date: "2026-06-23"
 author: "Dipankar Sarkar"
@@ -66,6 +66,20 @@ Does for Claude what OpenAI's SDK does for GPT. Powers Claude's agentic coding f
 ## The #1 mistake
 
 Over-orchestrating. If your agent is one model + three tools + a human review, a 50-line script with the Claude or OpenAI SDK beats a 500-line LangGraph graph. Reach for heavier frameworks when the flow actually needs them.
+
+## A worked example: routing a support ticket
+
+To make the trade-offs concrete, take one task — triaging an inbound support ticket — and see how each framework would shape it.
+
+**Vendor SDK (Claude Agent SDK or OpenAI Agents SDK):** one agent, three tools (search the knowledge base, look up the account, draft a reply), and a human-approval gate before sending. This is the entire problem for most teams. The vendor SDK's built-in loop, tracing, and guardrails are enough; adding a graph framework on top buys you nothing but YAML to maintain.
+
+**LangGraph:** worth it once the ticket needs branching — a node that classifies severity, a conditional edge that routes billing issues to one sub-flow and bugs to another, and a checkpoint so a ticket that stalls overnight resumes exactly where it left off rather than re-running from scratch. The graph is the right abstraction when "what happens next" depends on state you've already computed.
+
+**CrewAI:** a fit if the triage genuinely needs distinct roles collaborating — a Classifier agent hands off to a Drafter agent, which hands off to a Reviewer agent — and you want that division of labor to be legible in the code, not just an internal function call.
+
+## Migrating between frameworks later
+
+Switching later is not free, and the cost is concentrated in two places: the **tool definitions** (each framework wants its own schema/decorator shape, so tools get rewritten, not ported) and the **state model** (LangGraph's typed state object has no direct equivalent in a vendor SDK's simpler message history, so branching logic has to be re-derived, not translated). Prompts, system instructions, and evals usually carry over with light editing. Budget a migration as a partial rewrite of the orchestration layer, not a config change — which is the strongest argument for starting with the lightest framework that fits today's flow rather than the most capable one you might need later.
 
 ---
 

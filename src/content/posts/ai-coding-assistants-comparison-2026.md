@@ -1,6 +1,6 @@
 ---
-title: "AI Coding Assistants in 2026: Copilot, Cursor, Claude Code, Windsurf"
-description: "A practical comparison of the AI coding assistants that matter in 2026 — GitHub Copilot, Cursor, Claude Code, and Windsurf — with agentic coding capabilities and team adoption patterns."
+title: "AI Coding Assistants in 2026: Copilot vs Cursor vs Claude Code"
+description: "A practical comparison of the AI coding assistants that matter in 2026 — GitHub Copilot, Cursor, Claude Code, Windsurf — agentic capabilities and team adoption."
 slug: "ai-coding-assistants-comparison-2026"
 date: "2026-06-16"
 author: "Dipankar Sarkar"

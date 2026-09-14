@@ -1,5 +1,5 @@
 ---
-title: "Generative AI for Automation: 10 Use Cases That Actually Work in 2026"
+title: "Generative AI for Automation: 10 Use Cases That Work in 2026"
 description: "Ten proven Generative AI automation use cases for businesses — from email triage to report generation to data analysis — with implementation patterns for each."
 slug: "generative-ai-automation-use-cases"
 date: "2026-06-22"

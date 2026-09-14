@@ -5,7 +5,7 @@ date: "2024-08-27"
 author: "Dipankar Sarkar"
 tags: ["Generative AI", "Data Structuring", "Data Governance", "AI Implementation", "Data Pipelines"]
 categories: ["Technology", "Data Management"]
-description: "Learn how to effectively structure and manage data for Generative AI implementation, including building robust data pipelines, ensuring data quality, and establishing strong governance practices."
+description: "How to structure and manage data for Generative AI: building robust data pipelines, ensuring data quality, and establishing strong governance practices."
 slug: "structuring-data-for-genai-foundation-ai-driven-innovation"
 weight: 6
 lang: en

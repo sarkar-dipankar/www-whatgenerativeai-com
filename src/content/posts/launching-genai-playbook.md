@@ -5,7 +5,7 @@ date: "2024-07-27"
 author: "Dipankar Sarkar"
 tags: ["Generative AI", "Business Innovation", "Digital Transformation", "AI Strategy", "Machine Learning"]
 categories: ["Technology", "Business Strategy", "Artificial Intelligence"]
-description: "Introducing the GenAI Playbook, a comprehensive guide for organizations looking to harness the power of Generative AI. Learn how this resource can help you navigate the complex world of AI and drive meaningful transformation in your business."
+description: "Introducing the GenAI Playbook, a guide for organizations looking to harness Generative AI and navigate meaningful transformation in their business."
 slug: "announcing-genai-playbook-guide-ai-driven-business-transformation"
 lang: en
 ---
@@ -30,6 +30,14 @@ The GenAI Playbook covers a wide range of topics crucial for successful AI imple
 5. Fostering a culture of continuous learning and innovation in the age of AI
 
 Whether you're a C-suite executive looking to drive AI-powered digital transformation, an IT leader tasked with implementing AI solutions, or an entrepreneur aiming to disrupt industries with AI-powered innovations, this playbook has something for you.
+
+## What's actually in the playbook
+
+The GenAI Playbook has grown into 21 chapters across two parts. The **GenAI Playbook** covers the foundation: [core ideas & concepts](/docs/genai-playbook/unveiling-power-generative-ai-new-era-business/), [getting started with existing tools](/docs/genai-playbook/harnessing-power-existing-genai-tools-practical-guide-businesses/), [cross-functional impact](/docs/genai-playbook/revolutionizing-business-functions-departmental-genai-integration/), [structuring your data](/docs/genai-playbook/structuring-data-for-genai-foundation-ai-driven-innovation/), [implementing and measuring ROI](/docs/genai-playbook/crafting-success-building-internal-genai-use-cases/), [people analytics](/docs/genai-playbook/revolutionizing-hr-ai-powered-people-analytics/), [security & compliance](/docs/genai-playbook/genai-security-and-compliance-safeguarding-innovation-ai-era/), and [staying ahead](/docs/genai-playbook/future-proofing-your-organization-thriving-ai-driven-future/) as the landscape shifts.
+
+The newer **Agentic AI Playbook** goes further, into building and running autonomous agents: the [anatomy of an AI agent](/docs/genai-playbook/anatomy-of-ai-agent/), [tools, function calling & MCP](/docs/genai-playbook/tools-function-calling-mcp/), [orchestration frameworks](/docs/genai-playbook/agent-orchestration-frameworks/) like LangGraph and CrewAI, [multi-agent systems](/docs/genai-playbook/multi-agent-systems/), [security, prompt injection & governance](/docs/genai-playbook/agents-security-governance/), and [deploying agents to production](/docs/genai-playbook/deploying-agents-in-production/). It closes with a look at [where agentic AI goes next](/docs/genai-playbook/agents-future/).
+
+The whole guide is open-source (Apache-2.0), available in the [glossary](/glossary/) for quick term lookups, and translated into ten languages so it's usable well beyond English-speaking teams.
 
 ## Our Approach
 

@@ -1,6 +1,6 @@
 ---
 title: "The Future of Generative AI: 7 Predictions for 2026-2027"
-description: "Where is Generative AI heading? Seven calibrated predictions for 2026-2027 — on-device agents, the agentic web, autonomous organizations, open vs closed models, and what leaders should bet on."
+description: "Where is Generative AI heading? Calibrated predictions for 2026-2027 on on-device agents, the agentic web, autonomous organizations, and open vs closed models."
 slug: "future-of-generative-ai-predictions-2026"
 date: "2026-06-14"
 author: "Dipankar Sarkar"

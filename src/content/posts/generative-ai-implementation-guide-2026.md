@@ -1,6 +1,6 @@
 ---
 title: "Generative AI Implementation: A Complete Guide for 2026"
-description: "A practical, step-by-step guide to implementing Generative AI in your organization in 2026 — from use-case selection to production deployment, with ROI metrics and security guardrails."
+description: "A practical, step-by-step guide to implementing Generative AI in your organization in 2026, from use-case selection to production, with ROI metrics."
 slug: "generative-ai-implementation-guide-2026"
 date: "2026-06-29"
 author: "Dipankar Sarkar"
@@ -31,7 +31,7 @@ GenAI is only as good as the data behind it. Audit your data quality, consolidat
 
 ### Phase 4: Governance, security & compliance
 
-Form a cross-functional AI committee. Address the OWASP LLM Top-10. Align with the EU AI Act (in force 2026). For agentic systems specifically, defend against **prompt injection** — where untrusted tool output hijacks the agent into executing malicious actions.
+Form a cross-functional AI committee. Address the OWASP LLM Top-10. Align with the EU AI Act (in force 2026). For agentic systems specifically, defend against **prompt injection** — where untrusted tool output hijacks the agent into executing malicious actions. If you're formalizing who owns these decisions across more than one or two pilots, see [building an AI Center of Excellence](/posts/ai-center-of-excellence-governance-operating-model/) for the operating model.
 
 ### Phase 5: Workforce upskilling & scaling
 
@@ -53,6 +53,15 @@ Train role-specific skills, enforce the 30% human-oversight rule (agents do 70%,
 2. **Ignoring evals** — shipping without tracing, evaluation, or observability. You can't fix what you can't see.
 3. **Model lock-in** — building directly on one vendor's API without a model gateway (LiteLLM, Portkey).
 4. **Treating GenAI as IT-only** — the 70% people/process work is the hardest part, and it's not an IT problem.
+
+## How to know a phase is actually done
+
+Each phase above has a milestone deliverable, but "delivered" and "done" aren't the same thing. A phase is genuinely complete when the next phase's owner can start without waiting on the previous one:
+
+- **Phase 1 is done** when the pilot backlog has business-impact estimates attached to each use case, not just a list of ideas — otherwise Phase 3's data team has no way to prioritize which data sources to tackle first.
+- **Phase 2 is done** when you can name specific tasks that off-the-shelf tools solved and specific tasks they didn't — that gap is exactly what Phase 3's custom-build decisions should target, rather than building everything from scratch out of habit.
+- **Phase 4 is done** when the AI code of conduct has been reviewed by legal, not just drafted by the AI committee — a policy nobody outside the committee has seen isn't a governance control yet.
+- **Phase 5 is done** when the 90-day audit compares actual outcomes (time saved, error rates, adoption) against the estimates from Phase 1 — closing that loop is what turns "we did an AI project" into a program you can repeat for the next use case.
 
 ## Where to go deeper
 

@@ -66,7 +66,7 @@ const faqJsonLd = {
 <BaseLayout
   lang="en"
   title="The GenAI Playbook — Implement Generative AI in Business"
-  description="The complete GenAI Playbook: 11 chapters covering core concepts, transformative potential, leveraging existing tools, departmental integration, data, security, people analytics, limitations, and future-proofing."
+  description="The complete GenAI Playbook: chapters on core concepts, transformative potential, existing tools, departmental integration, data, security, and people analytics."
   jsonLd={[breadcrumbJsonLd, collectionJsonLd, faqJsonLd]}
 >
   <Header lang="en" path="/docs/genai-playbook/" />
@@ -156,6 +156,19 @@ const faqJsonLd = {
         </a>
       ))}
     </div>
+
+    <!-- FAQ (mirrors faqJsonLd — keep both in sync) -->
+    <section class="mt-14 max-w-3xl">
+      <h2 class="text-2xl font-bold text-stone-900 dark:text-stone-50">Frequently asked questions</h2>
+      <div class="mt-5 space-y-6">
+        {faqJsonLd.mainEntity.map((qa) => (
+          <div>
+            <h3 class="font-semibold text-stone-900 dark:text-stone-50">{qa.name}</h3>
+            <p class="mt-1.5 text-stone-600 dark:text-stone-400">{qa.acceptedAnswer.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
   </main>
   <Footer lang="en" />
 </BaseLayout>

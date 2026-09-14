@@ -44,7 +44,7 @@ const breadcrumbJsonLd = {
 ---
 <BaseLayout
   lang="en"
-  title={`${post.data.title} — What Generative AI`}
+  title={post.data.title}
   description={post.data.description ?? post.data.title}
   type="article"
   publishedTime={post.data.date ? new Date(post.data.date ?? Date.now()).toISOString() : undefined}

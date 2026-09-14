@@ -58,6 +58,22 @@ Track **cost-per-successful-run**, not cost-per-run.
 - **Canary deployment** — 5% traffic to new version, watch error rate and cost, ramp up.
 - **Rollback** — keep the previous version runnable; a flag flips traffic back.
 
+## Observability: what to actually log
+
+A trace that only shows "agent ran, took 4.2s, cost $0.03" is not enough to debug a production incident. Log, per run:
+
+- **Every tool call with its arguments and result** — not just that a tool ran, but what it was asked to do and what it returned. Most agent bugs are a tool called with the wrong argument, not a model reasoning failure.
+- **The full message history sent to the model at each step** — context windows drift as an agent runs; without the actual prompt at step 7, you're debugging blind.
+- **Token counts and cost per step, not just per run** — a run that costs $2 because one step re-sent a 50K-token document is a different bug than one that costs $2 because it took 40 steps.
+- **A stable run ID that ties every log line, trace span, and user-facing error back to one execution** — so a support ticket ("my request failed") maps directly to one trace, not a grep through shared logs.
+
+## Common production incidents and their root cause
+
+- **The agent loops without making progress.** Almost always a missing or misconfigured step cap combined with a tool that returns success on a no-op — the agent thinks it needs to keep trying. Fix the step cap first, then check whether the tool's response actually signals failure correctly.
+- **Costs spike overnight with no traffic increase.** Usually a context-pruning regression — a code change stopped truncating tool output, so every run now carries a much larger prompt. Track median and p99 token count per run, not just total cost, to catch this before the bill does.
+- **One tenant's traffic degrades everyone.** A symptom of missing per-tenant rate limits, not a capacity problem — adding more compute doesn't fix a noisy-neighbor issue, isolation does.
+- **A new agent version looks fine in shadow runs but fails in production.** Shadow runs compare against real inputs but not real *consequences* — a version that behaves differently once its output is actually acted on (a tool call that mutates state, a message that gets sent) won't show its failure mode until canary. This is the argument for a slow canary ramp, not a fast one.
+
 ## The operational checklist
 
 - [ ] Streaming (users see progress)

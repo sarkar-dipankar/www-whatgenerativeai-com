@@ -30,8 +30,10 @@ const terms: { term: string; slug: string; def: string; related?: string[] }[] =
   { term: "Guardrails", slug: "guardrails", def: "Automated checks that constrain what an AI system can output or do — content filters, output validation, permission scopes, and human-approval gates — keeping agents safe and compliant in production." },
 ];
 
-const faqItems = terms.map((t) => ({ question: `What is ${t.term}?`, answer: t.def }));
-
+// Note: this page renders each term as a <dt>/<dd> definition, not as a literal
+// "What is X?" question — so it is NOT an FAQPage. Emitting a synthetic Question
+// per term would describe text the page never shows, which Google's structured-data
+// guidelines forbid. DefinedTermSet is the correct (and only) node for a glossary.
 const jsonLd = [
   {
     "@context": "https://schema.org",
@@ -50,15 +52,6 @@ const jsonLd = [
   },
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqItems.map((f) => ({
-      "@type": "Question",
-      name: f.question,
-      acceptedAnswer: { "@type": "Answer", text: f.answer },
-    })),
-  },
-  {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: siteUrl + "/" },
@@ -70,7 +63,7 @@ const jsonLd = [
 <BaseLayout
   lang="en"
   title="Generative AI & Agentic AI Glossary — Key Terms Explained"
-  description="A plain-English glossary of Generative AI and Agentic AI: LLMs, agents, MCP, RAG, embeddings, evals, prompt injection and more — clear definitions for business leaders."
+  description="A plain-English glossary of Generative AI and Agentic AI: LLMs, agents, MCP, RAG, embeddings, evals, prompt injection, and more, for business leaders."
   jsonLd={jsonLd}
 >
   <Header lang="en" path="/glossary/" />

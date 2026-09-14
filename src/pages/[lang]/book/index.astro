@@ -2,13 +2,17 @@
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Header from "../../../components/Header.astro";
 import Footer from "../../../components/Footer.astro";
-import { LANGUAGES, type LanguageCode } from "../../../i18n";
+import { LANGUAGES, getLang, type LanguageCode } from "../../../i18n";
 
 export async function getStaticPaths() {
   const NON_EN = LANGUAGES.filter((l) => l.code !== "en").map((l) => l.code);
   return NON_EN.map((code) => ({ params: { lang: code } }));
 }
 const { lang } = Astro.params as { lang: LanguageCode };
+// The book's title is a fixed proper noun (its English publication title), so it
+// is not translated — append the page's own language so each locale's /book page
+// has a distinct <title> instead of nine identical ones.
+const nativeName = getLang(lang).nativeName;
 const siteUrl = "https://www.whatgenerativeai.com";
 const url = `${siteUrl}/${lang}/book/`;
 const amazonUrl = "https://www.amazon.com/AI-Everyday-Automation-Workflows-Hours/dp/1808089812/";
@@ -31,7 +35,7 @@ const breadcrumbJsonLd = {
   ],
 };
 ---
-<BaseLayout lang={lang} title="AI for Everyday Automation — Dipankar Sarkar" description="AI for Everyday Automation: 7 AI Workflows to Save Hours at Work Every Week. By Dipankar Sarkar, published by Packt." image="/book-cover.svg" jsonLd={[bookJsonLd, breadcrumbJsonLd]}>
+<BaseLayout lang={lang} title={`AI for Everyday Automation — Dipankar Sarkar (${nativeName})`} description="AI for Everyday Automation: 7 AI Workflows to Save Hours at Work Every Week. By Dipankar Sarkar, published by Packt." image="/book-cover.svg" jsonLd={[bookJsonLd, breadcrumbJsonLd]}>
   <Header lang={lang} path="/book/" />
   <main id="main" class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12">
     <nav class="text-sm text-ink-500 mb-6" aria-label="Breadcrumb"><a href={`/${lang}/`} class="hover:text-brand-700">Home</a> <span aria-hidden="true">/</span> <span class="text-ink-700">Book</span></nav>

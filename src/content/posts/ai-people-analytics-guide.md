@@ -46,6 +46,24 @@ The minimum:
 - **Model layer** — for most use cases, a fine-tuned LLM or even a well-prompted Claude/GPT is sufficient. For high-stakes prediction (flight risk), use interpretable models (gradient-boosted trees with SHAP).
 - **Agent layer** — for agentic workflows, use LangGraph or the vendor SDKs with strict human-in-the-loop gates.
 
+## Metrics that show the program is working
+
+Don't measure a people-analytics program by how many dashboards it ships. Measure it by decisions it changed:
+
+- **Prediction-to-action rate** — of the flight-risk flags the model raised, how many triggered a manager conversation within two weeks? A model nobody acts on is expensive shelfware.
+- **False-positive tolerance** — track how often a "high risk" flag turns out wrong, and set an explicit tolerance with HR leadership before launch. A model tuned for zero false negatives will flag far more people than a human team can meaningfully follow up with.
+- **Time-to-fill and time-to-promote** — for talent-matching and internal-mobility use cases, these are the metrics finance already tracks, so tie the AI program to them directly rather than inventing new ones.
+- **Adoption by managers, not just by HR** — a recommendation engine that only HRBPs open isn't changing frontline decisions. Track manager-level usage separately from HR-level usage.
+
+## A phased rollout, not a big-bang launch
+
+Treat this as a multi-quarter program, not a project with a single go-live date:
+
+1. **Weeks 1-4 — data audit.** Confirm the HRIS, performance, and engagement data are actually joinable on a common employee ID, and that consent and retention policies cover the new use. Most delays happen here, not in the model.
+2. **Weeks 5-8 — read-only pilot with one team.** Run attrition-risk predictions for a single business unit, reviewed by that unit's HRBP only. No employee-facing output yet.
+3. **Weeks 9-12 — expand and add a feedback loop.** Widen the pilot, and start logging whether managers agreed or disagreed with each flag — that disagreement log is what you'll use to recalibrate the model and to build the bias-testing evidence the EU AI Act requires.
+4. **Beyond week 12 — recommendation engine, still human-approved.** Only after the read-only phase has a track record do you move to suggesting actions, and even then a human approves every outreach.
+
 ## What NOT to do
 
 - Don't build a "AI performance judge" — models that score employees without human review.

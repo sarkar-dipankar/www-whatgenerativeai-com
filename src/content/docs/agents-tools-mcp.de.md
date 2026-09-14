@@ -1,6 +1,6 @@
 ---
 weight: 22
-title: "Tools, Function Calling & MCP"
+title: "Werkzeuge, Function Calling & MCP"
 date: "2026-06-30"
 author: "Dipankar Sarkar"
 tags: ["MCP", "Function Calling", "Tool-Nutzung", "Agenten-Architektur"]

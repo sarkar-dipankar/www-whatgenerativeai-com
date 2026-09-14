@@ -17,6 +17,10 @@ const t = (k: keyof typeof ui.en) => (ui as any)[lang]?.[k] ?? ui.en[k];
 
 const chapters = (await getCollection("docs", (e) => e.data.lang === lang && !e.data.draft && !e.id.startsWith("_index")))
   .sort((a, b) => (a.data.weight ?? 99) - (b.data.weight ?? 99));
+// Home shows a small preview only (titles, no descriptions); the full list with
+// descriptions lives on the docs index page so the two pages don't render
+// near-identical content.
+const previewChapters = chapters.slice(0, 4);
 const posts = (await getCollection("posts", (e) => e.data.lang === lang && !e.data.draft && !e.id.startsWith("_index")))
   .sort((a, b) => +new Date(b.data.date ?? 0) - +new Date(a.data.date ?? 0)).slice(0, 3);
 
@@ -46,14 +50,13 @@ const homeJsonLd = {
       </div>
       <a href={docsHref} class="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-brand-700 dark:text-brand-300 hover:underline">{t("viewAllChapters")} →</a>
     </div>
-    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {chapters.map((c) => (
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {previewChapters.map((c) => (
         <a href={`/${lang}/docs/genai-playbook/${c.data.slug ?? c.id}/`} class="group relative rounded-xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-6 hover:border-brand-400 hover:shadow-lg transition">
-          <div class="flex items-center gap-3 mb-3">
+          <div class="flex items-center gap-3">
             <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-brand-600 text-white text-sm font-bold">{c.data.weight}</span>
             <h3 class="font-semibold text-ink-900 dark:text-ink-50 group-hover:text-brand-700 dark:group-hover:text-brand-300">{c.data.title}</h3>
           </div>
-          <p class="text-sm text-ink-600 dark:text-ink-400 line-clamp-3">{c.data.description}</p>
         </a>
       ))}
     </div>

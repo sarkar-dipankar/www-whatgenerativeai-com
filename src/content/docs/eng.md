@@ -5,7 +5,7 @@ date: "2024-08-27"
 author: "AI Development Strategy Team"
 tags: ["Generative AI", "Developer Productivity", "AI Coding Assistants", "Swarmia", "Software Development"]
 categories: ["Technology", "AI in Development"]
-description: "Explore how Generative AI is revolutionizing software development, from AI coding assistants to productivity tracking, and learn best practices for AI-augmented development."
+description: "How Generative AI is changing software development, from AI coding assistants to productivity tracking, plus best practices for AI-augmented engineering."
 slug: "supercharging-developer-productivity-generative-ai"
 weight: 9
 lang: en

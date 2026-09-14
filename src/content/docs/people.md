@@ -5,7 +5,7 @@ date: "2024-08-27"
 author: "HR Innovation Team"
 tags: ["Generative AI", "People Analytics", "HR Tech", "Talent Management", "Organizational Dynamics"]
 categories: ["Human Resources", "AI in Business"]
-description: "Explore how AI-powered people analytics can transform organizational dynamics, enhance performance prediction, and revolutionize talent management, while addressing crucial ethical considerations."
+description: "How AI-powered people analytics transforms organizational dynamics, performance prediction, and talent management, with the key ethical considerations."
 slug: "revolutionizing-hr-ai-powered-people-analytics"
 weight: 8
 lang: en

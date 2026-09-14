@@ -1,5 +1,5 @@
 ---
-title: "Multi-Agent AI Systems: When to Use Them and When to Stay Single-Agent"
+title: "Multi-Agent AI Systems: When to Use Them, When Not To"
 description: "Multi-agent isn't always smarter. Here's when to split a task across agents, the four patterns that work, and the cost/complexity tradeoffs that decide it for you."
 slug: "multi-agent-systems-when-to-use"
 date: "2026-06-17"
@@ -72,6 +72,24 @@ Rules of thumb:
 - **Infinite handoffs** — A delegates to B, B delegates back to A. Fix: max-handoff counter.
 - **Context loss** — each agent sees only its slice. Fix: supervisor holds canonical state.
 - **Cost blowout** — parallel workers each retrieve the same large document. Fix: pre-fetch once, pass to workers.
+
+## A worked example: document review at three scales
+
+**One document, one question.** A single agent reads it and answers. No orchestration needed — this is the default, not a special case.
+
+**Ten documents, same question each.** Map-reduce: ten workers each read one document and extract the answer; a reducer combines the ten answers into one summary. This is a parallelism win, not a smarts win — a single agent given all ten documents sequentially would reach the same conclusions, just slower and with more context to manage per step.
+
+**Ten documents, an open-ended synthesis question** ("what's the overall risk posture across these contracts?"). Here a supervisor pattern earns its complexity: a researcher-per-document extracts relevant clauses, and a supervisor agent — seeing all the extracts together — reasons about the cross-document pattern that no single worker could see in isolation. This is the case multi-agent is actually built for: not more agents per se, but a structure where synthesis genuinely requires seeing the combined output, which a flat map-reduce can't provide.
+
+The lesson generalizes: reach for a pattern that matches the real dependency structure of the task, not the pattern that sounds the most sophisticated.
+
+## Debugging a misbehaving multi-agent system
+
+When a multi-agent run produces a wrong answer, the fastest diagnosis is to trace which agent introduced the error, not to re-read the final output:
+
+- **Check the worker outputs individually before checking the supervisor's synthesis.** A supervisor that faithfully summarizes three wrong worker answers looks, from the outside, like a supervisor bug — but the fix is in the workers.
+- **Look for a critic-less echo chamber first.** If two agents converge quickly on the same answer, that's often agreement bias (each agent trusts the other's confident tone) rather than genuine corroboration. A design with no agent whose job is explicitly to disagree is the most common root cause of confidently wrong multi-agent output.
+- **Check handoff counts before assuming a logic bug.** A task that "hangs" is very often two agents handing off to each other in a loop that never satisfies either one's exit condition — a max-handoff counter turns a silent hang into a visible, debuggable failure.
 
 ## When to stay single-agent
 

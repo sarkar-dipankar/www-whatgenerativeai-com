@@ -1,6 +1,6 @@
 ---
 title: "How to Measure Generative AI ROI: Metrics That Matter in 2026"
-description: "Stop measuring 'hours saved.' Here's the ROI framework for Generative AI that boards actually care about — cost-per-task, capacity gained, error reduction, and revenue impact."
+description: "Stop measuring 'hours saved.' The ROI framework for Generative AI that boards care about — cost-per-task, capacity gained, error reduction, revenue impact."
 slug: "generative-ai-roi-measurement"
 date: "2026-06-18"
 author: "Dipankar Sarkar"

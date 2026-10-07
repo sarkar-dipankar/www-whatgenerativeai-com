@@ -146,6 +146,11 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
     {allJsonLd.map((j) => <script type="application/ld+json" set:html={JSON.stringify(j)} />)}
 
     <slot name="head" />
+  <!-- plausible -->
+  <script defer
+          data-domain="www.whatgenerativeai.com"
+          src="https://plausible-app.skelfresearch.uk/js/script.js"></script>
+  <!-- /plausible -->
   </head>
   <body class="min-h-screen flex flex-col">
     <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-brand-600 focus:text-white focus:px-3 focus:py-2 focus:rounded">

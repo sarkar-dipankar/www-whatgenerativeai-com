@@ -1,0 +1,235 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import Disclosure from "../../components/Disclosure.astro";
+import { SITE_URL } from "../../data/site";
+
+const path = "/tools/project-brief/";
+
+interface Field { id: string; label: string; placeholder?: string; area?: boolean; hint?: string }
+const sections: { title: string; intro: string; fields: Field[] }[] = [
+  {
+    title: "Scope and context",
+    intro: "What the workflow is, who owns it and what it costs today.",
+    fields: [
+      { id: "workflow", label: "Workflow name", placeholder: "Monthly client performance packs" },
+      { id: "organisation", label: "Organisation", placeholder: "Optional" },
+      { id: "role", label: "Your role", placeholder: "Head of Client Operations" },
+      { id: "owner", label: "Process owner", placeholder: "Name or role of the accountable owner" },
+      { id: "purpose", label: "What the workflow does", area: true, placeholder: "Inputs, steps, output and who receives it." },
+      { id: "currentProcess", label: "How it is done today", area: true, placeholder: "Tools, hand-offs, where time goes, known pain points." },
+      { id: "frequency", label: "Frequency", placeholder: "Monthly, per client" },
+      { id: "volume", label: "Volume", placeholder: "40 packs a month" },
+      { id: "effort", label: "Current effort", placeholder: "~6 hours per pack across 2 people" },
+    ],
+  },
+  {
+    title: "Systems, information and constraints",
+    intro: "What the workflow touches and what any solution must respect.",
+    fields: [
+      { id: "systems", label: "Systems involved", placeholder: "CRM, data warehouse, SharePoint, PowerPoint" },
+      { id: "information", label: "Information used", area: true, placeholder: "Client performance data, commentary from account managers, templates." },
+      { id: "sensitivity", label: "Most sensitive information", placeholder: "Confidential client data; no personal data" },
+      { id: "review", label: "How outputs are checked today", placeholder: "Account manager reviews before sending" },
+      { id: "failureImpact", label: "What happens if it goes wrong", placeholder: "Incorrect figures reach a client" },
+      { id: "constraints", label: "Constraints", area: true, placeholder: "Data must stay in our Microsoft tenant; no new vendors this financial year; IT security review required." },
+      { id: "outOfScope", label: "Out of scope", placeholder: "Changing the report format; client-facing chat" },
+    ],
+  },
+  {
+    title: "Success criteria",
+    intro: "What “done” means, in terms someone could test.",
+    fields: [
+      { id: "outcome", label: "Desired outcome", area: true, placeholder: "Packs ready two days earlier, with analyst time redirected to client reviews." },
+      { id: "acceptance", label: "Acceptance criteria", area: true, placeholder: "≥95% of figures traceable to source; review ≤90 minutes per pack; no client data leaves the approved tenant.", hint: "Measurable and agreed with the owner before any work starts." },
+    ],
+  },
+  {
+    title: "Decision and purchasing",
+    intro: "How a yes happens in your organisation.",
+    fields: [
+      { id: "budgetStatus", label: "Budget status", placeholder: "Approved / being prepared / unresolved" },
+      { id: "decisionProcess", label: "Decision process", placeholder: "Owner recommends; CFO approves; IT security signs off the data flow" },
+      { id: "targetDate", label: "Target date", placeholder: "Live before Q1 reporting cycle" },
+      { id: "purchasing", label: "Purchasing requirements", area: true, placeholder: "Supplier onboarding, security questionnaire, fixed-price preferred, UK data residency." },
+      { id: "openQuestions", label: "Open questions", area: true, placeholder: "- Who signs off the data-flow review?\n- Is the CRM export reliable enough?" },
+    ],
+  },
+];
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "Project Brief Builder",
+    url: `${SITE_URL}${path}`,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Any (runs in the browser)",
+    offers: { "@type": "Offer", price: 0, priceCurrency: "GBP" },
+    description: "Build a portable, vendor-neutral AI project brief: scope, systems, constraints, acceptance criteria, open questions and purchasing requirements.",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Tools", item: `${SITE_URL}/tools/` },
+      { "@type": "ListItem", position: 3, name: "Project Brief Builder", item: `${SITE_URL}${path}` },
+    ],
+  },
+];
+---
+<BaseLayout
+  lang="en"
+  title="Project Brief Builder — an AI brief any supplier can quote"
+  description="Free tool to write a portable AI project brief: scope, systems, constraints, acceptance criteria, open questions and purchasing needs. No sign-up."
+  jsonLd={jsonLd}
+  alternates={[{ lang: "en", path }]}
+>
+  <Header lang="en" path="/tools/" />
+  <PageHeader
+    eyebrow="Free tool · ~10 minutes · no sign-up"
+    title="Project Brief Builder"
+    lede="Turn one workflow into a brief that any supplier — including us — can quote against. Fill in what you know; gaps become open questions. The brief is yours to keep, whoever you hire."
+    crumbs={[{ label: "Tools", href: "/tools/" }, { label: "Project Brief Builder" }]}
+  />
+
+  <main id="main" class="w-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+    <noscript>
+      <p class="mb-6 rounded-lg border border-accent-300 bg-accent-50 px-4 py-3 text-sm text-stone-800">The live preview needs JavaScript. The section headings below make a usable brief template on their own.</p>
+    </noscript>
+
+    <div id="import-bar" hidden class="mb-8 rounded-xl border border-primary-200 dark:border-primary-900 bg-primary-50/60 dark:bg-stone-900 px-4 py-3 text-sm flex flex-wrap items-center justify-between gap-3 no-print">
+      <span class="text-stone-700 dark:text-stone-300" id="import-text">We found results from the scorecard or economics calculator in this browser.</span>
+      <button type="button" id="import" class="btn-secondary !py-1.5">Include them in the brief</button>
+    </div>
+
+    <div class="grid gap-10 lg:grid-cols-2">
+      <form id="brief" class="min-w-0 space-y-10 no-print" autocomplete="off">
+        {sections.map((s, idx) => (
+          <fieldset>
+            <legend class="text-lg font-bold text-stone-900 dark:text-stone-50">{idx + 1}. {s.title}</legend>
+            <p class="mt-1 mb-4 text-sm text-stone-600 dark:text-stone-400">{s.intro}</p>
+            <div class="grid gap-4 sm:grid-cols-2">
+              {s.fields.map((f) => (
+                <div class={f.area ? "sm:col-span-2" : ""}>
+                  <label for={f.id} class="field-label">{f.label}</label>
+                  {f.area
+                    ? <textarea id={f.id} name={f.id} rows="3" placeholder={f.placeholder} class="field-input resize-y"></textarea>
+                    : <input id={f.id} name={f.id} placeholder={f.placeholder} class="field-input" />}
+                  {f.hint && <span class="field-hint">{f.hint}</span>}
+                </div>
+              ))}
+            </div>
+          </fieldset>
+        ))}
+        <div class="flex flex-wrap gap-3 items-center">
+          <label class="flex items-center gap-2 text-sm text-stone-700 dark:text-stone-300">
+            <input type="checkbox" id="include-results" class="accent-primary-600" /> Include scorecard and economics results
+          </label>
+          <button type="button" id="clear" class="btn-secondary">Start over</button>
+        </div>
+      </form>
+
+      <aside class="lg:sticky lg:top-24 self-start min-w-0">
+        <div class="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm">
+          <div class="flex items-center justify-between border-b border-stone-200 dark:border-stone-800 px-5 py-3 no-print">
+            <p class="text-sm font-semibold text-stone-900 dark:text-stone-50">Live preview (Markdown)</p>
+            <p class="text-xs text-stone-500">Saved in this browser only</p>
+          </div>
+          <pre id="preview" class="max-h-[60vh] overflow-auto whitespace-pre-wrap break-words p-5 font-mono text-xs leading-relaxed text-stone-700 dark:text-stone-300"># Project brief: Untitled workflow</pre>
+          <div class="border-t border-stone-200 dark:border-stone-800 p-5 no-print">
+            <div class="grid grid-cols-3 gap-2">
+              <button type="button" id="copy" class="btn-secondary">Copy</button>
+              <button type="button" id="download" class="btn-secondary">Download</button>
+              <button type="button" id="print" class="btn-secondary">Print</button>
+            </div>
+            <button type="button" id="review" class="btn-primary w-full mt-3">Request expert review</button>
+            <p id="action-status" class="mt-2 text-xs text-stone-500 min-h-4" role="status"></p>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section class="mt-20 max-w-3xl prose guide-body no-print" aria-labelledby="why">
+      <h2 id="why">What makes a brief useful</h2>
+      <p>A good brief lets two suppliers quote for the same thing, and lets you check what you get against what you asked for. It needs to:</p>
+      <ul>
+        <li><strong>Name the workflow and the owner.</strong> "AI for operations" can't be quoted. "Monthly client packs, owned by the Head of Client Operations" can.</li>
+        <li><strong>State the current cost.</strong> Without a baseline, no one can show improvement.</li>
+        <li><strong>List systems and information honestly,</strong> including the most sensitive data involved. That decides which tools are allowed at all.</li>
+        <li><strong>Define acceptance in testable terms.</strong> "Better reports" isn't testable. "95% of figures traceable to source, review in under 90 minutes" is.</li>
+        <li><strong>Keep open questions visible.</strong> Unknowns are normal. Hiding them leads to change requests later.</li>
+      </ul>
+      <p>For the questions to ask suppliers once the brief is ready, see <a href="/guides/ai-implementation-brief-and-supplier-questions/">What should an AI implementation brief include?</a></p>
+    </section>
+
+    <div class="mt-12 max-w-3xl"><Disclosure /></div>
+  </main>
+  <Footer lang="en" />
+</BaseLayout>
+
+<script>
+  import { loadDraft, saveDraft, clearDraft, toMarkdown, copyText, downloadText, handoffToIntake, fileSlug, type Brief } from "../../lib/brief";
+
+  const form = document.getElementById("brief") as HTMLFormElement;
+  const $ = (id: string) => document.getElementById(id)!;
+  const status = (msg: string) => { $("action-status").textContent = msg; };
+  const include = $("include-results") as HTMLInputElement;
+  const TEXT_FIELDS = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input:not([type=checkbox]), textarea")).map((el) => el.id);
+
+  let draft: Brief = loadDraft();
+
+  function fill() {
+    for (const id of TEXT_FIELDS) {
+      const v = (draft as Record<string, unknown>)[id];
+      if (typeof v === "string") ($(id) as HTMLInputElement).value = v;
+    }
+    const hasResults = Boolean(draft.scorecard || draft.economics);
+    $("import-bar").hidden = !hasResults || include.checked;
+    if (hasResults) {
+      const parts = [draft.scorecard && "the scorecard", draft.economics && "the economics calculator"].filter(Boolean).join(" and ");
+      $("import-text").textContent = `We found results from ${parts} in this browser.`;
+    }
+  }
+
+  function current(): Brief {
+    const b: Brief = {};
+    for (const id of TEXT_FIELDS) {
+      const v = ($(id) as HTMLInputElement).value;
+      if (v.trim()) (b as Record<string, string>)[id] = v;
+    }
+    if (include.checked) {
+      if (draft.scorecard) b.scorecard = draft.scorecard;
+      if (draft.economics) b.economics = draft.economics;
+    }
+    return b;
+  }
+
+  function render() {
+    const b = current();
+    $("preview").textContent = toMarkdown(b);
+    const textOnly: Partial<Brief> = {};
+    for (const id of TEXT_FIELDS) (textOnly as Record<string, string | undefined>)[id] = (b as Record<string, string>)[id];
+    draft = saveDraft(textOnly);
+  }
+
+  form.addEventListener("input", render);
+  include.addEventListener("change", () => { $("import-bar").hidden = include.checked || !(draft.scorecard || draft.economics); render(); });
+  $("import").addEventListener("click", () => { include.checked = true; $("import-bar").hidden = true; render(); });
+  $("clear").addEventListener("click", () => {
+    clearDraft(); draft = {}; form.reset(); include.checked = false; fill(); render(); status("Cleared.");
+  });
+  $("copy").addEventListener("click", async () => status((await copyText(toMarkdown(current()))) ? "Copied as Markdown." : "Copy failed — use Download instead."));
+  $("download").addEventListener("click", () => { downloadText(`brief-${fileSlug(current().workflow, "workflow")}.md`, toMarkdown(current())); status("Downloaded."); });
+  $("print").addEventListener("click", () => window.print());
+  $("review").addEventListener("click", () => {
+    const b = current();
+    handoffToIntake({ workflow: b.workflow, briefMarkdown: toMarkdown(b), source: "project-brief" });
+  });
+
+  fill();
+  render();
+</script>

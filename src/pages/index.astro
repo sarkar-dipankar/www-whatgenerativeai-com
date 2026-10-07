@@ -4,7 +4,14 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import Hero from "../components/Hero.astro";
 import Footer from "../components/Footer.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import SituationCard from "../components/SituationCard.astro";
+import OfferCard from "../components/OfferCard.astro";
+import Disclosure from "../components/Disclosure.astro";
 import { DEFAULT_LANG, ui } from "../i18n";
+import { SITUATIONS } from "../data/situations";
+import { OFFERS } from "../data/offers";
+import { TOOLS } from "../data/tools";
 
 const lang = DEFAULT_LANG;
 const t = (k: keyof typeof ui.en) => ui.en[k];
@@ -15,6 +22,13 @@ const genaiChapters = allChapters.filter((c) => (c.data.weight ?? 0) < 20);
 const agenticChapters = allChapters.filter((c) => (c.data.weight ?? 0) >= 20);
 const posts = (await getCollection("posts", (e) => e.data.lang === "en" && !e.data.draft && !e.id.includes("_index")))
   .sort((a, b) => +new Date(b.data.date ?? 0) - +new Date(a.data.date ?? 0));
+const entryOffers = OFFERS.filter((o) => o.entry);
+const steps = [
+  { n: 1, title: "Describe the workflow", body: "Use the scorecard or the brief builder. You get a result straight away — no call required." },
+  { n: 2, title: "Paid assessment", body: "A fixed-scope sprint or review that ends in a decision: go, fix first, or stop." },
+  { n: 3, title: "Optional delivery", body: "Activation or implementation, accepted against criteria agreed before work starts." },
+  { n: 4, title: "Measured outcome", body: "Baseline versus after: effort, quality, adoption and running cost." },
+];
 
 const homeJsonLd = {
   "@context": "https://schema.org",
@@ -44,34 +58,105 @@ const faqJsonLd = {
 ---
 <BaseLayout
   lang="en"
-  title="What Generative AI — The GenAI & Agentic AI Playbook"
-  description="The open-source GenAI Playbook + Agentic AI Playbook: 21 chapters on Generative AI implementation, AI agents, MCP, orchestration, security, and deployment."
+  title="What Generative AI — Decide where AI is worth using"
+  description="Decide where AI is worth using in your business, what to buy or build, and how to make it work. Free decision tools, open playbooks and hands-on support."
   image="/header.png"
   jsonLd={[homeJsonLd, faqJsonLd]}
 >
   <Header lang="en" path="/" />
-  <Hero lang="en" />
+  <Hero lang="en" variant="buyer" />
 
-  <!-- Stats bar -->
-  <section class="border-b border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
-        <div>
-          <p class="text-3xl font-bold text-primary-700 dark:text-primary-300">21</p>
-          <p class="text-sm text-stone-500 dark:text-stone-400 mt-1">Chapters</p>
+  <!-- Buying situations -->
+  <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" aria-labelledby="situations">
+    <SectionHeader
+      id="situations"
+      eyebrow="Start from your situation"
+      title="Which of these sounds like you?"
+      subtitle="Each situation calls for a different decision. Pick the closest one for the guide, tool and engagement that fit it."
+    />
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {SITUATIONS.slice(0, 6).map((s) => <SituationCard situation={s} />)}
+    </div>
+    <p class="mt-6 text-center"><a href="/start/" class="text-sm font-semibold text-primary-700 dark:text-primary-300 hover:underline">See all {SITUATIONS.length} buying situations →</a></p>
+  </section>
+
+  <!-- How engagements work -->
+  <section class="bg-white dark:bg-stone-900 border-y border-stone-200 dark:border-stone-800">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+      <SectionHeader
+        eyebrow="How it works"
+        title="From a question to a workflow that works"
+        subtitle="Every engagement ends in a decision you can defend. Sometimes the right answer is to use software you already own and not commission custom AI — and we will say so."
+      />
+      <ol class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {steps.map((st) => (
+          <li class="rounded-xl border border-stone-200 dark:border-stone-800 p-6">
+            <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary-600 text-white font-bold">{st.n}</span>
+            <h3 class="mt-3 font-semibold text-stone-900 dark:text-stone-50">{st.title}</h3>
+            <p class="mt-1 text-sm text-stone-600 dark:text-stone-400">{st.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Entry offers + example deliverable -->
+  <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+    <SectionHeader
+      eyebrow="Work with us"
+      title="Three ways to start"
+      subtitle="Fixed-scope entry engagements with a concrete output and an agreed acceptance condition. Implementation and ongoing reviews follow only if they are justified."
+    />
+    <div class="grid gap-5 lg:grid-cols-3">
+      {entryOffers.map((o) => <OfferCard offer={o} />)}
+    </div>
+
+    <div class="mt-10 grid gap-8 lg:grid-cols-2 items-start">
+      <div>
+        <h3 class="text-xl font-bold text-stone-900 dark:text-stone-50">What a deliverable looks like</h3>
+        <p class="mt-2 text-stone-600 dark:text-stone-400 leading-relaxed">An Opportunity Sprint ends with a brief like this for the recommended first project — written so you can take it to any supplier, including us.</p>
+        <p class="mt-3 text-xs text-stone-500">Illustrative excerpt — not a client deliverable.</p>
+        <div class="mt-5 flex flex-wrap gap-3">
+          <a href="/tools/project-brief/" class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-white font-semibold text-sm hover:bg-primary-700 transition">Build your own brief →</a>
+          <a href="/work-with-us/" class="inline-flex items-center gap-2 rounded-lg border border-stone-300 dark:border-stone-700 px-4 py-2 text-stone-800 dark:text-stone-100 font-semibold text-sm hover:bg-stone-100 dark:hover:bg-stone-800 transition">All engagements</a>
         </div>
-        <div>
-          <p class="text-3xl font-bold text-primary-700 dark:text-primary-300">10</p>
-          <p class="text-sm text-stone-500 dark:text-stone-400 mt-1">Languages</p>
-        </div>
-        <div>
-          <p class="text-3xl font-bold text-accent-600 dark:text-accent-400">20</p>
-          <p class="text-sm text-stone-500 dark:text-stone-400 mt-1">PDF downloads</p>
-        </div>
-        <div>
-          <p class="text-3xl font-bold text-accent-600 dark:text-accent-400">1</p>
-          <p class="text-sm text-stone-500 dark:text-stone-400 mt-1">Published book</p>
-        </div>
+      </div>
+      <div class="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-6 font-mono text-[13px] leading-relaxed text-stone-700 dark:text-stone-300 overflow-x-auto">
+        <p class="font-bold text-stone-900 dark:text-stone-50"># Brief: Monthly client performance packs</p>
+        <p class="mt-3"><span class="text-primary-700 dark:text-primary-300">Owner:</span> Head of Client Operations</p>
+        <p><span class="text-primary-700 dark:text-primary-300">Volume:</span> 40 packs/month · ~6 h each</p>
+        <p><span class="text-primary-700 dark:text-primary-300">Recommendation:</span> AI-assisted drafting with analyst review; fix the data export first</p>
+        <p><span class="text-primary-700 dark:text-primary-300">Not recommended:</span> autonomous agent; custom model</p>
+        <p class="mt-3 text-stone-900 dark:text-stone-50">## Acceptance</p>
+        <p>- ≥ 95% of figures traceable to source</p>
+        <p>- Analyst review ≤ 90 min per pack</p>
+        <p>- No client data leaves the approved tenant</p>
+        <p class="mt-3 text-stone-900 dark:text-stone-50">## Value (base case)</p>
+        <p>- 150 h/month released → reallocated to client reviews</p>
+        <p>- Cash saving: £0 unless hiring is avoided</p>
+        <p class="mt-3 text-stone-900 dark:text-stone-50">## Open questions</p>
+        <p>- Who signs off the data-flow review?</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Decision tools -->
+  <section class="bg-gradient-to-br from-primary-900 to-primary-800 text-white">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+      <div class="max-w-2xl">
+        <p class="text-xs font-semibold uppercase tracking-widest text-accent-300">Free decision tools</p>
+        <h2 class="mt-2 text-3xl font-bold">Get a useful answer before you talk to anyone</h2>
+        <p class="mt-3 text-primary-100/90">Each tool gives you the full result on screen, with no sign-up. Copy it, download it, or ask for an expert review.</p>
+      </div>
+      <div class="mt-8 grid gap-5 md:grid-cols-3">
+        {TOOLS.map((tl) => (
+          <a href={`/tools/${tl.slug}/`} class="group rounded-xl border border-white/15 bg-white/5 p-6 hover:bg-white/10 transition">
+            <p class="text-xs text-primary-200">~{tl.minutes} min</p>
+            <h3 class="mt-1 text-lg font-bold group-hover:text-accent-200">{tl.name}</h3>
+            <p class="mt-2 text-sm text-primary-100/90">{tl.short}</p>
+            <span class="mt-4 inline-block text-sm font-semibold text-accent-300">Open the tool →</span>
+          </a>
+        ))}
       </div>
     </div>
   </section>
@@ -79,8 +164,9 @@ const faqJsonLd = {
   <!-- Two playbook split -->
   <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
     <div class="text-center mb-10">
-      <h2 class="text-3xl font-bold text-stone-900 dark:text-stone-50">Two playbooks, one guide</h2>
-      <p class="mt-2 text-stone-600 dark:text-stone-400">Start with the GenAI foundation, then master agentic AI.</p>
+      <p class="text-xs font-semibold uppercase tracking-widest text-accent-600 dark:text-accent-400">Open source · free · 10 languages</p>
+      <h2 class="mt-2 text-3xl font-bold text-stone-900 dark:text-stone-50">Two playbooks, one guide</h2>
+      <p class="mt-2 text-stone-600 dark:text-stone-400">The reference behind every recommendation. Start with the GenAI foundation, then master agentic AI. Apache 2.0, downloadable as PDF.</p>
     </div>
     <div class="flex flex-col lg:flex-row gap-6 lg:gap-8 items-stretch">
       <!-- GenAI Playbook (left) -->
@@ -132,43 +218,21 @@ const faqJsonLd = {
     </div>
   </section>
 
-  <!-- Why this playbook -->
+  <!-- Evidence teaser -->
   <section class="bg-white dark:bg-stone-900 border-y border-stone-200 dark:border-stone-800">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-      <div class="text-center max-w-2xl mx-auto mb-10">
-        <h2 class="text-3xl font-bold text-stone-900 dark:text-stone-50">Why this playbook exists</h2>
-        <p class="mt-3 text-stone-600 dark:text-stone-400">Most AI resources are either too academic to use or too shallow to trust. This playbook bridges the gap — executive-grade depth, practitioner-grade clarity.</p>
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 grid gap-10 lg:grid-cols-[1fr_1.2fr] items-center">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-widest text-accent-600 dark:text-accent-400">Evidence & methods</p>
+        <h2 class="mt-2 text-3xl font-bold text-stone-900 dark:text-stone-50">Honest numbers, or none</h2>
+        <p class="mt-3 text-stone-600 dark:text-stone-400 leading-relaxed">We separate vendor claims from test results, hours released from cash saved, and one engagement from an industry benchmark. Case studies appear only with the client's permission.</p>
+        <a href="/evidence/" class="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-primary-700 dark:text-primary-300 hover:underline">How we measure outcomes →</a>
       </div>
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="rounded-xl border border-stone-200 dark:border-stone-800 p-6">
-          <div class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary-100 text-primary-700 mb-3">
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-          </div>
-          <h3 class="font-semibold text-stone-900 dark:text-stone-50">Practical, not theoretical</h3>
-          <p class="mt-1 text-sm text-stone-600 dark:text-stone-400">Every chapter ends with actionable steps. No fluff, no buzzword bingo — just what works in 2026.</p>
-        </div>
-        <div class="rounded-xl border border-stone-200 dark:border-stone-800 p-6">
-          <div class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary-100 text-primary-700 mb-3">
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
-          </div>
-          <h3 class="font-semibold text-stone-900 dark:text-stone-50">10 languages</h3>
-          <p class="mt-1 text-sm text-stone-600 dark:text-stone-400">English, Italian, Polish, Tamil, Korean, Hebrew, Finnish, Arabic, Dutch, German. Because AI adoption is global.</p>
-        </div>
-        <div class="rounded-xl border border-stone-200 dark:border-stone-800 p-6">
-          <div class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-accent-100 text-accent-700 mb-3">
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-          </div>
-          <h3 class="font-semibold text-stone-900 dark:text-stone-50">Security-first</h3>
-          <p class="mt-1 text-sm text-stone-600 dark:text-stone-400">Dedicated chapters on prompt injection, OWASP LLM Top-10, EU AI Act compliance, and agent governance.</p>
-        </div>
-        <div class="rounded-xl border border-stone-200 dark:border-stone-800 p-6">
-          <div class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-accent-100 text-accent-700 mb-3">
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.02 5.742 7.51 5.5 5.5 5.5c-1.414 0-2.828.094-4 .253v13c1.172-.159 2.586-.253 4-.253 2.01 0 4.52.242 6.5.753m0-13c1.98-.511 4.49-.753 6.5-.753 1.414 0 2.828.094 4 .253v13c-1.172-.159-2.586-.253-4-.253-2.01 0-4.52.242-6.5.753"/></svg>
-          </div>
-          <h3 class="font-semibold text-stone-900 dark:text-stone-50">Open source</h3>
-          <p class="mt-1 text-sm text-stone-600 dark:text-stone-400">Apache 2.0 licensed. Fork it, contribute, adapt it to your org. Downloadable as PDF in every language.</p>
-        </div>
-      </div>
+      <ul class="grid gap-4 sm:grid-cols-2 text-sm">
+        <li class="rounded-xl border border-stone-200 dark:border-stone-800 p-5"><p class="font-semibold text-stone-900 dark:text-stone-50">Baseline first</p><p class="mt-1 text-stone-600 dark:text-stone-400">We measure the current effort and quality before anything changes.</p></li>
+        <li class="rounded-xl border border-stone-200 dark:border-stone-800 p-5"><p class="font-semibold text-stone-900 dark:text-stone-50">Acceptance agreed up front</p><p class="mt-1 text-stone-600 dark:text-stone-400">The pass/fail criteria are written into the scope before work starts.</p></li>
+        <li class="rounded-xl border border-stone-200 dark:border-stone-800 p-5"><p class="font-semibold text-stone-900 dark:text-stone-50">Running cost included</p><p class="mt-1 text-stone-600 dark:text-stone-400">Review time, licences, support and change management all count.</p></li>
+        <li class="rounded-xl border border-stone-200 dark:border-stone-800 p-5"><p class="font-semibold text-stone-900 dark:text-stone-50">“Stop” is an outcome</p><p class="mt-1 text-stone-600 dark:text-stone-400">Recommending no custom AI is a valid, and often cheaper, result.</p></li>
+      </ul>
     </div>
   </section>
 
@@ -274,6 +338,10 @@ const faqJsonLd = {
       </details>
     </div>
   </section>
+
+  <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 pb-10">
+    <Disclosure class="text-center" />
+  </div>
 
   <Footer lang="en" />
 </BaseLayout>

@@ -1,0 +1,20 @@
+---
+import type { Situation } from "../data/situations";
+import { offerBySlug } from "../data/offers";
+import { toolBySlug } from "../data/tools";
+interface Props { situation: Situation; detailed?: boolean }
+const { situation: s, detailed = false } = Astro.props;
+const offer = offerBySlug(s.offer);
+const tool = toolBySlug(s.tool);
+---
+<div class="flex flex-col rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-6">
+  <p class="text-[11px] font-semibold uppercase tracking-widest text-primary-700 dark:text-primary-300">{s.label}</p>
+  <p class="mt-2 text-lg font-semibold leading-snug text-stone-900 dark:text-stone-50">“{s.quote}”</p>
+  {detailed && <p class="mt-2 text-xs text-stone-500 dark:text-stone-400">Usually: {s.buyer}</p>}
+  <p class="mt-3 text-sm text-stone-600 dark:text-stone-400 flex-1"><span class="font-semibold text-stone-700 dark:text-stone-300">What helps:</span> {s.need}</p>
+  <ul class="mt-4 space-y-1.5 text-sm">
+    <li><a href={`/guides/${s.guide}/`} class="font-semibold text-primary-700 dark:text-primary-300 hover:underline">Read the guide →</a></li>
+    {tool && <li><a href={`/tools/${tool.slug}/`} class="text-stone-700 dark:text-stone-300 hover:text-primary-700 hover:underline">Use the {tool.name.toLowerCase()}</a></li>}
+    {offer && <li><a href={`/work-with-us/${offer.slug}/`} class="text-stone-700 dark:text-stone-300 hover:text-primary-700 hover:underline">{offer.name}</a></li>}
+  </ul>
+</div>

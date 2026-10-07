@@ -1,0 +1,66 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import SituationCard from "../../components/SituationCard.astro";
+import CtaPanel from "../../components/CtaPanel.astro";
+import { SITUATIONS } from "../../data/situations";
+import { TOOLS } from "../../data/tools";
+import { SITE_URL } from "../../data/site";
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Start here", item: `${SITE_URL}/start/` },
+    ],
+  },
+];
+---
+<BaseLayout
+  lang="en"
+  title="Start here — find the right AI decision for your situation"
+  description="Nine common business AI situations, from 'where do we start?' to 'is this still worth running?', each mapped to a free guide, a tool and an engagement."
+  jsonLd={jsonLd}
+  alternates={[{ lang: "en", path: "/start/" }]}
+>
+  <Header lang="en" path="/start/" />
+  <PageHeader
+    eyebrow="Start here"
+    title="What decision are you facing?"
+    lede="Most organisations aren't short of AI information. They're short of a defensible decision about one specific workflow. Pick the situation closest to yours."
+    crumbs={[{ label: "Start here" }]}
+  />
+  <main id="main" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14">
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {SITUATIONS.map((s) => <SituationCard situation={s} detailed />)}
+    </div>
+
+    <section class="mt-16">
+      <h2 class="text-2xl font-bold text-stone-900 dark:text-stone-50">Not sure which? Use a tool</h2>
+      <p class="mt-1 text-stone-600 dark:text-stone-400">Each gives you the full result on screen, with no sign-up.</p>
+      <div class="mt-6 grid gap-5 md:grid-cols-3">
+        {TOOLS.map((tl) => (
+          <a href={`/tools/${tl.slug}/`} class="group rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-6 hover:border-primary-400 transition">
+            <p class="text-xs text-stone-500">~{tl.minutes} min · {tl.produces}</p>
+            <h3 class="mt-1 font-bold text-stone-900 dark:text-stone-50 group-hover:text-primary-700">{tl.name}</h3>
+            <p class="mt-2 text-sm text-stone-600 dark:text-stone-400">{tl.short}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="mt-16 max-w-4xl">
+      <CtaPanel
+        title="Prefer to explain it in your own words?"
+        body="Send a short project brief and a person will reply with whether there's a viable project — and the smallest sensible next step."
+        primary={{ label: "Start a project brief", href: "/work-with-us/intake/" }}
+        secondary={{ label: "Read the open playbooks", href: "/docs/genai-playbook/" }}
+      />
+    </section>
+  </main>
+  <Footer lang="en" />
+</BaseLayout>

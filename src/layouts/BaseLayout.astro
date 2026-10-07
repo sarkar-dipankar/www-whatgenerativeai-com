@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import type { LanguageCode } from "../i18n";
 import { LANGUAGES, DEFAULT_LANG, getLang, isRtl, localizedPath, ui } from "../i18n";
+import type { Alternate } from "../lib/alternates";
 
 interface Props {
   lang?: LanguageCode;
@@ -16,6 +17,8 @@ interface Props {
   tags?: string[];
   jsonLd?: object[];
   noindex?: boolean;
+  /** Explicit hreflang alternates. Omit only for pages that exist in all 10 languages at the same path. */
+  alternates?: Alternate[];
 }
 
 const {
@@ -31,6 +34,7 @@ const {
   tags = [],
   jsonLd = [],
   noindex = false,
+  alternates: explicitAlternates,
 } = Astro.props;
 
 const siteUrl = "https://www.whatgenerativeai.com";
@@ -39,13 +43,19 @@ const canonicalUrl = new URL(canonical ?? Astro.url.pathname, siteUrl).href;
 const imageUrl = new URL(image, siteUrl).href;
 const t = (k: keyof typeof ui.en) => (ui as any)[lang]?.[k] ?? ui.en[k];
 
-// hreflang alternates across all languages (same path, different prefix)
+// hreflang alternates: explicit list when given, otherwise every language at the same path
 const pathWithoutLang = Astro.url.pathname.replace(/^\/(it|pl|ta|ko|he|fi|ar|nl|de)(\/|$)/, "/");
-const alternates = LANGUAGES.map((l) => ({
-  hreflang: l.code,
-  href: new URL(localizedPath(l.code, pathWithoutLang === "/" ? "" : pathWithoutLang), siteUrl).href,
-}));
-const xDefault = new URL(localizedPath(DEFAULT_LANG, pathWithoutLang === "/" ? "" : pathWithoutLang), siteUrl).href;
+const alternates = explicitAlternates
+  ? explicitAlternates.map((a) => ({ hreflang: a.lang, href: new URL(a.path, siteUrl).href }))
+  : LANGUAGES.map((l) => ({
+      hreflang: l.code,
+      href: new URL(localizedPath(l.code, pathWithoutLang === "/" ? "" : pathWithoutLang), siteUrl).href,
+    }));
+// No alternates at all (e.g. 404) → no x-default either.
+const xDefault = alternates.length
+  ? alternates.find((a) => a.hreflang === DEFAULT_LANG)?.href ??
+    new URL(localizedPath(DEFAULT_LANG, pathWithoutLang === "/" ? "" : pathWithoutLang), siteUrl).href
+  : undefined;
 
 // Base JSON-LD present on every page
 const baseJsonLd = [
@@ -88,7 +98,7 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
 
     <!-- hreflang alternates -->
     {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
-    <link rel="alternate" hreflang="x-default" href={xDefault} />
+    {xDefault && <link rel="alternate" hreflang="x-default" href={xDefault} />}
 
     <title>{title}</title>
     <meta name="description" content={description} />

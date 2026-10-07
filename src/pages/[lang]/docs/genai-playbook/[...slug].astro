@@ -2,6 +2,7 @@
 import { getCollection, render } from "astro:content";
 import DocsLayout from "../../../../layouts/DocsLayout.astro";
 import { LANGUAGES, type LanguageCode } from "../../../../i18n";
+import { collectionAlternates, entryBase } from "../../../../lib/alternates";
 
 export async function getStaticPaths() {
   const NON_EN = LANGUAGES.filter((l) => l.code !== "en").map((l) => l.code);
@@ -17,6 +18,7 @@ export async function getStaticPaths() {
 
 const { doc, lang } = Astro.props as { doc: any; lang: LanguageCode };
 const { Content, headings } = await render(doc);
+const alternates = await collectionAlternates("docs", entryBase(doc), "/docs/genai-playbook/");
 
 const siteUrl = "https://www.whatgenerativeai.com";
 const url = `${siteUrl}/${lang}/docs/genai-playbook/${doc.data.slug ?? doc.id}/`;
@@ -55,6 +57,7 @@ const next = sorted[idx + 1];
   headings={headings}
   articleJsonLd={articleJsonLd}
   breadcrumbJsonLd={breadcrumbJsonLd}
+  alternates={alternates}
 >
   <Content />
 

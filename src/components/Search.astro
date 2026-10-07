@@ -23,17 +23,22 @@ const t = (k: keyof typeof ui.en) => (ui as any)[lang]?.[k] ?? ui.en[k];
     }
   </style>
 </div>
-<script>
-  const el = document.getElementById("pagefind-search");
-  if (el) {
-    // @ts-expect-error - pagefind-ui.js is generated at build time by astro-pagefind
-    import(/* @vite-ignore */ "/pagefind/pagefind-ui.js").then(({ PagefindUI }) => {
-      new PagefindUI({
+<!-- pagefind-ui.js (generated at build time by astro-pagefind) is a classic script that
+     sets window.PagefindUI; it has no ES module export, so load it with a script tag. -->
+<script is:inline>
+  (function () {
+    if (!document.getElementById("pagefind-search")) return;
+    var s = document.createElement("script");
+    s.src = "/pagefind/pagefind-ui.js";
+    s.onload = function () {
+      if (!window.PagefindUI) return;
+      new window.PagefindUI({
         element: "#pagefind-search",
         showImages: false,
         pageSize: 8,
         translations: {},
       });
-    }).catch(() => {});
-  }
+    };
+    document.head.appendChild(s);
+  })();
 </script>

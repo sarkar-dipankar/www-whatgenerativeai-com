@@ -1,0 +1,16 @@
+---
+import type { Offer } from "../data/offers";
+import { formatPrice } from "../data/offers";
+interface Props { offer: Offer }
+const { offer } = Astro.props;
+---
+<a href={`/work-with-us/${offer.slug}/`} class="group flex flex-col rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-6 hover:border-primary-400 hover:shadow-lg transition">
+  <div class="flex items-center justify-between gap-3">
+    <p class={`text-[11px] font-semibold uppercase tracking-widest ${offer.entry ? "text-primary-700 dark:text-primary-300" : "text-stone-500"}`}>{offer.entry ? "Entry engagement" : "Downstream"}</p>
+    <p class="text-sm font-bold text-accent-700 dark:text-accent-400 whitespace-nowrap">{formatPrice(offer)}</p>
+  </div>
+  <h3 class="mt-2 text-lg font-bold text-stone-900 dark:text-stone-50 group-hover:text-primary-700 dark:group-hover:text-primary-300">{offer.name}</h3>
+  <p class="mt-2 text-sm text-stone-600 dark:text-stone-400 flex-1">{offer.short}</p>
+  <p class="mt-4 text-xs text-stone-500 dark:text-stone-400"><span class="font-semibold text-stone-700 dark:text-stone-300">Done when:</span> {offer.acceptance}</p>
+  <span class="mt-4 text-sm font-semibold text-primary-700 dark:text-primary-300">See scope & outputs →</span>
+</a>

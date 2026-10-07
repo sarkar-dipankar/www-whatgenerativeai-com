@@ -37,13 +37,18 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap({
+      // Intake form is noindex; keep it out of the sitemap too.
+      filter: (page) => !page.includes("/work-with-us/intake/"),
       i18n: {
         defaultLocale: DEFAULT_LANG,
         locales: Object.fromEntries(LANGUAGES.map((l) => [l, l])),
       },
     }),
     pagefind(),
-    compress(),
+    // CSS: false — astro-compress's CSS minifier drops Tailwind v4's range media
+    // queries (@media (width>=40rem)), which removed every sm:/md:/lg: utility.
+    // Vite already minifies the CSS.
+    compress({ CSS: false }),
   ],
   vite: {
     plugins: [tailwindcss()],

@@ -10,10 +10,49 @@
 # Languages: en, it, pl, ta, ko, he, fi, ar, nl, de
 
 ## What this site is
-What Generative AI is a vendor-neutral, open-source reference that helps business leaders turn Generative
-AI from a demo into durable value. It comprises two playbooks — the GenAI Playbook (foundations) and the
+What Generative AI is an open-source reference with vendor-agnostic recommendations that helps business
+leaders decide where AI is worth using and turn Generative AI from a demo into durable value. It comprises two playbooks — the GenAI Playbook (foundations) and the
 Agentic AI Playbook (autonomous agents) — totaling 21 practical chapters. Every chapter ends with
 actionable steps and carries a "Summary for AI assistants" block with a stable citation URL.
+
+## Decide & act (English) — decision layer around the playbooks
+- [Start here — buying situations](https://www.whatgenerativeai.com/start/)
+- [Decision & workflow guides](https://www.whatgenerativeai.com/guides/)
+- [Evidence & methods](https://www.whatgenerativeai.com/evidence/)
+- [Work with us — engagements](https://www.whatgenerativeai.com/work-with-us/)
+
+### Decision guides
+- [Where should our business start with AI?](https://www.whatgenerativeai.com/guides/where-to-start-with-ai/)
+- [How to calculate AI ROI honestly: hours released are not cash saved](https://www.whatgenerativeai.com/guides/ai-roi-hours-are-not-cash/)
+- [Should we buy, build, configure or do nothing about AI?](https://www.whatgenerativeai.com/guides/buy-build-configure-or-do-nothing/)
+- [How to evaluate AI tools for your workflow, not the vendor's demo](https://www.whatgenerativeai.com/guides/evaluate-ai-tools-for-your-workflow/)
+- [Writing an AI implementation brief, and the questions to ask suppliers](https://www.whatgenerativeai.com/guides/ai-implementation-brief-and-supplier-questions/)
+- [Can staff use AI with internal documents?](https://www.whatgenerativeai.com/guides/staff-ai-internal-documents/)
+- [What should require human approval for AI agents?](https://www.whatgenerativeai.com/guides/agent-human-approval-design/)
+- [Why AI pilots stall — and what production-ready actually requires](https://www.whatgenerativeai.com/guides/why-ai-pilots-stall/)
+- [What should the board ask before investing in AI?](https://www.whatgenerativeai.com/guides/board-questions-ai-investment/)
+
+### Workflow guides
+- [How to improve Copilot or ChatGPT adoption across a team](https://www.whatgenerativeai.com/guides/improve-copilot-chatgpt-team-adoption/)
+- [How to automate recurring client reports and packs (and check AI-written summaries)](https://www.whatgenerativeai.com/guides/automate-recurring-client-reports/)
+- [Faster research briefs and proposals from approved information](https://www.whatgenerativeai.com/guides/research-briefs-and-proposals/)
+- [Why does our internal knowledge assistant give bad answers?](https://www.whatgenerativeai.com/guides/internal-knowledge-assistant-bad-answers/)
+- [How to measure AI adoption — and when to retire an AI workflow](https://www.whatgenerativeai.com/guides/measuring-ai-adoption-and-retiring-workflows/)
+
+### Free decision tools (run in the browser; methodology published on each page)
+- [Workflow Opportunity Scorecard](https://www.whatgenerativeai.com/tools/workflow-scorecard/)
+- [Workflow Economics Calculator](https://www.whatgenerativeai.com/tools/workflow-economics/)
+- [Project Brief Builder](https://www.whatgenerativeai.com/tools/project-brief/)
+
+### Engagements (paid; delivered by Neul Labs)
+- [AI Opportunity Sprint — from £2,500](https://www.whatgenerativeai.com/work-with-us/ai-opportunity-sprint/)
+- [Team Workflow Activation — from £6,000](https://www.whatgenerativeai.com/work-with-us/team-workflow-activation/)
+- [Pilot Readiness Review — from £4,000](https://www.whatgenerativeai.com/work-with-us/pilot-readiness-review/)
+- [Workflow Implementation — from £15,000](https://www.whatgenerativeai.com/work-with-us/workflow-implementation/)
+- [Adoption & Assurance Retainer — from £1,500/month](https://www.whatgenerativeai.com/work-with-us/adoption-assurance-retainer/)
+
+## Disclosure
+Paid engagements are contracted and delivered by Neul Labs (https://www.neullabs.com), which Dipankar Sarkar founded and leads. Playbook recommendations stay vendor-agnostic, and the site does not publish supplier rankings.
 
 ## Core concepts (canonical short definitions)
 - Generative AI: AI that creates new content (text, images, code, data) from learned patterns, rather than

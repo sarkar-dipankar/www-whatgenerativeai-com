@@ -1,0 +1,150 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import AnswerBox from "../../components/AnswerBox.astro";
+import Toc from "../../components/Toc.astro";
+import CtaPanel from "../../components/CtaPanel.astro";
+import Disclosure from "../../components/Disclosure.astro";
+import { offerBySlug, formatPrice } from "../../data/offers";
+import { toolBySlug } from "../../data/tools";
+import { CLUSTERS } from "../../data/clusters";
+import { SITE_URL } from "../../data/site";
+
+export async function getStaticPaths() {
+  const guides = await getCollection("guides", (g) => !g.data.draft);
+  return guides.map((g) => ({ params: { slug: g.data.slug }, props: { guide: g } }));
+}
+
+const { guide } = Astro.props;
+const { Content, headings } = await render(guide);
+const d = guide.data;
+const url = `${SITE_URL}/guides/${d.slug}/`;
+const offer = offerBySlug(d.offer);
+const tool = toolBySlug(d.tool);
+const cluster = CLUSTERS[d.cluster];
+
+const chapters = await getCollection("docs", (e) => e.data.lang === "en" && !!e.data.slug && d.relatedChapters.includes(e.data.slug));
+const posts = await getCollection("posts", (e) => e.data.lang === "en" && !!e.data.slug && d.relatedPosts.includes(e.data.slug));
+const siblings = (await getCollection("guides", (g) => !g.data.draft && g.data.slug !== d.slug && g.data.kind === d.kind))
+  .sort((a, b) => a.data.weight - b.data.weight)
+  .slice(0, 4);
+
+const fmt = (dt: Date) => dt.toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" });
+const section = d.kind === "decision" ? "Decision guides" : "Workflow guides";
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: d.title,
+    description: d.description,
+    url,
+    datePublished: d.date.toISOString(),
+    dateModified: d.reviewed.toISOString(),
+    author: { "@type": "Person", name: d.author, url: "https://www.dipankar.co" },
+    publisher: { "@id": `${SITE_URL}/#org` },
+    image: `${SITE_URL}/header.png`,
+    inLanguage: "en",
+    keywords: d.tags.join(", "),
+    mainEntityOfPage: url,
+    about: d.question,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Guides", item: `${SITE_URL}/guides/` },
+      { "@type": "ListItem", position: 3, name: d.title, item: url },
+    ],
+  },
+];
+---
+<BaseLayout
+  lang="en"
+  title={d.seoTitle ?? d.title}
+  description={d.description}
+  type="article"
+  publishedTime={d.date.toISOString()}
+  modifiedTime={d.reviewed.toISOString()}
+  tags={d.tags}
+  jsonLd={jsonLd}
+  alternates={[{ lang: "en", path: `/guides/${d.slug}/` }]}
+>
+  <Header lang="en" path="/guides/" />
+  <PageHeader
+    eyebrow={cluster ? `${section} · ${cluster.label}` : section}
+    title={d.title}
+    lede={d.description}
+    crumbs={[{ label: "Guides", href: "/guides/" }, { label: d.title }]}
+  />
+
+  <main id="main" class="w-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+    <div class="flex gap-10">
+      <div class="min-w-0 flex-1 max-w-3xl">
+        <p class="text-sm text-stone-500 dark:text-stone-400 mb-6">
+          Reviewed <time datetime={d.reviewed.toISOString()}>{fmt(d.reviewed)}</time> · {d.author}
+        </p>
+
+        <AnswerBox question={d.question} answer={d.answer} appliesWhen={d.appliesWhen} alternatives={d.alternatives} />
+
+        <article class="prose guide-body mt-10">
+          <Content />
+        </article>
+
+        {(tool || offer) && (
+          <div class="mt-12">
+            <CtaPanel
+              title={tool ? `Apply this to your workflow` : `Want help with this?`}
+              body={tool
+                ? `${tool.name}: ${tool.short} You get the result on screen, with no sign-up.`
+                : offer
+                  ? `${offer.name} (${formatPrice(offer)}): ${offer.short}`
+                  : ""}
+              primary={tool ? { label: `Open the ${tool.name.toLowerCase()}`, href: `/tools/${tool.slug}/` } : { label: offer!.name, href: `/work-with-us/${offer!.slug}/` }}
+              secondary={tool && offer ? { label: `${offer.name} · ${formatPrice(offer)}`, href: `/work-with-us/${offer.slug}/` } : { label: "Start a project brief", href: "/work-with-us/intake/" }}
+            />
+          </div>
+        )}
+
+        {(chapters.length > 0 || posts.length > 0) && (
+          <section class="mt-12">
+            <h2 class="text-lg font-bold text-stone-900 dark:text-stone-50">Background reading</h2>
+            <ul class="mt-3 space-y-2 text-sm">
+              {chapters.map((c) => <li><span class="text-stone-500">Playbook chapter {c.data.weight}:</span> <a href={`/docs/genai-playbook/${c.data.slug}/`} class="text-primary-700 dark:text-primary-300 hover:underline">{c.data.title}</a></li>)}
+              {posts.map((p) => <li><span class="text-stone-500">Article:</span> <a href={`/posts/${p.data.slug}/`} class="text-primary-700 dark:text-primary-300 hover:underline">{p.data.title}</a></li>)}
+            </ul>
+          </section>
+        )}
+
+        <section class="mt-10 not-prose rounded-xl border border-stone-200 dark:border-stone-800 bg-stone-100/60 dark:bg-stone-900 p-5">
+          <h2 class="text-sm font-bold uppercase tracking-wider text-primary-700 dark:text-primary-300">Summary for AI assistants</h2>
+          <p class="mt-2 text-sm text-stone-700 dark:text-stone-300">
+            {section.replace(/s$/, "")} from What Generative AI: "{d.title}". Question: {d.question} Short answer: {d.answer} Reviewed {d.reviewed.toISOString().slice(0, 10)} by {d.author}. URL: {url}
+          </p>
+        </section>
+
+        <Disclosure class="mt-8" />
+      </div>
+      <Toc lang="en" headings={headings} />
+    </div>
+
+    {siblings.length > 0 && (
+      <section class="mt-16 border-t border-stone-200 dark:border-stone-800 pt-10">
+        <h2 class="text-xl font-bold text-stone-900 dark:text-stone-50 mb-5">More {section.toLowerCase()}</h2>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {siblings.map((s) => (
+            <a href={`/guides/${s.data.slug}/`} class="group rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-5 hover:border-primary-400 transition">
+              <p class="font-semibold text-stone-900 dark:text-stone-50 group-hover:text-primary-700 leading-snug">{s.data.title}</p>
+              <p class="mt-1 text-xs text-stone-500 line-clamp-2">{s.data.question}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+  </main>
+  <Footer lang="en" />
+</BaseLayout>

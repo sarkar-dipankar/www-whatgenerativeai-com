@@ -1,0 +1,133 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import CtaPanel from "../../components/CtaPanel.astro";
+import Disclosure from "../../components/Disclosure.astro";
+import { SITE_URL } from "../../data/site";
+
+const reviewed = "2026-10-08";
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "Evidence and methods: how we measure AI workflow outcomes",
+    url: `${SITE_URL}/evidence/`,
+    dateModified: reviewed,
+    author: { "@type": "Person", name: "Dipankar Sarkar", url: "https://www.dipankar.co" },
+    publisher: { "@id": `${SITE_URL}/#org` },
+    inLanguage: "en",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Evidence", item: `${SITE_URL}/evidence/` },
+    ],
+  },
+];
+
+const statuses = [
+  { s: "Observed", d: "Seen directly in public material or the client's systems, with a source and a date." },
+  { s: "Inferred", d: "Our reasoning from observed facts. Never presented as fact, and never used to claim a need or a budget exists." },
+  { s: "Buyer-confirmed", d: "Stated by the accountable person in the organisation." },
+  { s: "Tested", d: "Measured by us on the client's own examples, against a threshold agreed in advance." },
+  { s: "Expired", d: "Was true once, but the model, vendor, process or team has changed since. Has to be checked again." },
+];
+
+const record = [
+  ["Baseline", "Effort, quality, cycle time and error rate before any change, measured on real work for long enough to be representative."],
+  ["Intervention", "Exactly what changed: tool, configuration, process step, review step, training. Including what we chose not to do."],
+  ["Measured outcome", "The same measures after the change, over a comparable period, with the size of the sample."],
+  ["Limitations", "What the numbers don't show: small samples, seasonal effects, novelty effects, self-reported time."],
+  ["Maintenance burden", "Ongoing review time, licence and run costs, evaluation re-runs and the owner responsible."],
+];
+---
+<BaseLayout
+  lang="en"
+  title="Evidence & methods — how we measure AI workflow outcomes"
+  description="How we measure AI workflow outcomes: baseline versus result, vendor claims kept apart from test results, and hours released kept apart from cash saved."
+  type="article"
+  modifiedTime={reviewed}
+  jsonLd={jsonLd}
+  alternates={[{ lang: "en", path: "/evidence/" }]}
+>
+  <Header lang="en" path="/evidence/" />
+  <PageHeader
+    eyebrow="Evidence & methods"
+    title="Honest numbers, or none"
+    lede="An AI business case is only as good as its evidence. This is how we measure outcomes, how we label claims, and what we will and won't publish."
+    crumbs={[{ label: "Evidence" }]}
+  />
+  <main id="main" class="w-full mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12">
+    <p class="text-sm text-stone-500 mb-8">Reviewed <time datetime={reviewed}>8 October 2026</time> · Dipankar Sarkar</p>
+    <article class="prose guide-body">
+      <h2>What every outcome record contains</h2>
+      <p>We record each engagement's results in the same five parts, so outcomes can be compared and challenged.</p>
+      <table>
+        <thead><tr><th>Part</th><th>What it captures</th></tr></thead>
+        <tbody>{record.map(([a, b]) => <tr><td><strong>{a}</strong></td><td>{b}</td></tr>)}</tbody>
+      </table>
+
+      <h2>How we label claims</h2>
+      <p>Every material statement in a brief, assessment or case study carries a source, a date and one of these labels. The labels stop weak signals from being turned into made-up demand, and stop demos from being mistaken for results.</p>
+      <ul>{statuses.map((x) => <li><strong>{x.s}:</strong> {x.d}</li>)}</ul>
+
+      <h2>Vendor claims are not test results</h2>
+      <p>A vendor's benchmark tells you what a product can do under its maker's conditions. A test result tells you what it did on your work, judged against your threshold. We report the two separately and never combine them into one figure.</p>
+
+      <h2>Hours released are not cash saved</h2>
+      <p>If a workflow redesign frees up staff time, that capacity has value only once it's used. A business case has to say what happens to it: less overtime, a hire avoided, more throughput, better service — or nothing. Running costs come off the total: review time, licences, support and change management. The <a href="/tools/workflow-economics/">workflow economics calculator</a> keeps these figures separate.</p>
+
+      <h2>Worked examples (hypothetical)</h2>
+      <p><strong>These examples are illustrative. They are not client results.</strong> They show the method, not a benchmark.</p>
+
+      <h3>Example A: 120 staff-hours a month</h3>
+      <p>A redesigned reporting workflow releases an estimated 120 staff-hours a month at a loaded cost of £45 an hour. That time is worth £5,400 a month, but it is not cash.</p>
+      <ul>
+        <li>If the team was paying for 60 of those hours as overtime, about £2,700 a month becomes a real saving.</li>
+        <li>If the rest goes on client reviews, the benefit is service quality. That's real, but it belongs in the business case as quality, not cash.</li>
+        <li>Take off £600 a month for licences and review time, and £8,000 one-off for set-up and change management. The cash case pays back in about 4 months, and only if the overtime really stops.</li>
+      </ul>
+
+      <h3>Example B: the margin on a £20,000 implementation</h3>
+      <p>For a principal-delivery engagement, the gap between the customer fee and a specialist's quote is not profit.</p>
+      <table>
+        <thead><tr><th>Item</th><th>Assumed amount</th></tr></thead>
+        <tbody>
+          <tr><td>Customer fee</td><td>£20,000</td></tr>
+          <tr><td>Specialist delivery</td><td>−£9,000</td></tr>
+          <tr><td>Diagnosis, oversight and acceptance work</td><td>−£3,000</td></tr>
+          <tr><td>Tooling and rework allowance</td><td>−£1,000</td></tr>
+          <tr><td>Acquisition and presales</td><td>−£2,000</td></tr>
+          <tr><td><strong>Contribution before overhead and tax</strong></td><td><strong>£5,000</strong></td></tr>
+        </tbody>
+      </table>
+      <p>We publish this example so buyers can see what they are paying for: the delivery, plus the accountability for whether it is accepted.</p>
+
+      <h2>Published case studies</h2>
+      <p>None yet. We publish case studies only with the client's written permission, with the five-part record above, and with their limitations stated. Until then we would rather show our method than make up a track record.</p>
+
+      <h2>What we won't do</h2>
+      <ul>
+        <li>Present one engagement as an industry-wide benchmark.</li>
+        <li>Publish a client's confidential information, or use it to write public content.</li>
+        <li>Rank suppliers, or present a recommendation we have a commercial interest in as independent.</li>
+      </ul>
+    </article>
+
+    <div class="mt-12">
+      <CtaPanel
+        title="Want this rigour applied to your workflow?"
+        body="An Opportunity Sprint produces a baseline, honest economics and a recommendation that may be 'don't build anything'."
+        primary={{ label: "AI Opportunity Sprint", href: "/work-with-us/ai-opportunity-sprint/" }}
+        secondary={{ label: "Start a project brief", href: "/work-with-us/intake/" }}
+      />
+      <Disclosure class="mt-6" />
+    </div>
+  </main>
+  <Footer lang="en" />
+</BaseLayout>

@@ -33,4 +33,33 @@ const posts = defineCollection({
   }),
 });
 
-export const collections = { docs, posts };
+// Decision and workflow guides — English-only buyer decision layer.
+// Body shape: answer → when it applies → options → what to check → worked example → next step.
+const guides = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/guides" }),
+  schema: z.object({
+    title: z.string(),
+    /** <title> override when `title` exceeds the 30–65 char SEO window. */
+    seoTitle: z.string().max(65).optional(),
+    description: z.string(),
+    slug: z.string(),
+    kind: z.enum(["decision", "workflow"]),
+    cluster: z.string(),
+    question: z.string(),
+    answer: z.string(),
+    appliesWhen: z.array(z.string()).default([]),
+    alternatives: z.array(z.string()).default([]),
+    offer: z.string().optional(),
+    tool: z.string().optional(),
+    relatedChapters: z.array(z.string()).default([]),
+    relatedPosts: z.array(z.string()).default([]),
+    weight: z.number().default(50),
+    date: z.coerce.date(),
+    reviewed: z.coerce.date(),
+    author: z.string().default("Dipankar Sarkar"),
+    tags: z.array(z.string()).default([]),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { docs, posts, guides };

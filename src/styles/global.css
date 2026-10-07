@@ -86,6 +86,8 @@ body {
 .prose h4 { @apply text-lg font-semibold text-stone-900 mt-5 mb-2; }
 .prose p { @apply my-4; }
 .prose a { @apply text-primary-700 underline underline-offset-2 hover:text-primary-800; }
+/* rehype-autolink-headings wraps headings in <a>; keep them looking like headings */
+.prose :is(h1, h2, h3, h4) > a { color: inherit; text-decoration: none; }
 .prose ul { @apply my-4 pl-6 list-disc space-y-1; }
 .prose ol { @apply my-4 pl-6 list-decimal space-y-1; }
 .prose blockquote {
@@ -111,3 +113,32 @@ body {
 .dark .prose tr:nth-child(even) td { @apply bg-stone-900; }
 
 .focus-ring { @apply outline-none ring-2 ring-primary-500 ring-offset-2 ring-offset-stone-50 dark:ring-offset-stone-950; }
+/* Wide tables in guides scroll inside their own box on narrow screens */
+.guide-body table { @apply block overflow-x-auto; }
+
+/* Form controls for decision tools and intake */
+.field-label { @apply block mb-1.5 font-semibold text-sm text-stone-800; }
+.field-hint { @apply block mt-1 text-xs text-stone-500; }
+.field-input {
+  @apply w-full rounded-md border border-stone-300 bg-white px-3 py-2.5 text-stone-900 focus:outline-none focus:ring-2 focus:ring-primary-500;
+}
+.dark .field-label { @apply text-stone-200; }
+.dark .field-input { @apply border-stone-700 bg-stone-900 text-stone-100; }
+.dark .field-hint { @apply text-stone-400; }
+
+/* Radio option cards (scorecard) */
+.opt { @apply flex items-start gap-2.5 rounded-lg border border-stone-200 bg-white px-3 py-2.5 text-sm text-stone-700 cursor-pointer hover:border-primary-400 transition; }
+.opt:has(input:checked) { @apply border-primary-500 bg-primary-50 text-stone-900; }
+.dark .opt { @apply border-stone-700 bg-stone-900 text-stone-300; }
+.dark .opt:has(input:checked) { @apply border-primary-500 bg-primary-950 text-stone-50; }
+
+.btn-primary { @apply inline-flex items-center justify-center gap-2 rounded-lg bg-primary-600 px-5 py-2.5 text-white font-semibold text-sm hover:bg-primary-700 transition disabled:opacity-60; }
+.btn-secondary { @apply inline-flex items-center justify-center gap-2 rounded-lg border border-stone-300 px-4 py-2.5 text-stone-800 font-semibold text-sm hover:bg-stone-100 transition; }
+.dark .btn-secondary { @apply border-stone-700 text-stone-100 hover:bg-stone-800; }
+
+@media print {
+  header, footer, .no-print { display: none !important; }
+  body { background: white !important; }
+  .print-only { display: block !important; }
+}
+.print-only { display: none; }

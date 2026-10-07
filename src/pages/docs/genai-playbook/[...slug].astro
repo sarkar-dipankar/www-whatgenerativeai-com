@@ -2,6 +2,9 @@
 import { getCollection, render } from "astro:content";
 import DocsLayout from "../../../layouts/DocsLayout.astro";
 import { DEFAULT_LANG } from "../../../i18n";
+import { collectionAlternates, entryBase } from "../../../lib/alternates";
+import NextStep from "../../../components/NextStep.astro";
+import { CHAPTER_NEXT_STEPS } from "../../../data/chapter-next-steps";
 
 const lang = DEFAULT_LANG;
 const docs = await getCollection("docs", (e) => e.data.lang === lang && !e.data.draft && !e.id.startsWith("_index"));
@@ -17,6 +20,8 @@ export async function getStaticPaths() {
 
 const { doc } = Astro.props;
 const { Content, headings } = await render(doc);
+const alternates = await collectionAlternates("docs", entryBase(doc), "/docs/genai-playbook/");
+const nextStep = doc.data.slug ? CHAPTER_NEXT_STEPS[doc.data.slug] : undefined;
 
 const siteUrl = "https://www.whatgenerativeai.com";
 const url = `${siteUrl}/docs/genai-playbook/${doc.data.slug}/`;
@@ -68,8 +73,11 @@ const breadcrumbJsonLd = {
   headings={headings}
   articleJsonLd={articleJsonLd}
   breadcrumbJsonLd={breadcrumbJsonLd}
+  alternates={alternates}
 >
   <Content />
+
+  {nextStep && <NextStep step={nextStep} />}
 
   <!-- AI-friendly citation summary -->
   <section class="not-prose mt-12 rounded-xl border border-brand-200 bg-brand-50/50 dark:border-ink-700 dark:bg-ink-900 p-5">

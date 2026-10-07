@@ -1,0 +1,282 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import Disclosure from "../../components/Disclosure.astro";
+import { SITUATIONS } from "../../data/situations";
+import { OFFERS } from "../../data/offers";
+
+// Structured project intake. Like /contact, it POSTs to /contact, where the
+// per-zone Cloudflare Worker validates Turnstile and emails every field.
+// form_type distinguishes it from editorial enquiries. The
+// {{TURNSTILE_SITEKEY}} placeholder is replaced at runtime by the worker.
+const title = "Start a project brief — What Generative AI";
+const description = "Tell us about the workflow, the decision you face and the constraints. We reply with whether there is a viable project and the smallest sensible next step.";
+---
+<BaseLayout title={title} description={description} noindex alternates={[{ lang: "en", path: "/work-with-us/intake/" }]}>
+  <Header lang="en" path="/work-with-us/" />
+  <PageHeader
+    eyebrow="Project intake"
+    title="Start a project brief"
+    lede="About five minutes. Tell us about one workflow and the decision you're facing. A person reads every brief and replies with whether there's a viable project — and the smallest sensible next step."
+    crumbs={[{ label: "Work with us", href: "/work-with-us/" }, { label: "Project brief" }]}
+  />
+
+  <main id="main" class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12">
+    <div id="prefill-note" class="hidden mb-6 rounded-lg border border-primary-200 dark:border-primary-900 bg-primary-50/60 dark:bg-stone-900 px-4 py-3 text-sm text-stone-700 dark:text-stone-300">
+      We've attached the result from the tool you just used. You can edit it below before sending.
+    </div>
+
+    <form id="intake-form" method="POST" action="/contact" enctype="multipart/form-data" class="flex flex-col gap-10">
+      <input type="hidden" name="form_type" value="project-intake" />
+      <input type="hidden" name="subject" id="subject" value="WGA project intake" />
+      <input type="hidden" name="source" id="source" value="" />
+
+      <fieldset class="flex flex-col gap-5">
+        <legend class="text-lg font-bold text-stone-900 dark:text-stone-50 mb-4">1. About you</legend>
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label for="name" class="field-label">Name <span class="text-red-500">*</span></label>
+            <input id="name" name="name" required autocomplete="name" class="field-input" />
+          </div>
+          <div>
+            <label for="email" class="field-label">Work email <span class="text-red-500">*</span></label>
+            <input id="email" name="email" type="email" required autocomplete="email" class="field-input" />
+          </div>
+          <div>
+            <label for="company" class="field-label">Organisation <span class="text-red-500">*</span></label>
+            <input id="company" name="company" required autocomplete="organization" class="field-input" />
+          </div>
+          <div>
+            <label for="role" class="field-label">Your role</label>
+            <input id="role" name="role" autocomplete="organization-title" placeholder="e.g. Head of Operations" class="field-input" />
+          </div>
+          <div>
+            <label for="org_size" class="field-label">Organisation size</label>
+            <select id="org_size" name="org_size" class="field-input">
+              <option value="">Select…</option>
+              <option>1–49 people</option>
+              <option>50–500 people</option>
+              <option>500–5,000 people</option>
+              <option>5,000+ people</option>
+            </select>
+          </div>
+          <div>
+            <label for="country" class="field-label">Country</label>
+            <input id="country" name="country" autocomplete="country-name" class="field-input" />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="flex flex-col gap-5">
+        <legend class="text-lg font-bold text-stone-900 dark:text-stone-50 mb-4">2. The situation</legend>
+        <div>
+          <label for="situation" class="field-label">Which is closest? <span class="text-red-500">*</span></label>
+          <select id="situation" name="situation" required class="field-input">
+            <option value="">Select…</option>
+            {SITUATIONS.map((s) => <option value={s.id}>{s.quote}</option>)}
+            <option value="other">Something else</option>
+          </select>
+        </div>
+        <div>
+          <label for="offer_interest" class="field-label">Engagement you're considering <span class="text-stone-400 font-normal">(optional)</span></label>
+          <select id="offer_interest" name="offer_interest" class="field-input">
+            <option value="">Not sure yet — advise me</option>
+            {OFFERS.map((o) => <option value={o.slug}>{o.name}</option>)}
+          </select>
+        </div>
+      </fieldset>
+
+      <fieldset class="flex flex-col gap-5">
+        <legend class="text-lg font-bold text-stone-900 dark:text-stone-50 mb-4">3. The workflow</legend>
+        <div>
+          <label for="workflow" class="field-label">Workflow name <span class="text-red-500">*</span></label>
+          <input id="workflow" name="workflow" required placeholder="e.g. Monthly client performance packs" class="field-input" />
+        </div>
+        <div>
+          <label for="workflow_description" class="field-label">What it does and how it's done today <span class="text-red-500">*</span></label>
+          <textarea id="workflow_description" name="workflow_description" rows="4" required placeholder="Inputs, steps, who is involved, where the output goes." class="field-input resize-y"></textarea>
+        </div>
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label for="frequency" class="field-label">How often it runs</label>
+            <input id="frequency" name="frequency" placeholder="e.g. 40 times a month" class="field-input" />
+          </div>
+          <div>
+            <label for="effort" class="field-label">Current effort</label>
+            <input id="effort" name="effort" placeholder="e.g. ~6 hours each, 3 people" class="field-input" />
+          </div>
+          <div>
+            <label for="systems" class="field-label">Systems involved</label>
+            <input id="systems" name="systems" placeholder="e.g. Salesforce, SharePoint, Excel" class="field-input" />
+          </div>
+          <div>
+            <label for="sensitivity" class="field-label">Most sensitive information involved</label>
+            <select id="sensitivity" name="sensitivity" class="field-input">
+              <option value="">Select…</option>
+              <option>Public information only</option>
+              <option>Internal, non-confidential</option>
+              <option>Confidential business or client information</option>
+              <option>Personal data</option>
+              <option>Special-category or regulated data</option>
+              <option>Not sure</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label for="ai_tools" class="field-label">AI tools you already have <span class="text-stone-400 font-normal">(optional)</span></label>
+          <input id="ai_tools" name="ai_tools" placeholder="e.g. Microsoft 365 Copilot for 200 staff; a pilot chatbot" class="field-input" />
+        </div>
+      </fieldset>
+
+      <fieldset class="flex flex-col gap-5">
+        <legend class="text-lg font-bold text-stone-900 dark:text-stone-50 mb-4">4. Outcome and decision</legend>
+        <div>
+          <label for="outcome" class="field-label">What would a good outcome look like? <span class="text-red-500">*</span></label>
+          <textarea id="outcome" name="outcome" rows="3" required placeholder="e.g. Packs ready in half the time, with every figure traceable to source." class="field-input resize-y"></textarea>
+        </div>
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label for="owner_status" class="field-label">Is there a process owner?</label>
+            <select id="owner_status" name="owner_status" class="field-input">
+              <option value="">Select…</option>
+              <option>Yes — named owner with budget</option>
+              <option>Yes — named owner, budget not yet agreed</option>
+              <option>Not yet</option>
+            </select>
+          </div>
+          <div>
+            <label for="budget_status" class="field-label">Budget status</label>
+            <select id="budget_status" name="budget_status" class="field-input">
+              <option value="">Select…</option>
+              <option>Approved</option>
+              <option>Being prepared</option>
+              <option>Unresolved</option>
+            </select>
+            <span class="field-hint">“Unresolved” is a perfectly normal answer.</span>
+          </div>
+          <div>
+            <label for="decision_process" class="field-label">Who else is involved in the decision?</label>
+            <input id="decision_process" name="decision_process" placeholder="e.g. CFO sign-off; IT security review" class="field-input" />
+          </div>
+          <div>
+            <label for="target_date" class="field-label">Target date</label>
+            <input id="target_date" name="target_date" placeholder="e.g. Before Q1 planning" class="field-input" />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="flex flex-col gap-5">
+        <legend class="text-lg font-bold text-stone-900 dark:text-stone-50 mb-4">5. Anything else</legend>
+        <div>
+          <label for="brief_markdown" class="field-label">Brief or tool result <span class="text-stone-400 font-normal">(optional)</span></label>
+          <textarea id="brief_markdown" name="brief_markdown" rows="6" placeholder="Paste a brief, or use the scorecard / brief builder and it will appear here." class="field-input resize-y font-mono text-xs"></textarea>
+        </div>
+        <div>
+          <label for="message" class="field-label">Questions or context <span class="text-stone-400 font-normal">(optional)</span></label>
+          <textarea id="message" name="message" rows="3" class="field-input resize-y"></textarea>
+        </div>
+        <div>
+          <label for="attachment" class="field-label">Attachment <span class="text-stone-400 font-normal">(optional, max 4 MB — please don't send confidential material yet)</span></label>
+          <input type="file" id="attachment" name="attachment" class="text-sm text-stone-600 dark:text-stone-400" />
+        </div>
+        <label class="flex items-start gap-2.5 text-sm text-stone-700 dark:text-stone-300">
+          <input type="checkbox" name="updates_opt_in" value="yes" class="mt-1" />
+          <span>Optional: send me occasional updates when new guides or tools are published. (Leaving this unticked doesn't affect your enquiry.)</span>
+        </label>
+      </fieldset>
+
+      <div class="flex flex-col gap-4">
+        <div class="cf-turnstile" data-sitekey="{{TURNSTILE_SITEKEY}}"></div>
+        <button type="submit" id="submit-btn" class="btn-primary self-start">Send project brief</button>
+        <p class="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
+          We use what you send only to reply to this enquiry and assess whether we can help. It is kept separate from the public playbooks and is never published.
+        </p>
+        <Disclosure />
+      </div>
+    </form>
+
+    <div id="form-success" role="status" class="hidden mt-6 rounded-md border border-green-300 bg-green-50 text-green-800 px-4 py-4">
+      <p class="m-0 font-semibold">Thanks — your brief has been sent.</p>
+      <p class="m-0 mt-1 text-sm">A person will read it and reply with whether there's a viable project and what the next step would be. Nothing is booked or committed until you agree to it.</p>
+    </div>
+
+    <div id="form-error" role="alert" class="hidden mt-6 rounded-md border border-red-300 bg-red-50 text-red-800 px-4 py-4">
+      <p class="m-0" id="form-error-text">Sorry, something went wrong. Please try again or email <a href="mailto:contact@whatgenerativeai.com" class="underline">contact@whatgenerativeai.com</a>.</p>
+    </div>
+  </main>
+  <Footer lang="en" />
+</BaseLayout>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script>
+  import { readIntakePrefill } from "../../lib/brief";
+
+  const form = document.getElementById("intake-form") as HTMLFormElement | null;
+  const successDiv = document.getElementById("form-success");
+  const errorDiv = document.getElementById("form-error");
+  const errorText = document.getElementById("form-error-text");
+  const submitBtn = document.getElementById("submit-btn") as HTMLButtonElement | null;
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T | null;
+
+  // Prefill from the decision tools (sessionStorage) or ?situation=&offer= links.
+  const prefill = readIntakePrefill();
+  const setIfEmpty = (id: string, value?: string) => {
+    const el = $<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(id);
+    if (el && value && !el.value) el.value = value;
+  };
+  setIfEmpty("situation", prefill.situation);
+  setIfEmpty("offer_interest", prefill.offer);
+  setIfEmpty("workflow", prefill.workflow);
+  setIfEmpty("brief_markdown", prefill.briefMarkdown);
+  setIfEmpty("source", prefill.source);
+  if (prefill.briefMarkdown) $("prefill-note")?.classList.remove("hidden");
+
+  function resetTurnstile() {
+    const w = window as unknown as { turnstile?: { reset: () => void } };
+    if (w.turnstile) w.turnstile.reset();
+  }
+
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const situation = $<HTMLSelectElement>("situation");
+      const subject = $<HTMLInputElement>("subject");
+      const workflow = $<HTMLInputElement>("workflow");
+      if (subject) {
+        const label = situation?.selectedOptions[0]?.text ?? "";
+        subject.value = `WGA project intake — ${workflow?.value || "workflow"} (${label})`.slice(0, 180);
+      }
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Sending…";
+      }
+
+      const fail = (msg: string) => {
+        if (errorText) errorText.textContent = msg;
+        errorDiv?.classList.remove("hidden");
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Send project brief";
+        }
+        resetTurnstile();
+      };
+
+      try {
+        const response = await fetch(form.action, { method: "POST", body: new FormData(form) });
+        const result = await response.json();
+        if (result.success) {
+          form.classList.add("hidden");
+          errorDiv?.classList.add("hidden");
+          successDiv?.classList.remove("hidden");
+          try { sessionStorage.removeItem("wgai-intake-prefill"); } catch { /* ignore */ }
+        } else {
+          fail(result.error || "Something went wrong. Please try again.");
+        }
+      } catch {
+        fail("Network error. Please try again.");
+      }
+    });
+  }
+</script>

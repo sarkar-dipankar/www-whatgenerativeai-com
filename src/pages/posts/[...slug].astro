@@ -4,6 +4,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import { DEFAULT_LANG } from "../../i18n";
+import { collectionAlternates, entryBase } from "../../lib/alternates";
 
 export async function getStaticPaths() {
   const posts = await getCollection("posts", (e) => e.data.lang === "en" && !e.data.draft && !e.id.startsWith("_index"));
@@ -15,6 +16,7 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content, headings } = await render(post);
+const alternates = await collectionAlternates("posts", entryBase(post), "/posts/");
 const siteUrl = "https://www.whatgenerativeai.com";
 const url = `${siteUrl}/posts/${post.data.slug}/`;
 const articleJsonLd = {
@@ -44,6 +46,7 @@ const breadcrumbJsonLd = {
 ---
 <BaseLayout
   lang="en"
+  alternates={alternates}
   title={post.data.title}
   description={post.data.description ?? post.data.title}
   type="article"

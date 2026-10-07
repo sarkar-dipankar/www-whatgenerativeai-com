@@ -1,0 +1,10 @@
+---
+// Keep wording in sync with DISCLOSURE in src/data/site.ts (used in plain-text contexts).
+import { DELIVERY_ENTITY } from "../data/site";
+interface Props { class?: string }
+const { class: cls = "" } = Astro.props;
+---
+<p class={`text-xs leading-relaxed text-stone-500 dark:text-stone-400 ${cls}`}>
+  <strong class="font-semibold text-stone-600 dark:text-stone-300">Disclosure:</strong>
+  Paid engagements are contracted and delivered by <a href={DELIVERY_ENTITY.url} class="underline hover:text-primary-700">{DELIVERY_ENTITY.name}</a>, which Dipankar Sarkar founded and leads. Playbook recommendations stay vendor-agnostic, and we do not publish supplier rankings.
+</p>

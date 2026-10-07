@@ -1,0 +1,260 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import Disclosure from "../../components/Disclosure.astro";
+import { CAPACITY_USES, DEFAULT_INPUTS as D } from "../../lib/economics";
+import { SITE_URL } from "../../data/site";
+
+const path = "/tools/workflow-economics/";
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "Workflow Economics Calculator",
+    url: `${SITE_URL}${path}`,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Any (runs in the browser)",
+    offers: { "@type": "Offer", price: 0, priceCurrency: "GBP" },
+    description: "Calculate the honest economics of an AI-assisted workflow: hours released vs cash realised, running costs, payback and sensitivity.",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Tools", item: `${SITE_URL}/tools/` },
+      { "@type": "ListItem", position: 3, name: "Workflow Economics Calculator", item: `${SITE_URL}${path}` },
+    ],
+  },
+];
+
+const num = (id: string, label: string, value: number, opts: { step?: number; suffix?: string; hint?: string; prefix?: string } = {}) => ({ id, label, value, ...opts });
+const groups = [
+  {
+    title: "The workflow today",
+    fields: [
+      num("runsPerMonth", "Runs per month", D.runsPerMonth),
+      num("hoursPerRun", "Hours per run (all people)", D.hoursPerRun, { step: 0.25 }),
+      num("hourlyCost", "Loaded cost per hour", D.hourlyCost, { prefix: "£", hint: "Salary plus on-costs, divided by productive hours." }),
+    ],
+  },
+  {
+    title: "Expected effort reduction",
+    fields: [
+      num("reductionLowPct", "Low case", D.reductionLowPct, { suffix: "%" }),
+      num("reductionBasePct", "Base case", D.reductionBasePct, { suffix: "%" }),
+      num("reductionHighPct", "High case", D.reductionHighPct, { suffix: "%" }),
+    ],
+  },
+  {
+    title: "New costs",
+    fields: [
+      num("reviewMinutesPerRun", "Review time added per run", D.reviewMinutesPerRun, { suffix: "min", hint: "Checking AI output is work too." }),
+      num("monthlySoftware", "Software per month", D.monthlySoftware, { prefix: "£" }),
+      num("monthlySupport", "Support and maintenance per month", D.monthlySupport, { prefix: "£" }),
+      num("oneOffCost", "One-off set-up and change management", D.oneOffCost, { prefix: "£" }),
+    ],
+  },
+];
+---
+<BaseLayout
+  lang="en"
+  title="Workflow Economics Calculator — honest AI ROI and payback"
+  description="Free AI ROI calculator that separates hours released from cash saved, adds review time and running costs, and shows payback across three cases."
+  jsonLd={jsonLd}
+  alternates={[{ lang: "en", path }]}
+>
+  <Header lang="en" path="/tools/" />
+  <PageHeader
+    eyebrow="Free tool · ~4 minutes · no sign-up"
+    title="Workflow Economics Calculator"
+    lede="Hours released are not cash saved. Enter what the workflow costs today, what you expect to change and what it will cost to run, then decide what happens to the time you get back."
+    crumbs={[{ label: "Tools", href: "/tools/" }, { label: "Workflow Economics Calculator" }]}
+  />
+
+  <main id="main" class="w-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+    <noscript>
+      <p class="mb-6 rounded-lg border border-accent-300 bg-accent-50 px-4 py-3 text-sm text-stone-800">The calculator runs in your browser and needs JavaScript. The method below sets out the formulas so you can work it out by hand.</p>
+    </noscript>
+
+    <div class="grid gap-10 lg:grid-cols-[1fr_420px]">
+      <form id="econ" class="min-w-0 space-y-8 no-print" autocomplete="off">
+        <div>
+          <label for="workflow" class="field-label">Workflow</label>
+          <input id="workflow" class="field-input" placeholder="e.g. Monthly client performance packs" />
+        </div>
+        {groups.map((g) => (
+          <fieldset>
+            <legend class="text-lg font-bold text-stone-900 dark:text-stone-50 mb-4">{g.title}</legend>
+            <div class="grid gap-5 sm:grid-cols-3">
+              {g.fields.map((f) => (
+                <div>
+                  <label for={f.id} class="field-label">{f.label}</label>
+                  <div class="flex items-center gap-2">
+                    {f.prefix && <span class="text-stone-500">{f.prefix}</span>}
+                    <input id={f.id} name={f.id} type="number" inputmode="decimal" min="0" step={f.step ?? 1} value={f.value} class="field-input" />
+                    {f.suffix && <span class="text-stone-500 text-sm">{f.suffix}</span>}
+                  </div>
+                  {f.hint && <span class="field-hint">{f.hint}</span>}
+                </div>
+              ))}
+            </div>
+          </fieldset>
+        ))}
+
+        <fieldset>
+          <legend class="text-lg font-bold text-stone-900 dark:text-stone-50 mb-1">What happens to the released time?</legend>
+          <p class="text-sm text-stone-600 dark:text-stone-400 mb-4">This choice decides whether there is any cash saving at all.</p>
+          <div class="grid gap-2 sm:grid-cols-2">
+            {CAPACITY_USES.map((c) => (
+              <label class="opt">
+                <input type="radio" name="capacityUse" value={c.key} data-realisation={c.defaultRealisationPct} checked={c.key === D.capacityUse} class="mt-0.5 accent-primary-600" />
+                <span><span class="font-semibold">{c.label}</span> <span class="text-stone-500">· {c.defaultRealisationPct}%</span><br /><span class="text-xs text-stone-500">{c.note}</span></span>
+              </label>
+            ))}
+          </div>
+          <div class="mt-4 max-w-xs">
+            <label for="realisationPct" class="field-label">Share realised as cash or revenue</label>
+            <div class="flex items-center gap-2">
+              <input id="realisationPct" name="realisationPct" type="number" min="0" max="100" step="5" value={D.realisationPct} class="field-input" />
+              <span class="text-stone-500 text-sm">%</span>
+            </div>
+            <span class="field-hint">Defaults to the option you choose above. Change it if you know better.</span>
+          </div>
+        </fieldset>
+      </form>
+
+      <aside class="lg:sticky lg:top-24 self-start" aria-live="polite">
+        <div class="rounded-2xl border border-primary-200 dark:border-primary-900 bg-white dark:bg-stone-900 p-6 shadow-sm">
+          <p class="text-xs font-bold uppercase tracking-wider text-primary-700 dark:text-primary-300">Base case<span id="r-workflow" class="normal-case font-semibold text-stone-500"></span></p>
+          <dl class="mt-4 grid grid-cols-2 gap-4">
+            <div><dt class="text-xs text-stone-500">Net hours released / month</dt><dd id="r-hours" class="text-2xl font-bold text-stone-900 dark:text-stone-50">–</dd></div>
+            <div><dt class="text-xs text-stone-500">Value of that time <em>(not cash)</em></dt><dd id="r-timevalue" class="text-2xl font-bold text-stone-900 dark:text-stone-50">–</dd></div>
+            <div><dt class="text-xs text-stone-500">Cash or revenue realised / month</dt><dd id="r-cash" class="text-2xl font-bold text-primary-700 dark:text-primary-300">–</dd></div>
+            <div><dt class="text-xs text-stone-500">Running costs / month</dt><dd id="r-running" class="text-2xl font-bold text-stone-900 dark:text-stone-50">–</dd></div>
+            <div><dt class="text-xs text-stone-500">Year-one net (cash)</dt><dd id="r-year" class="text-2xl font-bold">–</dd></div>
+            <div><dt class="text-xs text-stone-500">Payback</dt><dd id="r-payback" class="text-2xl font-bold text-stone-900 dark:text-stone-50">–</dd></div>
+          </dl>
+          <p id="r-warning" class="mt-4 rounded-lg bg-accent-50 dark:bg-stone-800 px-3 py-2 text-sm text-stone-800 dark:text-stone-200" hidden></p>
+
+          <p class="mt-6 text-sm font-semibold text-stone-900 dark:text-stone-50">Sensitivity: year-one net</p>
+          <div class="mt-2 overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead><tr class="text-left text-xs text-stone-500"><th class="py-1 pr-2">Reduction</th><th class="py-1 px-2">0% realised</th><th class="py-1 px-2" id="h-chosen">Chosen</th><th class="py-1 pl-2">100% realised</th></tr></thead>
+              <tbody id="sens"></tbody>
+            </table>
+          </div>
+
+          <div class="mt-6 grid grid-cols-2 gap-2 no-print">
+            <button type="button" id="copy" class="btn-secondary">Copy</button>
+            <button type="button" id="download" class="btn-secondary">Download .md</button>
+            <button type="button" id="print" class="btn-secondary">Print</button>
+            <a href="/tools/project-brief/" id="to-brief" class="btn-secondary">Build a brief</a>
+          </div>
+          <button type="button" id="review" class="btn-primary w-full mt-3 no-print">Request expert review</button>
+          <p id="action-status" class="mt-2 text-xs text-stone-500 min-h-4" role="status"></p>
+        </div>
+      </aside>
+    </div>
+
+    <section class="mt-20 max-w-3xl prose guide-body no-print" aria-labelledby="method">
+      <h2 id="method">How the calculation works</h2>
+      <ul>
+        <li><strong>Net hours released</strong> = runs × hours per run × effort reduction − runs × review time added.</li>
+        <li><strong>Value of time released</strong> = net hours × loaded hourly cost. It shows what the capacity is worth. <em>It is not a saving.</em></li>
+        <li><strong>Cash or revenue realised</strong> = value of time released × the share that turns into cash. Only the use of released time decides that share: reduced overtime or contractor spend, an avoided hire, or extra billable output.</li>
+        <li><strong>Year-one net</strong> = (cash realised − running costs) × 12 − one-off costs.</li>
+        <li><strong>Payback</strong> = one-off costs ÷ monthly net cash, shown only when monthly net cash is positive.</li>
+      </ul>
+      <p>Quality improvements, faster turnaround and lower error rates are often the real benefit. They belong in the business case as quality measures, with their own evidence, not turned into cash. See <a href="/guides/ai-roi-hours-are-not-cash/">How to calculate AI ROI honestly</a> and the hypothetical worked examples on the <a href="/evidence/">evidence page</a>.</p>
+      <p>Not sure of the inputs? Measure the current effort per run over two to four weeks before you rely on any estimate, including this one.</p>
+    </section>
+
+    <div class="mt-12 max-w-3xl"><Disclosure /></div>
+  </main>
+  <Footer lang="en" />
+</BaseLayout>
+
+<script>
+  import { scenario, toResult, capacityLabel, type EconomicsInputs } from "../../lib/economics";
+  import { economicsMarkdown, saveDraft, copyText, downloadText, handoffToIntake, fileSlug, gbp } from "../../lib/brief";
+
+  const form = document.getElementById("econ") as HTMLFormElement;
+  const $ = (id: string) => document.getElementById(id)!;
+  const n = (id: string) => Number(($(id) as HTMLInputElement).value) || 0;
+  const status = (msg: string) => { $("action-status").textContent = msg; };
+  let lastMarkdown = "";
+
+  const workflowName = () => ($("workflow") as HTMLInputElement).value.trim();
+
+  function readInputs(): EconomicsInputs {
+    const cap = (form.querySelector('input[name="capacityUse"]:checked') as HTMLInputElement | null)?.value ?? "unused";
+    return {
+      runsPerMonth: n("runsPerMonth"), hoursPerRun: n("hoursPerRun"), hourlyCost: n("hourlyCost"),
+      reductionLowPct: n("reductionLowPct"), reductionBasePct: n("reductionBasePct"), reductionHighPct: n("reductionHighPct"),
+      reviewMinutesPerRun: n("reviewMinutesPerRun"), monthlySoftware: n("monthlySoftware"), monthlySupport: n("monthlySupport"),
+      oneOffCost: n("oneOffCost"), capacityUse: cap, realisationPct: Math.min(100, n("realisationPct")),
+    };
+  }
+
+  function render() {
+    const i = readInputs();
+    const base = scenario(i, i.reductionBasePct);
+    const name = workflowName();
+    $("r-workflow").textContent = name ? ` · ${name}` : "";
+    $("r-hours").textContent = base.netHoursPerMonth.toFixed(0);
+    $("r-timevalue").textContent = gbp(base.timeValuePerMonth);
+    $("r-cash").textContent = gbp(base.cashPerMonth);
+    $("r-running").textContent = gbp(i.monthlySoftware + i.monthlySupport);
+    const year = $("r-year");
+    year.textContent = gbp(base.yearOneNet);
+    year.className = `text-2xl font-bold ${base.yearOneNet >= 0 ? "text-primary-700 dark:text-primary-300" : "text-red-700 dark:text-red-400"}`;
+    $("r-payback").textContent = base.paybackMonths === null ? "Not reached" : `${base.paybackMonths.toFixed(1)} mo`;
+
+    const warn = $("r-warning");
+    if (base.netHoursPerMonth <= 0) {
+      warn.textContent = "Review time cancels out the effort saved. Check whether the workflow is worth changing at all.";
+      warn.hidden = false;
+    } else if (i.realisationPct === 0) {
+      warn.textContent = `With released time ${capacityLabel(i.capacityUse).toLowerCase()}, there is no cash saving: only running costs. The case has to rest on quality or capacity, with evidence.`;
+      warn.hidden = false;
+    } else {
+      warn.hidden = true;
+    }
+
+    $("h-chosen").textContent = `${i.realisationPct}% (chosen)`;
+    const rows = [["Low", i.reductionLowPct], ["Base", i.reductionBasePct], ["High", i.reductionHighPct]] as const;
+    $("sens").replaceChildren(...rows.map(([label, pct]) => {
+      const tr = document.createElement("tr");
+      tr.className = "border-t border-stone-200 dark:border-stone-800";
+      const cells = [`${label} (${pct}%)`, gbp(scenario(i, pct, 0).yearOneNet), gbp(scenario(i, pct).yearOneNet), gbp(scenario(i, pct, 100).yearOneNet)];
+      cells.forEach((c, idx) => {
+        const td = document.createElement("td");
+        td.className = idx === 0 ? "py-1.5 pr-2 text-stone-600 dark:text-stone-400" : "py-1.5 px-2 font-medium text-stone-900 dark:text-stone-100";
+        td.textContent = c;
+        tr.append(td);
+      });
+      return tr;
+    }));
+
+    const result = toResult(i);
+    lastMarkdown = `# Workflow economics: ${name || "Untitled workflow"}\n\n${economicsMarkdown(result)}\n---\nCalculated with the free Workflow Economics Calculator at https://www.whatgenerativeai.com/tools/workflow-economics/`;
+    saveDraft({ ...(name ? { workflow: name } : {}), economics: result });
+  }
+
+  form.addEventListener("change", (e) => {
+    const t = e.target as HTMLInputElement;
+    if (t.name === "capacityUse") ($("realisationPct") as HTMLInputElement).value = t.dataset.realisation ?? "0";
+    render();
+  });
+  form.addEventListener("input", render);
+
+  $("copy").addEventListener("click", async () => status((await copyText(lastMarkdown)) ? "Copied as Markdown." : "Copy failed — use Download instead."));
+  $("download").addEventListener("click", () => { downloadText(`economics-${fileSlug(workflowName(), "workflow")}.md`, lastMarkdown); status("Downloaded."); });
+  $("print").addEventListener("click", () => window.print());
+  $("review").addEventListener("click", () => handoffToIntake({ situation: "investment-decision", workflow: workflowName(), briefMarkdown: lastMarkdown, source: "workflow-economics" }));
+
+  render();
+</script>

@@ -18,7 +18,7 @@ const personJsonLd = {
   jobTitle: "Author, GenAI Playbook",
   sameAs: ["https://twitter.com/dipankarsarkar", "https://www.linkedin.com/in/dipankarsarkar", "https://github.com/dipankar", "https://www.amazon.com/Dipankar-Sarkar/e/B0053F136C/"],
   knowsAbout: ["Generative AI", "AI Strategy", "Digital Transformation", "AI Security", "People Analytics"],
-  worksFor: { "@type": "Organization", name: "What Generative AI" },
+  worksFor: { "@type": "Organization", name: "Neul Labs", url: "https://www.neullabs.com" },
 };
 const breadcrumbJsonLd = {
   "@context": "https://schema.org", "@type": "BreadcrumbList",
@@ -28,16 +28,19 @@ const breadcrumbJsonLd = {
   ],
 };
 ---
-<BaseLayout lang={lang} title={`${t("navAbout")} — ${t("siteTitle")}`} description="Dipankar Sarkar — author of the GenAI Playbook." jsonLd={[personJsonLd, breadcrumbJsonLd]}>
+<BaseLayout lang={lang} title={`${t("navAbout")} — ${t("siteTitle")}`} description={t("aboutMeta")} jsonLd={[personJsonLd, breadcrumbJsonLd]}>
   <Header lang={lang} path="/about/" />
   <main id="main" class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12">
     <nav class="text-sm text-ink-500 mb-3" aria-label="Breadcrumb"><a href={`/${lang}/`} class="hover:text-brand-700">Home</a> <span aria-hidden="true">/</span> <span class="text-ink-700">{t("navAbout")}</span></nav>
     <article class="prose">
       <h1>Dipankar Sarkar</h1>
-      <p class="text-lg text-ink-600 dark:text-ink-400 -mt-2">{t("siteTitle")} — {t("navAbout")}</p>
-      <p>Dipankar Sarkar is the author of <strong>The GenAI Playbook</strong> — an open-source, executive-grade guide to implementing Generative AI in organizations.</p>
-      <p>The Playbook is published in 10 languages under the Apache 2.0 license.</p>
-      <h2>Connect</h2>
+      <p class="text-lg text-ink-600 dark:text-ink-400 -mt-2">{t("aboutLede")}</p>
+      <p>{t("aboutBody1")}</p>
+      <p>{t("aboutBody2")}</p>
+      <h2>{t("aboutDisclosureTitle")}</h2>
+      <p>{t("aboutDisclosure")}</p>
+      <p><a href="/work-with-us/" hreflang="en">{t("navWorkWithUs")}</a> ({t("englishOnly")})</p>
+      <h2>{t("aboutConnect")}</h2>
       <ul>
         <li>Email: <a href="mailto:contact@whatgenerativeai.com">contact@whatgenerativeai.com</a></li>
         <li>X/Twitter: <a href="https://twitter.com/dipankarsarkar">@dipankarsarkar</a></li>

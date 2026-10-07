@@ -1,0 +1,169 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import CtaPanel from "../../components/CtaPanel.astro";
+import Disclosure from "../../components/Disclosure.astro";
+import { OFFERS, formatPrice, type Offer } from "../../data/offers";
+import { SITUATIONS } from "../../data/situations";
+import { toolBySlug } from "../../data/tools";
+import { SITE_URL, DELIVERY_ENTITY } from "../../data/site";
+
+export function getStaticPaths() {
+  return OFFERS.map((o) => ({ params: { offer: o.slug }, props: { offer: o } }));
+}
+
+const { offer } = Astro.props as { offer: Offer };
+const guides = await getCollection("guides", (g) => !g.data.draft && offer.relatedGuides.includes(g.data.slug));
+const tool = toolBySlug(offer.tool);
+const situation = SITUATIONS.find((s) => s.offer === offer.slug);
+const intakeHref = `/work-with-us/intake/?offer=${offer.slug}${situation ? `&situation=${situation.id}` : ""}`;
+const others = OFFERS.filter((o) => o.slug !== offer.slug);
+const url = `${SITE_URL}/work-with-us/${offer.slug}/`;
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: offer.name,
+    description: offer.short,
+    url,
+    serviceType: "AI adoption consulting",
+    areaServed: "Worldwide",
+    audience: { "@type": "BusinessAudience", audienceType: offer.buyer },
+    provider: { "@type": "Organization", name: DELIVERY_ENTITY.name, url: DELIVERY_ENTITY.url },
+    offers: {
+      "@type": "Offer",
+      priceSpecification: { "@type": "PriceSpecification", minPrice: offer.fromPriceGBP, priceCurrency: "GBP" },
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Work with us", item: `${SITE_URL}/work-with-us/` },
+      { "@type": "ListItem", position: 3, name: offer.name, item: url },
+    ],
+  },
+];
+---
+<BaseLayout
+  lang="en"
+  title={`${offer.name} — ${formatPrice(offer)}`}
+  description={`${offer.short} ${offer.duration}, ${formatPrice(offer)}.`}
+  jsonLd={jsonLd}
+  alternates={[{ lang: "en", path: `/work-with-us/${offer.slug}/` }]}
+>
+  <Header lang="en" path="/work-with-us/" />
+  <PageHeader
+    eyebrow={offer.entry ? "Entry engagement" : "Downstream engagement"}
+    title={offer.name}
+    lede={offer.short}
+    crumbs={[{ label: "Work with us", href: "/work-with-us/" }, { label: offer.name }]}
+  >
+    <dl class="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-xl text-white">
+      <div><dt class="text-xs uppercase tracking-wider text-primary-200">Price</dt><dd class="mt-1 text-xl font-bold text-accent-300">{formatPrice(offer)}</dd></div>
+      <div><dt class="text-xs uppercase tracking-wider text-primary-200">Duration</dt><dd class="mt-1 text-xl font-bold">{offer.duration}</dd></div>
+      <div class="col-span-2 sm:col-span-1"><dt class="text-xs uppercase tracking-wider text-primary-200">Delivered by</dt><dd class="mt-1 text-xl font-bold">{DELIVERY_ENTITY.name}</dd></div>
+    </dl>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href={intakeHref} class="inline-flex items-center gap-2 rounded-lg bg-accent-500 px-5 py-3 text-stone-900 font-semibold hover:bg-accent-400 transition">Discuss this engagement →</a>
+      {tool && <a href={`/tools/${tool.slug}/`} class="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-5 py-3 text-white font-semibold hover:bg-white/20 transition">Try the {tool.name.toLowerCase()} first</a>}
+    </div>
+  </PageHeader>
+
+  <main id="main" class="w-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 grid gap-12 lg:grid-cols-[1fr_320px]">
+    <div class="min-w-0 space-y-12">
+      <section>
+        <p class="text-xs font-semibold uppercase tracking-widest text-accent-600 dark:text-accent-400">For when</p>
+        <p class="mt-2 text-2xl font-semibold text-stone-900 dark:text-stone-50">“{offer.situation}”</p>
+        <p class="mt-2 text-stone-600 dark:text-stone-400">Usually commissioned by: {offer.buyer}.</p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-stone-900 dark:text-stone-50">What you get</h2>
+        <ul class="mt-4 space-y-3">
+          {offer.outputs.map((o) => (
+            <li class="flex gap-3 text-stone-700 dark:text-stone-300">
+              <svg class="mt-1 h-5 w-5 shrink-0 text-primary-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              <span>{o}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="rounded-2xl border border-primary-200 dark:border-primary-900 bg-primary-50/60 dark:bg-stone-900 p-6">
+        <h2 class="text-sm font-bold uppercase tracking-wider text-primary-700 dark:text-primary-300">Acceptance condition</h2>
+        <p class="mt-2 text-lg text-stone-800 dark:text-stone-100">{offer.acceptance}</p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-stone-900 dark:text-stone-50">How it runs</h2>
+        <ol class="mt-4 space-y-4">
+          {offer.howItRuns.map((step, i) => (
+            <li class="flex gap-4">
+              <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary-600 text-white text-sm font-bold">{i + 1}</span>
+              <p class="pt-1 text-stone-700 dark:text-stone-300">{step}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="grid gap-6 sm:grid-cols-2">
+        <div class="rounded-xl border border-stone-200 dark:border-stone-800 p-5">
+          <h2 class="font-bold text-stone-900 dark:text-stone-50">It may conclude…</h2>
+          <p class="mt-2 text-sm text-stone-600 dark:text-stone-400">{offer.canConclude}</p>
+        </div>
+        <div class="rounded-xl border border-stone-200 dark:border-stone-800 p-5">
+          <h2 class="font-bold text-stone-900 dark:text-stone-50">Not included</h2>
+          <ul class="mt-2 text-sm text-stone-600 dark:text-stone-400 list-disc pl-5 space-y-1">
+            {offer.notIncluded.map((n) => <li>{n}</li>)}
+          </ul>
+        </div>
+      </section>
+
+      {guides.length > 0 && (
+        <section>
+          <h2 class="text-2xl font-bold text-stone-900 dark:text-stone-50">Read before you decide</h2>
+          <p class="mt-1 text-stone-600 dark:text-stone-400">Free guides that cover the same ground. Plenty of teams get what they need from these alone.</p>
+          <ul class="mt-4 grid gap-4 sm:grid-cols-2">
+            {guides.map((g) => (
+              <li>
+                <a href={`/guides/${g.data.slug}/`} class="group block h-full rounded-xl border border-stone-200 dark:border-stone-800 p-5 hover:border-primary-400 transition">
+                  <p class="font-semibold text-stone-900 dark:text-stone-50 group-hover:text-primary-700">{g.data.title}</p>
+                  <p class="mt-1 text-sm text-stone-600 dark:text-stone-400 line-clamp-2">{g.data.description}</p>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <CtaPanel
+        title={`Discuss a ${offer.name}`}
+        body="Send a short project brief. A person reads it and replies with whether this engagement fits, a different one would, or none is needed."
+        primary={{ label: "Start a project brief", href: intakeHref }}
+        secondary={{ label: "Compare all engagements", href: "/work-with-us/" }}
+      />
+    </div>
+
+    <aside class="space-y-6 lg:sticky lg:top-24 self-start">
+      <div class="rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-5">
+        <p class="text-sm font-semibold text-stone-900 dark:text-stone-50">Pricing</p>
+        <p class="mt-1 text-2xl font-bold text-accent-700 dark:text-accent-400">{formatPrice(offer)}</p>
+        <p class="mt-2 text-xs text-stone-500">{offer.priceNote ?? "Starting price, excluding VAT. The final price depends on scope and is agreed in writing before work starts."}</p>
+      </div>
+      <div class="rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-5">
+        <p class="text-sm font-semibold text-stone-900 dark:text-stone-50">Other engagements</p>
+        <ul class="mt-2 space-y-2 text-sm">
+          {others.map((o) => <li><a href={`/work-with-us/${o.slug}/`} class="text-primary-700 dark:text-primary-300 hover:underline">{o.name}</a> <span class="text-stone-500">· {formatPrice(o)}</span></li>)}
+        </ul>
+      </div>
+      <Disclosure />
+    </aside>
+  </main>
+  <Footer lang="en" />
+</BaseLayout>

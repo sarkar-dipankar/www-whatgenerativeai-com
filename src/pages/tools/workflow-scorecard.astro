@@ -1,0 +1,248 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import Disclosure from "../../components/Disclosure.astro";
+import { QUESTIONS, WEIGHTS, DIM_LABELS, APPROACHES, type Dim } from "../../lib/scorecard";
+import { SITE_URL } from "../../data/site";
+
+const dims = Object.keys(WEIGHTS) as Dim[];
+const path = "/tools/workflow-scorecard/";
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "Workflow Opportunity Scorecard",
+    url: `${SITE_URL}${path}`,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Any (runs in the browser)",
+    offers: { "@type": "Offer", price: 0, priceCurrency: "GBP" },
+    description: "Score one business workflow on value, feasibility, risk and readiness, and get a recommended approach — including 'no generative AI needed'.",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Tools", item: `${SITE_URL}/tools/` },
+      { "@type": "ListItem", position: 3, name: "Workflow Opportunity Scorecard", item: `${SITE_URL}${path}` },
+    ],
+  },
+];
+---
+<BaseLayout
+  lang="en"
+  title="Workflow Opportunity Scorecard: is it worth changing with AI?"
+  description="Free 5-minute scorecard: rate a workflow on value, feasibility, risk and readiness, and get a recommended approach — including no AI. No sign-up."
+  jsonLd={jsonLd}
+  alternates={[{ lang: "en", path }]}
+>
+  <Header lang="en" path="/tools/" />
+  <PageHeader
+    eyebrow="Free tool · ~5 minutes · no sign-up"
+    title="Workflow Opportunity Scorecard"
+    lede="Rate one workflow on value, feasibility, risk and readiness. You'll get a score, a recommended approach — which may be “no generative AI needed” — and the dependencies and open questions to settle next."
+    crumbs={[{ label: "Tools", href: "/tools/" }, { label: "Workflow Opportunity Scorecard" }]}
+  />
+
+  <main id="main" class="w-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+    <noscript>
+      <p class="mb-6 rounded-lg border border-accent-300 bg-accent-50 px-4 py-3 text-sm text-stone-800">The scorecard calculates in your browser and needs JavaScript. The method below shows how to score a workflow by hand.</p>
+    </noscript>
+
+    <div class="grid gap-10 lg:grid-cols-[1fr_380px]">
+      <form id="scorecard" class="min-w-0 space-y-10 no-print" autocomplete="off">
+        <div>
+          <label for="workflow" class="field-label">Which workflow are you scoring?</label>
+          <input id="workflow" name="workflow" class="field-input" placeholder="e.g. Monthly client performance packs" />
+          <span class="field-hint">Your answers stay in this browser. Nothing is sent anywhere unless you choose to.</span>
+        </div>
+
+        {dims.map((dim) => (
+          <fieldset>
+            <legend class="flex items-baseline gap-3 mb-4">
+              <span class="text-lg font-bold text-stone-900 dark:text-stone-50">{DIM_LABELS[dim]}</span>
+              <span class="text-xs font-semibold text-stone-500">weight {Math.round(WEIGHTS[dim] * 100)}%</span>
+            </legend>
+            <div class="space-y-6">
+              {QUESTIONS.filter((q) => q.dim === dim).map((q) => (
+                <div role="radiogroup" aria-labelledby={`q-${q.id}`}>
+                  <p id={`q-${q.id}`} class="field-label">{q.label}</p>
+                  <div class="grid gap-2 sm:grid-cols-2">
+                    {q.options.map((o) => (
+                      <label class="opt">
+                        <input type="radio" name={q.id} value={o.key} class="mt-0.5 accent-primary-600" />
+                        <span>{o.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </fieldset>
+        ))}
+
+        <button type="reset" class="btn-secondary">Clear answers</button>
+      </form>
+
+      <aside class="lg:sticky lg:top-24 self-start" aria-live="polite">
+        <div id="result-empty" class="rounded-2xl border border-dashed border-stone-300 dark:border-stone-700 p-6 text-sm text-stone-600 dark:text-stone-400 no-print">
+          <p class="font-semibold text-stone-800 dark:text-stone-200">Your result</p>
+          <p class="mt-1"><span id="progress">0</span> of {QUESTIONS.length} questions answered. The result appears here when every question has an answer.</p>
+          <div class="mt-3 h-2 rounded-full bg-stone-200 dark:bg-stone-800 overflow-hidden"><div id="progress-bar" class="h-full bg-primary-600 transition-all" style="width:0%"></div></div>
+        </div>
+
+        <div id="result" hidden class="rounded-2xl border border-primary-200 dark:border-primary-900 bg-white dark:bg-stone-900 p-6 shadow-sm">
+          <p class="text-xs font-bold uppercase tracking-wider text-primary-700 dark:text-primary-300">Result<span id="r-workflow" class="normal-case font-semibold text-stone-500"></span></p>
+          <div class="mt-3 flex items-baseline gap-2">
+            <span id="r-total" class="text-5xl font-extrabold text-stone-900 dark:text-stone-50">–</span>
+            <span class="text-stone-500">/ 100</span>
+          </div>
+          <dl class="mt-4 space-y-2 text-sm">
+            {dims.map((dim) => (
+              <div>
+                <div class="flex justify-between"><dt class="text-stone-600 dark:text-stone-400">{DIM_LABELS[dim]}</dt><dd id={`r-${dim}`} class="font-semibold text-stone-900 dark:text-stone-100">–</dd></div>
+                <div class="mt-1 h-1.5 rounded-full bg-stone-200 dark:bg-stone-800 overflow-hidden"><div id={`b-${dim}`} class="h-full bg-primary-600" style="width:0%"></div></div>
+              </div>
+            ))}
+          </dl>
+          <div class="mt-5 rounded-xl bg-primary-50 dark:bg-stone-800 p-4">
+            <p class="text-xs font-bold uppercase tracking-wider text-primary-700 dark:text-primary-300">Recommended approach</p>
+            <p id="r-approach" class="mt-1 font-bold text-stone-900 dark:text-stone-50"></p>
+            <p id="r-summary" class="mt-1 text-sm text-stone-700 dark:text-stone-300"></p>
+            <ul id="r-next" class="mt-2 space-y-1 text-sm"></ul>
+          </div>
+          <div id="r-deps-wrap" class="mt-5">
+            <p class="text-sm font-semibold text-stone-900 dark:text-stone-50">Dependencies</p>
+            <ul id="r-deps" class="mt-1 list-disc pl-5 text-sm text-stone-600 dark:text-stone-400 space-y-1"></ul>
+          </div>
+          <div class="mt-4">
+            <p class="text-sm font-semibold text-stone-900 dark:text-stone-50">Open questions</p>
+            <ul id="r-questions" class="mt-1 list-disc pl-5 text-sm text-stone-600 dark:text-stone-400 space-y-1"></ul>
+          </div>
+
+          <div class="mt-6 grid grid-cols-2 gap-2 no-print">
+            <button type="button" id="copy" class="btn-secondary">Copy</button>
+            <button type="button" id="download" class="btn-secondary">Download .md</button>
+            <button type="button" id="print" class="btn-secondary">Print</button>
+            <a id="to-brief" href="/tools/project-brief/" class="btn-secondary">Build a brief</a>
+          </div>
+          <button type="button" id="review" class="btn-primary w-full mt-3 no-print">Request expert review</button>
+          <p id="action-status" class="mt-2 text-xs text-stone-500 min-h-4" role="status"></p>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Method: always rendered, readable without JS -->
+    <section class="mt-20 max-w-3xl prose guide-body no-print" aria-labelledby="method">
+      <h2 id="method">How the scorecard works</h2>
+      <p>Each answer scores 0–4. A dimension's score is its answers as a percentage of the maximum, and the overall score is the weighted average. The weights favour value, but a high-value workflow with no owner still won't be recommended.</p>
+      <table>
+        <thead><tr><th>Dimension</th><th>Weight</th><th>Questions</th></tr></thead>
+        <tbody>
+          {dims.map((dim) => (
+            <tr>
+              <td><strong>{DIM_LABELS[dim]}</strong></td>
+              <td>{Math.round(WEIGHTS[dim] * 100)}%</td>
+              <td>{QUESTIONS.filter((q) => q.dim === dim).map((q) => q.label).join(" · ")}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <h3>How the approach is chosen</h3>
+      <p>The recommended approach doesn't come from the score alone. The rules below are checked in order, and the first one that matches wins:</p>
+      <ol>
+        <li><strong>{APPROACHES.owner.label}</strong> — the workflow has no named owner.</li>
+        <li><strong>{APPROACHES.dont.label}</strong> — value scores under 35.</li>
+        <li><strong>{APPROACHES.foundations.label}</strong> — the inputs are offline or tacit, or outputs can't be checked.</li>
+        <li><strong>{APPROACHES.automation.label}</strong> — the steps are identical every time and the inputs are structured.</li>
+        <li><strong>{APPROACHES.controls.label}</strong> — risk scores under 40, outputs could cause harm, or the AI would act on its own.</li>
+        <li><strong>{APPROACHES.configure.label}</strong> — you already license an AI assistant and it would only draft or suggest.</li>
+        <li><strong>{APPROACHES.assisted.label}</strong> — everything else.</li>
+      </ol>
+      <p>This is a screening tool, not a business case. Use it to compare candidates and decide what to investigate. Then work out the numbers with the <a href="/tools/workflow-economics/">economics calculator</a>, and write them up with the <a href="/tools/project-brief/">brief builder</a>. For the full selection method, see <a href="/guides/where-to-start-with-ai/">Where should our business start with AI?</a></p>
+    </section>
+
+    <div class="mt-12 max-w-3xl"><Disclosure /></div>
+  </main>
+  <Footer lang="en" />
+</BaseLayout>
+
+<script>
+  import { QUESTIONS, evaluate, type Answers } from "../../lib/scorecard";
+  import { scorecardMarkdown, saveDraft, copyText, downloadText, handoffToIntake, fileSlug } from "../../lib/brief";
+
+  const form = document.getElementById("scorecard") as HTMLFormElement;
+  const $ = (id: string) => document.getElementById(id)!;
+  const status = (msg: string) => { $("action-status").textContent = msg; };
+  let lastMarkdown = "";
+
+  const readAnswers = (): Answers => {
+    const data = new FormData(form);
+    const a: Answers = {};
+    for (const q of QUESTIONS) {
+      const v = data.get(q.id);
+      if (typeof v === "string") a[q.id] = v;
+    }
+    return a;
+  };
+
+  const workflowName = () => ($("workflow") as HTMLInputElement).value.trim();
+
+  function listInto(id: string, items: string[]) {
+    const ul = $(id);
+    ul.replaceChildren(...items.map((t) => { const li = document.createElement("li"); li.textContent = t; return li; }));
+  }
+
+  function render() {
+    const answers = readAnswers();
+    const answered = Object.keys(answers).length;
+    $("progress").textContent = String(answered);
+    ($("progress-bar") as HTMLElement).style.width = `${(answered / QUESTIONS.length) * 100}%`;
+    const complete = answered === QUESTIONS.length;
+    $("result-empty").hidden = complete;
+    $("result").hidden = !complete;
+    if (!complete) return;
+
+    const r = evaluate(answers);
+    const name = workflowName();
+    $("r-workflow").textContent = name ? ` · ${name}` : "";
+    $("r-total").textContent = String(r.total);
+    for (const [dim, v] of Object.entries(r.dims)) {
+      $(`r-${dim}`).textContent = String(v);
+      ($(`b-${dim}`) as HTMLElement).style.width = `${v}%`;
+    }
+    $("r-approach").textContent = r.approach;
+    $("r-summary").textContent = r.approachSummary;
+    const next = $("r-next");
+    next.replaceChildren(...r.next.map((n) => {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = n.href; a.textContent = `${n.label} →`;
+      a.className = "font-semibold text-primary-700 dark:text-primary-300 hover:underline";
+      li.append(a); return li;
+    }));
+    listInto("r-deps", r.dependencies);
+    $("r-deps-wrap").hidden = r.dependencies.length === 0;
+    listInto("r-questions", r.openQuestions);
+
+    lastMarkdown = `# Workflow scorecard: ${name || "Untitled workflow"}\n\n${scorecardMarkdown(r)}\n---\nScored with the free Workflow Opportunity Scorecard at https://www.whatgenerativeai.com/tools/workflow-scorecard/`;
+    saveDraft({ workflow: name || undefined, scorecard: r });
+  }
+
+  form.addEventListener("change", render);
+  form.addEventListener("input", (e) => { if ((e.target as HTMLElement).id === "workflow") render(); });
+  form.addEventListener("reset", () => setTimeout(render, 0));
+
+  $("copy").addEventListener("click", async () => status((await copyText(lastMarkdown)) ? "Copied as Markdown." : "Copy failed — use Download instead."));
+  $("download").addEventListener("click", () => { downloadText(`scorecard-${fileSlug(workflowName(), "workflow")}.md`, lastMarkdown); status("Downloaded."); });
+  $("print").addEventListener("click", () => window.print());
+  $("review").addEventListener("click", () => {
+    const r = evaluate(readAnswers());
+    const situation = r.approachId === "controls" ? "data-approval" : r.approachId === "configure" ? "patchy-adoption" : "where-to-start";
+    handoffToIntake({ situation, workflow: workflowName(), briefMarkdown: lastMarkdown, source: "workflow-scorecard" });
+  });
+
+  render();
+</script>

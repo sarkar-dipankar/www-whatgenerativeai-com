@@ -1,6 +1,7 @@
 ---
 import type { LanguageCode } from "../i18n";
 import { DEFAULT_LANG, ui, localizedPath } from "../i18n";
+import type { Alternate } from "../lib/alternates";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import Sidebar from "../components/Sidebar.astro";
@@ -18,6 +19,7 @@ interface Props {
   headings: { depth: number; slug: string; text: string }[];
   articleJsonLd?: object;
   breadcrumbJsonLd?: object;
+  alternates?: Alternate[];
 }
 const {
   lang = DEFAULT_LANG,
@@ -30,6 +32,7 @@ const {
   headings,
   articleJsonLd,
   breadcrumbJsonLd,
+  alternates,
 } = Astro.props;
 const t = (k: keyof typeof ui.en) => (ui as any)[lang]?.[k] ?? ui.en[k];
 const jsonLd = [articleJsonLd, breadcrumbJsonLd].filter(Boolean) as object[];
@@ -48,6 +51,7 @@ const pageTitle = `${title} — ${t("siteTitle")}`;
   modifiedTime={modifiedTime}
   tags={tags}
   jsonLd={jsonLd}
+  alternates={alternates}
 >
   <Header lang={lang} path="/docs/genai-playbook/" />
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex">

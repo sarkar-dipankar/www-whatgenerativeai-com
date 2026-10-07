@@ -1,6 +1,6 @@
 ---
 import type { LanguageCode } from "../i18n";
-import { LANGUAGES, DEFAULT_LANG, getLang, localizedPath, ui } from "../i18n";
+import { DEFAULT_LANG, localizedPath, ui } from "../i18n";
 import ThemeToggle from "./ThemeToggle.astro";
 
 interface Props {
@@ -8,9 +8,33 @@ interface Props {
   path?: string;
 }
 const { lang = DEFAULT_LANG, path = "/" } = Astro.props;
-const meta = getLang(lang);
 const t = (k: keyof typeof ui.en) => (ui as any)[lang]?.[k] ?? ui.en[k];
-const navPath = localizedPath(lang, path);
+
+interface NavItem { label: string; href: string; cta?: boolean; note?: string }
+
+// English leads with the decision path; other languages keep the reading path
+// and link to the English-only commercial pages.
+const nav: NavItem[] =
+  lang === "en"
+    ? [
+        { label: "Start here", href: "/start/" },
+        { label: "Workflows", href: "/guides/" },
+        { label: "Tools", href: "/tools/" },
+        { label: "Playbooks", href: "/docs/genai-playbook/" },
+        { label: "Evidence", href: "/evidence/" },
+        { label: "Work with us", href: "/work-with-us/", cta: true },
+      ]
+    : [
+        { label: t("navDocs"), href: localizedPath(lang, "/docs/genai-playbook/") },
+        { label: t("getBook"), href: localizedPath(lang, "/book/") },
+        { label: t("navBlog"), href: localizedPath(lang, "/posts/") },
+        { label: t("navAbout"), href: localizedPath(lang, "/about/") },
+        { label: t("navWorkWithUs"), href: "/work-with-us/", cta: true, note: "EN" },
+      ];
+
+const isActive = (href: string) => href !== "/" && (path === href || path.startsWith(href) || localizedPath(lang, path).startsWith(href));
+const linkCls = "px-2.5 py-2 rounded-md hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-200 transition";
+const ctaCls = "ml-1 px-3.5 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition";
 ---
 <header class="sticky top-0 z-40 border-b border-stone-200/70 bg-stone-50/85 backdrop-blur-md dark:bg-stone-950/85 dark:border-stone-800">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
@@ -28,14 +52,36 @@ const navPath = localizedPath(lang, path);
       <span class="hidden sm:inline text-base tracking-tight">What <span class="text-primary-700 dark:text-primary-400">Generative AI</span></span>
     </a>
 
-    <nav class="flex items-center gap-1 sm:gap-2 text-sm font-medium" aria-label={t("language")}>
-      <a href={localizedPath(lang, "/docs/genai-playbook/")} class="px-2.5 py-2 rounded-md hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-200 transition">{t("navDocs")}</a>
-      <a href={localizedPath(lang, "/book/")} class="px-2.5 py-2 rounded-md hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-200 transition">Book</a>
-      <a href={localizedPath(lang, "/posts/")} class="px-2.5 py-2 rounded-md hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-200 transition">{t("navBlog")}</a>
-      <a href="/glossary/" class="hidden sm:inline-block px-2.5 py-2 rounded-md hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-200 transition">Glossary</a>
-      <a href={localizedPath(lang, "/about/")} class="px-2.5 py-2 rounded-md hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-200 transition">{t("navAbout")}</a>
-      <a href="/contact" class="px-2.5 py-2 rounded-md hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-200 transition">Contact</a>
+    <div class="flex items-center gap-1">
+      <!-- Desktop -->
+      <nav class="hidden lg:flex items-center gap-1 text-sm font-medium" aria-label="Main">
+        {nav.map((item) => (
+          <a
+            href={item.href}
+            class={item.cta ? ctaCls : linkCls}
+            aria-current={!item.cta && isActive(item.href) ? "page" : undefined}
+          >
+            {item.label}{item.note && <span class="ml-1 text-[10px] opacity-75">{item.note}</span>}
+          </a>
+        ))}
+      </nav>
+
+      <!-- Mobile: details/summary, no JS -->
+      <details class="lg:hidden relative group">
+        <summary class="list-none cursor-pointer inline-flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium text-stone-700 dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 [&::-webkit-details-marker]:hidden">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          Menu
+        </summary>
+        <nav class="absolute right-0 mt-2 w-64 max-w-[calc(100vw-2rem)] rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-xl p-2 flex flex-col text-sm font-medium" aria-label="Main">
+          {nav.map((item) => (
+            <a href={item.href} class={item.cta ? "mt-1 px-3 py-2.5 rounded-lg bg-primary-600 text-white text-center" : "px-3 py-2.5 rounded-lg text-stone-700 dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800"}>
+              {item.label}{item.note && <span class="ml-1 text-[10px] opacity-75">{item.note}</span>}
+            </a>
+          ))}
+        </nav>
+      </details>
+
       <ThemeToggle lang={lang} />
-    </nav>
+    </div>
   </div>
 </header>

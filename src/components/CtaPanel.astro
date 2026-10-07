@@ -1,0 +1,19 @@
+---
+interface Action { label: string; href: string }
+interface Props {
+  title: string;
+  body?: string;
+  primary: Action;
+  secondary?: Action;
+}
+const { title, body, primary, secondary } = Astro.props;
+---
+<div class="not-prose rounded-2xl border border-primary-200 dark:border-primary-900 bg-gradient-to-br from-primary-50 to-white dark:from-primary-950/40 dark:to-stone-900 p-6 sm:p-8">
+  <h2 class="text-xl sm:text-2xl font-bold text-stone-900 dark:text-stone-50">{title}</h2>
+  {body && <p class="mt-2 text-stone-600 dark:text-stone-400 leading-relaxed max-w-2xl">{body}</p>}
+  <div class="mt-5 flex flex-wrap gap-3">
+    <a href={primary.href} class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-5 py-2.5 text-white font-semibold text-sm hover:bg-primary-700 transition">{primary.label} →</a>
+    {secondary && <a href={secondary.href} class="inline-flex items-center gap-2 rounded-lg border border-stone-300 dark:border-stone-700 px-5 py-2.5 text-stone-800 dark:text-stone-100 font-semibold text-sm hover:bg-stone-100 dark:hover:bg-stone-800 transition">{secondary.label}</a>}
+  </div>
+  <slot />
+</div>

@@ -1,0 +1,78 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+import CtaPanel from "../../components/CtaPanel.astro";
+import { CLUSTERS } from "../../data/clusters";
+import { SITE_URL } from "../../data/site";
+
+const guides = (await getCollection("guides", (g) => !g.data.draft)).sort(
+  (a, b) => (CLUSTERS[a.data.cluster]?.order ?? 99) - (CLUSTERS[b.data.cluster]?.order ?? 99) || a.data.weight - b.data.weight,
+);
+const decision = guides.filter((g) => g.data.kind === "decision");
+const workflow = guides.filter((g) => g.data.kind === "workflow");
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Business AI decision and workflow guides",
+    url: `${SITE_URL}/guides/`,
+    hasPart: guides.map((g) => ({ "@type": "Article", headline: g.data.title, url: `${SITE_URL}/guides/${g.data.slug}/` })),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Guides", item: `${SITE_URL}/guides/` },
+    ],
+  },
+];
+---
+<BaseLayout
+  lang="en"
+  title="Business AI decision & workflow guides — What Generative AI"
+  description="Guides to business AI decisions — where to start, honest ROI, buy vs build, tool evaluation, data approval, stalled pilots — and to specific workflows."
+  jsonLd={jsonLd}
+  alternates={[{ lang: "en", path: "/guides/" }]}
+>
+  <Header lang="en" path="/guides/" />
+  <PageHeader
+    eyebrow="Guides"
+    title="Decisions and workflows"
+    lede="Each guide opens with a short answer, says when it applies, sets out the alternatives — including doing nothing — and lists what to check before you commit budget."
+    crumbs={[{ label: "Guides" }]}
+  />
+  <main id="main" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 space-y-16">
+    {[{ title: "Decision guides", sub: "Scope, value, buy-or-build, evaluation, approval and readiness.", items: decision, id: "decisions" },
+      { title: "Workflow guides", sub: "Specific business workflows, with what to automate, what to review and how to measure.", items: workflow, id: "workflows" }].map((grp) => (
+      <section aria-labelledby={grp.id}>
+        <SectionHeader id={grp.id} title={grp.title} subtitle={grp.sub} align="left" />
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {grp.items.map((g) => (
+            <a href={`/guides/${g.data.slug}/`} class="group flex flex-col rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-6 hover:border-primary-400 hover:shadow-lg transition">
+              <p class="text-[11px] font-semibold uppercase tracking-widest text-primary-700 dark:text-primary-300">{CLUSTERS[g.data.cluster]?.label ?? g.data.cluster}</p>
+              <h3 class="mt-2 text-lg font-bold leading-snug text-stone-900 dark:text-stone-50 group-hover:text-primary-700 dark:group-hover:text-primary-300">{g.data.title}</h3>
+              <p class="mt-2 text-sm text-stone-600 dark:text-stone-400 flex-1 line-clamp-3">{g.data.answer}</p>
+              <span class="mt-4 text-sm font-semibold text-primary-700 dark:text-primary-300">Read the guide →</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <div class="max-w-4xl">
+      <CtaPanel
+        title="Looking for background?"
+        body="The open GenAI and Agentic AI playbooks cover the concepts behind these decisions in 21 chapters and 10 languages."
+        primary={{ label: "Read the playbooks", href: "/docs/genai-playbook/" }}
+        secondary={{ label: "Start here", href: "/start/" }}
+      />
+    </div>
+  </main>
+  <Footer lang="en" />
+</BaseLayout>

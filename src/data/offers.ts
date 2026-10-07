@@ -1,6 +1,8 @@
 // Paid engagements. Prices are starting points ("from"), not quotes — every
 // engagement is scoped in writing before work starts.
 
+import type { IconName } from "./icons";
+
 export interface Offer {
   slug: string;
   name: string;
@@ -20,11 +22,13 @@ export interface Offer {
   tool?: string;
   /** Entry offers are the low-commitment first step; others are downstream paths. */
   entry: boolean;
+  icon: IconName;
 }
 
 export const OFFERS: Offer[] = [
   {
     slug: "ai-opportunity-sprint",
+    icon: "target",
     name: "AI Opportunity Sprint",
     short: "Find the workflows worth changing, price them honestly, and pick a credible first project.",
     situation: "We have been told to adopt AI, but where should we start?",
@@ -54,6 +58,7 @@ export const OFFERS: Offer[] = [
   },
   {
     slug: "team-workflow-activation",
+    icon: "sparkles",
     name: "Team Workflow Activation",
     short: "Turn licences you already pay for into a few repeatable workflows your team actually uses.",
     situation: "We bought AI tools, but useful adoption is patchy.",
@@ -82,6 +87,7 @@ export const OFFERS: Offer[] = [
   },
   {
     slug: "pilot-readiness-review",
+    icon: "rocket",
     name: "Pilot Readiness Review",
     short: "Find out what is actually blocking your AI pilot from reaching staff — and the smallest fix that would unblock it.",
     situation: "Our pilot works in a demo but is not ready for staff.",
@@ -110,6 +116,7 @@ export const OFFERS: Offer[] = [
   },
   {
     slug: "workflow-implementation",
+    icon: "bolt",
     name: "Workflow Implementation",
     short: "Build and hand over one bounded AI-assisted workflow with tests, controls and clear support boundaries.",
     situation: "This recurring process consumes too much time.",
@@ -138,6 +145,7 @@ export const OFFERS: Offer[] = [
   },
   {
     slug: "adoption-assurance-retainer",
+    icon: "gauge",
     name: "Adoption & Assurance Retainer",
     short: "Recurring reviews that show whether a deployed workflow is still worth running.",
     situation: "We deployed something; is it still worth running?",

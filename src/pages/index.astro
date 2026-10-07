@@ -8,6 +8,9 @@ import SectionHeader from "../components/SectionHeader.astro";
 import SituationCard from "../components/SituationCard.astro";
 import OfferCard from "../components/OfferCard.astro";
 import Disclosure from "../components/Disclosure.astro";
+import Icon from "../components/Icon.astro";
+import ToolArt from "../components/art/ToolArt.astro";
+import OutcomeChart from "../components/art/OutcomeChart.astro";
 import { DEFAULT_LANG, ui } from "../i18n";
 import { SITUATIONS } from "../data/situations";
 import { OFFERS } from "../data/offers";
@@ -24,10 +27,10 @@ const posts = (await getCollection("posts", (e) => e.data.lang === "en" && !e.da
   .sort((a, b) => +new Date(b.data.date ?? 0) - +new Date(a.data.date ?? 0));
 const entryOffers = OFFERS.filter((o) => o.entry);
 const steps = [
-  { n: 1, title: "Describe the workflow", body: "Use the scorecard or the brief builder. You get a result straight away — no call required." },
-  { n: 2, title: "Paid assessment", body: "A fixed-scope sprint or review that ends in a decision: go, fix first, or stop." },
-  { n: 3, title: "Optional delivery", body: "Activation or implementation, accepted against criteria agreed before work starts." },
-  { n: 4, title: "Measured outcome", body: "Baseline versus after: effort, quality, adoption and running cost." },
+  { n: 1, icon: "clipboard" as const, title: "Describe the workflow", body: "Use the scorecard or the brief builder. You get a result straight away — no call required." },
+  { n: 2, icon: "target" as const, title: "Paid assessment", body: "A fixed-scope sprint or review that ends in a decision: go, fix first, or stop." },
+  { n: 3, icon: "bolt" as const, title: "Optional delivery", body: "Activation or implementation, accepted against criteria agreed before work starts." },
+  { n: 4, icon: "gauge" as const, title: "Measured outcome", body: "Baseline versus after: effort, quality, adoption and running cost." },
 ];
 
 const homeJsonLd = {
@@ -88,10 +91,17 @@ const faqJsonLd = {
         title="From a question to a workflow that works"
         subtitle="Every engagement ends in a decision you can defend. Sometimes the right answer is to use software you already own and not commission custom AI — and we will say so."
       />
-      <ol class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <ol class="relative grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <!-- connector line behind the step tiles (desktop) -->
+        <svg class="pointer-events-none absolute left-0 right-0 top-[3.25rem] hidden lg:block h-2 w-full" preserveAspectRatio="none" viewBox="0 0 100 2" aria-hidden="true">
+          <line x1="12" y1="1" x2="88" y2="1" class="stroke-primary-300 dark:stroke-primary-800" stroke-width="2" stroke-dasharray="1.5 1.5" vector-effect="non-scaling-stroke" />
+        </svg>
         {steps.map((st) => (
-          <li class="rounded-xl border border-stone-200 dark:border-stone-800 p-6">
-            <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary-600 text-white font-bold">{st.n}</span>
+          <li class="relative rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-6">
+            <div class="flex items-center justify-between">
+              <span class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 text-white shadow-sm"><Icon name={st.icon} class="h-6 w-6" /></span>
+              <span class="text-3xl font-extrabold text-stone-200 dark:text-stone-800 tabular-nums">0{st.n}</span>
+            </div>
             <h3 class="mt-3 font-semibold text-stone-900 dark:text-stone-50">{st.title}</h3>
             <p class="mt-1 text-sm text-stone-600 dark:text-stone-400">{st.body}</p>
           </li>
@@ -151,7 +161,8 @@ const faqJsonLd = {
       <div class="mt-8 grid gap-5 md:grid-cols-3">
         {TOOLS.map((tl) => (
           <a href={`/tools/${tl.slug}/`} class="group rounded-xl border border-white/15 bg-white/5 p-6 hover:bg-white/10 transition">
-            <p class="text-xs text-primary-200">~{tl.minutes} min</p>
+            <ToolArt tool={tl.slug} class="mb-5 w-full h-auto rounded-xl ring-1 ring-white/10" />
+            <p class="flex items-center gap-1.5 text-xs text-primary-200"><Icon name={tl.icon} class="h-4 w-4" /> ~{tl.minutes} min</p>
             <h3 class="mt-1 text-lg font-bold group-hover:text-accent-200">{tl.name}</h3>
             <p class="mt-2 text-sm text-primary-100/90">{tl.short}</p>
             <span class="mt-4 inline-block text-sm font-semibold text-accent-300">Open the tool →</span>
@@ -227,12 +238,19 @@ const faqJsonLd = {
         <p class="mt-3 text-stone-600 dark:text-stone-400 leading-relaxed">We separate vendor claims from test results, hours released from cash saved, and one engagement from an industry benchmark. Case studies appear only with the client's permission.</p>
         <a href="/evidence/" class="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-primary-700 dark:text-primary-300 hover:underline">How we measure outcomes →</a>
       </div>
-      <ul class="grid gap-4 sm:grid-cols-2 text-sm">
-        <li class="rounded-xl border border-stone-200 dark:border-stone-800 p-5"><p class="font-semibold text-stone-900 dark:text-stone-50">Baseline first</p><p class="mt-1 text-stone-600 dark:text-stone-400">We measure the current effort and quality before anything changes.</p></li>
-        <li class="rounded-xl border border-stone-200 dark:border-stone-800 p-5"><p class="font-semibold text-stone-900 dark:text-stone-50">Acceptance agreed up front</p><p class="mt-1 text-stone-600 dark:text-stone-400">The pass/fail criteria are written into the scope before work starts.</p></li>
-        <li class="rounded-xl border border-stone-200 dark:border-stone-800 p-5"><p class="font-semibold text-stone-900 dark:text-stone-50">Running cost included</p><p class="mt-1 text-stone-600 dark:text-stone-400">Review time, licences, support and change management all count.</p></li>
-        <li class="rounded-xl border border-stone-200 dark:border-stone-800 p-5"><p class="font-semibold text-stone-900 dark:text-stone-50">“Stop” is an outcome</p><p class="mt-1 text-stone-600 dark:text-stone-400">Recommending no custom AI is a valid, and often cheaper, result.</p></li>
-      </ul>
+      <div class="rounded-2xl border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950 p-6">
+        <OutcomeChart />
+        <ul class="mt-4 grid gap-3 sm:grid-cols-2 text-sm">
+          {[
+            { icon: "flag" as const, t: "Baseline first", d: "Measure today's effort and quality before anything changes." },
+            { icon: "check" as const, t: "Acceptance up front", d: "Pass/fail criteria are written into the scope." },
+            { icon: "calculator" as const, t: "Running cost counts", d: "Review time, licences, support and change." },
+            { icon: "shield" as const, t: "“Stop” is an outcome", d: "No custom AI is a valid, often cheaper result." },
+          ].map((x) => (
+            <li class="flex gap-2.5"><Icon name={x.icon} class="mt-0.5 h-4 w-4 shrink-0 text-primary-600 dark:text-primary-400" /><span><span class="font-semibold text-stone-900 dark:text-stone-50">{x.t}.</span> <span class="text-stone-600 dark:text-stone-400">{x.d}</span></span></li>
+          ))}
+        </ul>
+      </div>
     </div>
   </section>
 

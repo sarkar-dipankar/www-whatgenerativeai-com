@@ -2,14 +2,18 @@
 import type { Situation } from "../data/situations";
 import { offerBySlug } from "../data/offers";
 import { toolBySlug } from "../data/tools";
+import Icon from "./Icon.astro";
 interface Props { situation: Situation; detailed?: boolean }
 const { situation: s, detailed = false } = Astro.props;
 const offer = offerBySlug(s.offer);
 const tool = toolBySlug(s.tool);
 ---
-<div class="flex flex-col rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-6">
-  <p class="text-[11px] font-semibold uppercase tracking-widest text-primary-700 dark:text-primary-300">{s.label}</p>
-  <p class="mt-2 text-lg font-semibold leading-snug text-stone-900 dark:text-stone-50">“{s.quote}”</p>
+<div class="group flex flex-col rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-6 hover:border-primary-300 dark:hover:border-primary-800 transition">
+  <div class="flex items-center gap-3">
+    <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-700 dark:bg-primary-950 dark:text-primary-300 group-hover:bg-primary-600 group-hover:text-white transition"><Icon name={s.icon} class="h-5 w-5" /></span>
+    <p class="text-[11px] font-semibold uppercase tracking-widest text-primary-700 dark:text-primary-300">{s.label}</p>
+  </div>
+  <p class="mt-3 text-lg font-semibold leading-snug text-stone-900 dark:text-stone-50">“{s.quote}”</p>
   {detailed && <p class="mt-2 text-xs text-stone-500 dark:text-stone-400">Usually: {s.buyer}</p>}
   <p class="mt-3 text-sm text-stone-600 dark:text-stone-400 flex-1"><span class="font-semibold text-stone-700 dark:text-stone-300">What helps:</span> {s.need}</p>
   <ul class="mt-4 space-y-1.5 text-sm">

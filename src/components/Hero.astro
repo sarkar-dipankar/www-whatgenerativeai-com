@@ -1,6 +1,7 @@
 ---
 import type { LanguageCode } from "../i18n";
 import { DEFAULT_LANG, ui, localizedPath } from "../i18n";
+import HeroArt from "./art/HeroArt.astro";
 interface Props {
   lang?: LanguageCode;
   /** "buyer" leads with the decision path (English homepage); "playbook" leads with reading. */
@@ -22,12 +23,13 @@ const arrow = "M13 7l5 5m0 0l-5 5m5-5H6";
 
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-32">
     {variant === "buyer" ? (
+      <div class="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr]">
       <div class="max-w-3xl">
         <p class="inline-flex items-center gap-2 rounded-full border border-primary-400/30 bg-white/10 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-primary-100">
           <span class="h-1.5 w-1.5 rounded-full bg-accent-400"></span>
           Open playbooks · Decision tools · Hands-on support
         </p>
-        <h1 class="mt-5 text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white">
+        <h1 class="mt-5 text-4xl sm:text-5xl xl:text-6xl font-extrabold tracking-tight text-white">
           Turn AI interest into a <span class="text-accent-300">business workflow that works.</span>
         </h1>
         <p class="mt-5 text-lg sm:text-xl text-primary-100/90 leading-relaxed max-w-2xl">
@@ -48,6 +50,8 @@ const arrow = "M13 7l5 5m0 0l-5 5m5-5H6";
         <p class="mt-6 text-sm text-primary-100/80">
           Just want to learn? <a href={docsHref} class="font-semibold text-white underline decoration-accent-400 underline-offset-4 hover:text-accent-200">Read the open playbooks</a> — 21 chapters, free, in 10 languages.
         </p>
+      </div>
+      <HeroArt class="hidden lg:block w-full max-w-xl justify-self-end drop-shadow-2xl" />
       </div>
     ) : (
       <div class="max-w-3xl">

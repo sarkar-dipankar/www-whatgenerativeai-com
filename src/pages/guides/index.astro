@@ -6,6 +6,7 @@ import Footer from "../../components/Footer.astro";
 import PageHeader from "../../components/PageHeader.astro";
 import SectionHeader from "../../components/SectionHeader.astro";
 import CtaPanel from "../../components/CtaPanel.astro";
+import Icon from "../../components/Icon.astro";
 import { CLUSTERS } from "../../data/clusters";
 import { SITE_URL } from "../../data/site";
 
@@ -43,6 +44,7 @@ const jsonLd = [
   <Header lang="en" path="/guides/" />
   <PageHeader
     eyebrow="Guides"
+    icon="list"
     title="Decisions and workflows"
     lede="Each guide opens with a short answer, says when it applies, sets out the alternatives — including doing nothing — and lists what to check before you commit budget."
     crumbs={[{ label: "Guides" }]}
@@ -55,8 +57,11 @@ const jsonLd = [
         <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {grp.items.map((g) => (
             <a href={`/guides/${g.data.slug}/`} class="group flex flex-col rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-6 hover:border-primary-400 hover:shadow-lg transition">
-              <p class="text-[11px] font-semibold uppercase tracking-widest text-primary-700 dark:text-primary-300">{CLUSTERS[g.data.cluster]?.label ?? g.data.cluster}</p>
-              <h3 class="mt-2 text-lg font-bold leading-snug text-stone-900 dark:text-stone-50 group-hover:text-primary-700 dark:group-hover:text-primary-300">{g.data.title}</h3>
+              <div class="flex items-center gap-3">
+                <span class={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition ${g.data.kind === "decision" ? "bg-primary-50 text-primary-700 dark:bg-primary-950 dark:text-primary-300 group-hover:bg-primary-600" : "bg-accent-50 text-accent-700 dark:bg-stone-800 dark:text-accent-400 group-hover:bg-accent-500"} group-hover:text-white`}><Icon name={CLUSTERS[g.data.cluster]?.icon ?? "document"} class="h-5 w-5" /></span>
+                <p class="text-[11px] font-semibold uppercase tracking-widest text-primary-700 dark:text-primary-300">{CLUSTERS[g.data.cluster]?.label ?? g.data.cluster}</p>
+              </div>
+              <h3 class="mt-3 text-lg font-bold leading-snug text-stone-900 dark:text-stone-50 group-hover:text-primary-700 dark:group-hover:text-primary-300">{g.data.title}</h3>
               <p class="mt-2 text-sm text-stone-600 dark:text-stone-400 flex-1 line-clamp-3">{g.data.answer}</p>
               <span class="mt-4 text-sm font-semibold text-primary-700 dark:text-primary-300">Read the guide →</span>
             </a>

@@ -1,5 +1,6 @@
 // Buying situations — organised by the decision being made, not by interest in AI.
-// Drives the homepage, /start/ and the project-intake select.
+// Drives the homepage, /start/, the mega menu and the project-intake select.
+import type { IconName } from "./icons";
 
 export interface Situation {
   id: string;
@@ -10,11 +11,13 @@ export interface Situation {
   guide: string;
   tool?: string;
   offer: string;
+  icon: IconName;
 }
 
 export const SITUATIONS: Situation[] = [
   {
     id: "where-to-start",
+    icon: "compass",
     quote: "We've been told to adopt AI. Where should we start?",
     label: "Choose a starting point",
     buyer: "COO, MD, transformation lead",
@@ -25,6 +28,7 @@ export const SITUATIONS: Situation[] = [
   },
   {
     id: "patchy-adoption",
+    icon: "sparkles",
     quote: "We bought AI tools, but useful adoption is patchy.",
     label: "Activate existing tools",
     buyer: "IT, operations, L&D sponsor",
@@ -35,6 +39,7 @@ export const SITUATIONS: Situation[] = [
   },
   {
     id: "recurring-process",
+    icon: "refresh",
     quote: "This recurring process eats too much time.",
     label: "Redesign a workflow",
     buyer: "Department head, process owner",
@@ -45,6 +50,7 @@ export const SITUATIONS: Situation[] = [
   },
   {
     id: "data-approval",
+    icon: "shield",
     quote: "We need approval before using AI with our information.",
     label: "Get a workflow approved",
     buyer: "IT, security, procurement, business sponsor",
@@ -54,6 +60,7 @@ export const SITUATIONS: Situation[] = [
   },
   {
     id: "stalled-pilot",
+    icon: "rocket",
     quote: "Our pilot works in a demo but isn't ready for staff.",
     label: "Fix a stalled pilot",
     buyer: "CTO, product owner, engineering lead",
@@ -63,6 +70,7 @@ export const SITUATIONS: Situation[] = [
   },
   {
     id: "which-product",
+    icon: "scale",
     quote: "Which product should we buy?",
     label: "Compare products",
     buyer: "IT buyer, procurement, department head",
@@ -73,6 +81,7 @@ export const SITUATIONS: Situation[] = [
   },
   {
     id: "investment-decision",
+    icon: "chart",
     quote: "Leadership needs an investment decision.",
     label: "Make the investment case",
     buyer: "CEO, CFO, board sponsor",
@@ -83,6 +92,7 @@ export const SITUATIONS: Situation[] = [
   },
   {
     id: "multi-team",
+    icon: "users",
     quote: "We need to enable several teams or businesses.",
     label: "Enable many teams",
     buyer: "Group ops, portfolio ops, association, MSP",
@@ -92,6 +102,7 @@ export const SITUATIONS: Situation[] = [
   },
   {
     id: "still-worth-it",
+    icon: "gauge",
     quote: "We deployed something. Is it still worth running?",
     label: "Review a live workflow",
     buyer: "Service owner, operations leader",

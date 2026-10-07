@@ -1,14 +1,18 @@
+import type { IconName } from "./icons";
+
 export interface Tool {
   slug: string;
   name: string;
   short: string;
   produces: string;
   minutes: number;
+  icon: IconName;
 }
 
 export const TOOLS: Tool[] = [
   {
     slug: "workflow-scorecard",
+    icon: "clipboard",
     name: "Workflow Opportunity Scorecard",
     short: "Score one workflow on value, feasibility, risk and readiness, and get a recommended approach — which can be “no AI needed”.",
     produces: "A score, a recommended approach, dependencies and open questions",
@@ -16,6 +20,7 @@ export const TOOLS: Tool[] = [
   },
   {
     slug: "workflow-economics",
+    icon: "calculator",
     name: "Workflow Economics Calculator",
     short: "Separate hours released from cash removed, add running costs, and see payback across low, base and high cases.",
     produces: "Annual net value, payback and a sensitivity table",
@@ -23,6 +28,7 @@ export const TOOLS: Tool[] = [
   },
   {
     slug: "project-brief",
+    icon: "document",
     name: "Project Brief Builder",
     short: "Turn your workflow into a portable brief covering scope, systems, constraints, success criteria and purchasing needs.",
     produces: "A Markdown brief you can send to any supplier",

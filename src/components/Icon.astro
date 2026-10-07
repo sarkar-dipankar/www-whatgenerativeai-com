@@ -1,0 +1,43 @@
+---
+// Inline stroke icons (24×24, currentColor) so they follow text colour in both themes.
+import type { IconName } from "../data/icons";
+
+interface Props {
+  name: IconName;
+  class?: string;
+  strokeWidth?: number;
+}
+const { name, class: cls = "h-5 w-5", strokeWidth = 1.8 } = Astro.props;
+
+const P: Record<IconName, string[]> = {
+  compass: ["M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18z", "M15.5 8.5l-2 5-5 2 2-5z"],
+  sparkles: ["M10 3l1.6 4.4L16 9l-4.4 1.6L10 15l-1.6-4.4L4 9l4.4-1.6z", "M18 14l.8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8z"],
+  refresh: ["M4 12a8 8 0 0 1 13.7-5.6L20 8.5", "M20 3.5v5h-5", "M20 12a8 8 0 0 1-13.7 5.6L4 15.5", "M4 20.5v-5h5"],
+  shield: ["M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z", "M9 12l2 2 4-4"],
+  rocket: ["M12 2.5c3 2.4 4.5 5.8 4.5 9.5L12 16l-4.5-4c0-3.7 1.5-7.1 4.5-9.5z", "M12 7.5a1.5 1.5 0 1 0 0 3a1.5 1.5 0 1 0 0-3z", "M7.5 13l-3 4.5 4-.5", "M16.5 13l3 4.5-4-.5", "M10.5 19.5L12 21.5l1.5-2"],
+  scale: ["M12 3v17", "M7 20.5h10", "M4 7h16", "M7 7l-3 6.5a3 3 0 0 0 6 0z", "M17 7l-3 6.5a3 3 0 0 0 6 0z"],
+  chart: ["M3 20.5h18", "M6 17v-5", "M10.5 17V7", "M15 17v-3.5", "M19.5 17V4.5"],
+  users: ["M9 4.5a3.25 3.25 0 1 0 0 6.5a3.25 3.25 0 1 0 0-6.5z", "M3 20a6 6 0 0 1 12 0", "M16.5 6.5a2.5 2.5 0 1 1 0 5", "M17.5 14.2A5 5 0 0 1 21 19"],
+  gauge: ["M4 16.5a8 8 0 1 1 16 0", "M12 16.5l4-5", "M12 15.25a1.25 1.25 0 1 0 0 2.5a1.25 1.25 0 1 0 0-2.5z", "M4 20h16"],
+  target: ["M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18z", "M12 7a5 5 0 1 0 0 10a5 5 0 1 0 0-10z", "M12 11a1 1 0 1 0 0 2a1 1 0 1 0 0-2z"],
+  bolt: ["M13 2.5L4.5 13.5H11l-1 8 8.5-11H12z"],
+  clipboard: ["M8 4.5H6.5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-13a2 2 0 0 0-2-2H16", "M9 3h6v3H9z", "M8.5 13l2.5 2.5 4.5-5"],
+  calculator: ["M7 2.5h10a2 2 0 0 1 2 2v15a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-15a2 2 0 0 1 2-2z", "M8.5 6.5h7v3h-7z", "M8.5 13h.01", "M12 13h.01", "M15.5 13h.01", "M8.5 17h.01", "M12 17h.01", "M15.5 17h.01"],
+  document: ["M7 2.5h7l5 5v14H7a2 2 0 0 1-2-2v-15a2 2 0 0 1 2-2z", "M14 2.5v5h5", "M9 13h6", "M9 17h6"],
+  book: ["M4 5.5a2.5 2.5 0 0 1 2.5-2.5H20v15H6.5A2.5 2.5 0 0 0 4 20.5z", "M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"],
+  layers: ["M12 3l9 5-9 5-9-5z", "M3 13l9 5 9-5", "M3 17.5l9 5 9-5"],
+  beaker: ["M9 3h6", "M10 3v6.5L4.8 18.6A1.6 1.6 0 0 0 6.2 21h11.6a1.6 1.6 0 0 0 1.4-2.4L14 9.5V3", "M7.5 14.5h9"],
+  briefcase: ["M4 7.5h16a1 1 0 0 1 1 1v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-10a1 1 0 0 1 1-1z", "M9 7.5V5.5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2", "M3 13h18"],
+  pen: ["M4 20h4L19 9l-4-4L4 16z", "M13.5 6.5l4 4"],
+  list: ["M9 6h11", "M9 12h11", "M9 18h11", "M4.5 6h.01", "M4.5 12h.01", "M4.5 18h.01"],
+  download: ["M12 3.5v12", "M7.5 11l4.5 4.5 4.5-4.5", "M4 20h16"],
+  arrow: ["M5 12h14", "M13 6l6 6-6 6"],
+  chevron: ["M6 9l6 6 6-6"],
+  check: ["M5 12.5l4.5 4.5L19 7.5"],
+  flag: ["M5 21V4", "M5 4h11l-2 4 2 4H5"],
+  search: ["M11 4a7 7 0 1 0 0 14a7 7 0 1 0 0-14z", "M16 16l4.5 4.5"],
+};
+---
+<svg class={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width={strokeWidth} stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  {P[name].map((d) => <path d={d} />)}
+</svg>

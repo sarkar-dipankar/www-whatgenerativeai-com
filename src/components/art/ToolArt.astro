@@ -1,0 +1,51 @@
+---
+// Small theme-aware illustrations for the three decision tools.
+interface Props { tool: string; class?: string }
+const { tool, class: cls = "" } = Astro.props;
+const panel = "fill-white stroke-stone-200 dark:fill-stone-800 dark:stroke-stone-700";
+const bar = "fill-stone-200 dark:fill-stone-700";
+---
+<svg class={cls} viewBox="0 0 240 120" fill="none" aria-hidden="true" focusable="false">
+  <rect x="1" y="1" width="238" height="118" rx="14" class="fill-primary-50 dark:fill-stone-900" />
+  {tool === "workflow-scorecard" && (
+    <g>
+      <rect x="20" y="18" width="200" height="84" rx="10" class={panel} />
+      <path d="M50 82a40 40 0 0 1 80 0" class="stroke-stone-200 dark:stroke-stone-700" stroke-width="10" stroke-linecap="round" />
+      <path d="M50 82a40 40 0 0 1 68-28" class="stroke-primary-600" stroke-width="10" stroke-linecap="round" />
+      <text x="90" y="80" text-anchor="middle" font-family="Inter, ui-sans-serif, sans-serif" font-size="16" font-weight="800" class="fill-stone-900 dark:fill-stone-50">83</text>
+      {[0, 1, 2, 3].map((i) => (
+        <g>
+          <rect x="146" y={34 + i * 15} width="56" height="6" rx="3" class={bar} />
+          <rect x="146" y={34 + i * 15} width={[48, 52, 40, 30][i]} height="6" rx="3" class={i === 3 ? "fill-accent-500" : "fill-primary-500"} />
+        </g>
+      ))}
+    </g>
+  )}
+  {tool === "workflow-economics" && (
+    <g>
+      <rect x="20" y="18" width="200" height="84" rx="10" class={panel} />
+      <line x1="36" y1="88" x2="204" y2="88" class="stroke-stone-300 dark:stroke-stone-600" />
+      {[[44, 58], [80, 44], [116, 34], [152, 26]].map(([x, h], i) => (
+        <rect x={x} y={88 - h} width="22" height={h} rx="3" class={i === 0 ? "fill-stone-300 dark:fill-stone-600" : "fill-primary-500"} />
+      ))}
+      <path d="M44 72 L91 60 L127 44 L176 30" class="stroke-accent-500" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="4 4" />
+      <circle cx="176" cy="30" r="4" class="fill-accent-500" />
+      <text x="186" y="34" font-family="Inter, ui-sans-serif, sans-serif" font-size="9" font-weight="600" class="fill-accent-700 dark:fill-accent-300">£</text>
+    </g>
+  )}
+  {tool === "project-brief" && (
+    <g>
+      <rect x="64" y="12" width="112" height="96" rx="8" class={panel} transform="rotate(-5 120 60)" />
+      <rect x="64" y="12" width="112" height="96" rx="8" class={panel} />
+      <rect x="78" y="26" width="60" height="7" rx="3.5" class="fill-stone-800 dark:fill-stone-100" />
+      {[0, 1, 2, 3].map((i) => (
+        <g>
+          <path d={`M80 ${48 + i * 14}l3 3 6-6`} class="stroke-primary-600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+          <rect x="94" y={45 + i * 14} width={[64, 52, 58, 40][i]} height="5" rx="2.5" class={bar} />
+        </g>
+      ))}
+      <circle cx="176" cy="22" r="11" class="fill-accent-500" />
+      <path d="M171 22l3.5 3.5 6-6.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+    </g>
+  )}
+</svg>

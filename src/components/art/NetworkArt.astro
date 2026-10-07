@@ -1,0 +1,26 @@
+---
+// Decorative node network for page headers (sits on the dark teal gradient).
+interface Props { class?: string; icon?: string }
+const { class: cls = "" } = Astro.props;
+const nodes: [number, number, number][] = [
+  [60, 70, 5], [150, 40, 4], [240, 90, 7], [330, 50, 4], [120, 160, 6], [220, 200, 4], [320, 170, 6], [400, 110, 5], [280, 260, 5], [170, 270, 4], [380, 240, 4],
+];
+const edges: [number, number][] = [[0, 1], [1, 2], [2, 3], [0, 4], [4, 2], [2, 6], [3, 7], [6, 7], [4, 5], [5, 6], [5, 9], [6, 8], [8, 10], [7, 10], [9, 8]];
+const hot = new Set([2, 6, 8]);
+---
+<svg class={`network-art ${cls}`} viewBox="0 0 440 300" fill="none" aria-hidden="true" focusable="false">
+  <g stroke="rgba(255,255,255,.18)" stroke-width="1.2">
+    {edges.map(([a, b]) => <line x1={nodes[a][0]} y1={nodes[a][1]} x2={nodes[b][0]} y2={nodes[b][1]} />)}
+  </g>
+  <path class="na-path" d={`M${nodes[0][0]} ${nodes[0][1]} L${nodes[4][0]} ${nodes[4][1]} L${nodes[2][0]} ${nodes[2][1]} L${nodes[6][0]} ${nodes[6][1]} L${nodes[8][0]} ${nodes[8][1]}`} stroke="#fcd34d" stroke-width="2" stroke-dasharray="5 7" stroke-linecap="round" />
+  {nodes.map(([x, y, r], i) => (
+    hot.has(i)
+      ? <g><circle cx={x} cy={y} r={r + 7} fill="rgba(252,211,77,.15)" /><circle cx={x} cy={y} r={r} fill="#fcd34d" /></g>
+      : <circle cx={x} cy={y} r={r} fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.45)" stroke-width="1.2" />
+  ))}
+</svg>
+<style>
+  .network-art .na-path { animation: na-flow 2s linear infinite; }
+  @keyframes na-flow { to { stroke-dashoffset: -24; } }
+  @media (prefers-reduced-motion: reduce) { .network-art .na-path { animation: none; } }
+</style>

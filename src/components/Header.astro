@@ -1,7 +1,13 @@
 ---
+import { getCollection } from "astro:content";
 import type { LanguageCode } from "../i18n";
 import { DEFAULT_LANG, localizedPath, ui } from "../i18n";
 import ThemeToggle from "./ThemeToggle.astro";
+import Icon from "./Icon.astro";
+import { SITUATIONS } from "../data/situations";
+import { OFFERS, formatPrice } from "../data/offers";
+import { TOOLS } from "../data/tools";
+import { CLUSTERS } from "../data/clusters";
 
 interface Props {
   lang?: LanguageCode;
@@ -9,34 +15,42 @@ interface Props {
 }
 const { lang = DEFAULT_LANG, path = "/" } = Astro.props;
 const t = (k: keyof typeof ui.en) => (ui as any)[lang]?.[k] ?? ui.en[k];
+const en = lang === "en";
 
-interface NavItem { label: string; href: string; cta?: boolean; note?: string }
+// Mega-menu content (English). Panels open on hover or keyboard focus (CSS only);
+// every trigger is also a link to its hub page, so touch and no-hover devices work.
+const guides = en
+  ? (await getCollection("guides", (g) => !g.data.draft)).sort(
+      (a, b) => (CLUSTERS[a.data.cluster]?.order ?? 99) - (CLUSTERS[b.data.cluster]?.order ?? 99),
+    )
+  : [];
+const decisionGuides = guides.filter((g) => g.data.kind === "decision");
+const workflowGuides = guides.filter((g) => g.data.kind === "workflow");
+const chapters = en
+  ? (await getCollection("docs", (e) => e.data.lang === "en" && !e.data.draft && !e.id.startsWith("_index")))
+      .sort((a, b) => (a.data.weight ?? 99) - (b.data.weight ?? 99))
+  : [];
+const genai = chapters.filter((c) => (c.data.weight ?? 0) < 20).slice(0, 5);
+const agentic = chapters.filter((c) => (c.data.weight ?? 0) >= 20).slice(0, 5);
 
-// English leads with the decision path; other languages keep the reading path
-// and link to the English-only commercial pages.
-const nav: NavItem[] =
-  lang === "en"
-    ? [
-        { label: "Start here", href: "/start/" },
-        { label: "Workflows", href: "/guides/" },
-        { label: "Tools", href: "/tools/" },
-        { label: "Playbooks", href: "/docs/genai-playbook/" },
-        { label: "Evidence", href: "/evidence/" },
-        { label: "Work with us", href: "/work-with-us/", cta: true },
-      ]
-    : [
-        { label: t("navDocs"), href: localizedPath(lang, "/docs/genai-playbook/") },
-        { label: t("getBook"), href: localizedPath(lang, "/book/") },
-        { label: t("navBlog"), href: localizedPath(lang, "/posts/") },
-        { label: t("navAbout"), href: localizedPath(lang, "/about/") },
-        { label: t("navWorkWithUs"), href: "/work-with-us/", cta: true, note: "EN" },
-      ];
+const isActive = (href: string) => href !== "/" && path.startsWith(href);
+const trigger =
+  "inline-flex items-center gap-1 px-2.5 py-2 rounded-md text-stone-700 dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 group-hover/item:bg-stone-100 dark:group-hover/item:bg-stone-800 transition aria-[current=page]:text-primary-700 dark:aria-[current=page]:text-primary-300";
+const panel =
+  "invisible opacity-0 -translate-y-1 group-hover/item:visible group-hover/item:opacity-100 group-hover/item:translate-y-0 group-focus-within/item:visible group-focus-within/item:opacity-100 group-focus-within/item:translate-y-0 transition duration-150 absolute inset-x-0 top-full border-b border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-xl shadow-stone-900/5";
+const panelInner = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8";
+const colHead = "text-[11px] font-bold uppercase tracking-widest text-stone-500 dark:text-stone-400";
+const rowLink = "group/row flex items-start gap-3 rounded-lg p-2 -mx-2 hover:bg-stone-50 dark:hover:bg-stone-800/70 transition";
+const iconTile = "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-primary-700 dark:bg-primary-950 dark:text-primary-300 group-hover/row:bg-primary-600 group-hover/row:text-white transition";
 
-const isActive = (href: string) => href !== "/" && (path === href || path.startsWith(href) || localizedPath(lang, path).startsWith(href));
-const linkCls = "px-2.5 py-2 rounded-md hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-200 transition";
-const ctaCls = "ml-1 px-3.5 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition";
+const localNav = [
+  { label: t("navDocs"), href: localizedPath(lang, "/docs/genai-playbook/") },
+  { label: t("getBook"), href: localizedPath(lang, "/book/") },
+  { label: t("navBlog"), href: localizedPath(lang, "/posts/") },
+  { label: t("navAbout"), href: localizedPath(lang, "/about/") },
+];
 ---
-<header class="sticky top-0 z-40 border-b border-stone-200/70 bg-stone-50/85 backdrop-blur-md dark:bg-stone-950/85 dark:border-stone-800">
+<header class="sticky top-0 z-40 border-b border-stone-200/70 bg-stone-50/90 backdrop-blur-md dark:bg-stone-950/90 dark:border-stone-800">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
     <a href={localizedPath(lang, "/")} class="flex items-center gap-2.5 font-bold text-stone-900 dark:text-stone-50 hover:text-primary-700 dark:hover:text-primary-300 transition-colors">
       <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-primary-600 shadow-sm">
@@ -53,31 +67,235 @@ const ctaCls = "ml-1 px-3.5 py-2 rounded-lg bg-primary-600 text-white hover:bg-p
     </a>
 
     <div class="flex items-center gap-1">
-      <!-- Desktop -->
-      <nav class="hidden lg:flex items-center gap-1 text-sm font-medium" aria-label="Main">
-        {nav.map((item) => (
-          <a
-            href={item.href}
-            class={item.cta ? ctaCls : linkCls}
-            aria-current={!item.cta && isActive(item.href) ? "page" : undefined}
-          >
-            {item.label}{item.note && <span class="ml-1 text-[10px] opacity-75">{item.note}</span>}
-          </a>
-        ))}
-      </nav>
+      {en ? (
+        <nav class="hidden lg:flex items-center gap-0.5 text-sm font-medium h-16" aria-label="Main">
+          <!-- Start here -->
+          <div class="group/item h-16 flex items-center">
+            <a href="/start/" class={trigger} aria-current={isActive("/start/") ? "page" : undefined}>Start here <Icon name="chevron" class="h-3.5 w-3.5 opacity-60 transition group-hover/item:rotate-180" /></a>
+            <div class={panel}>
+              <div class={`${panelInner} grid gap-8 lg:grid-cols-[1fr_280px]`}>
+                <div>
+                  <p class={colHead}>Start from your situation</p>
+                  <ul class="mt-3 grid gap-x-6 gap-y-1 sm:grid-cols-2 xl:grid-cols-3">
+                    {SITUATIONS.map((s) => (
+                      <li>
+                        <a href={`/guides/${s.guide}/`} class={rowLink}>
+                          <span class={iconTile}><Icon name={s.icon} class="h-[18px] w-[18px]" /></span>
+                          <span><span class="block font-semibold text-stone-900 dark:text-stone-50">{s.label}</span><span class="block text-xs text-stone-500 dark:text-stone-400 leading-snug">{s.quote}</span></span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div class="rounded-xl bg-gradient-to-br from-primary-800 to-primary-900 p-5 text-white">
+                  <Icon name="compass" class="h-8 w-8 text-accent-300" strokeWidth={1.5} />
+                  <p class="mt-3 font-bold">Not sure where you fit?</p>
+                  <p class="mt-1 text-sm text-primary-100/90">Score one workflow in five minutes. You get the result straight away, with no sign-up.</p>
+                  <a href="/tools/workflow-scorecard/" class="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-accent-500 px-3.5 py-2 text-sm font-semibold text-stone-900 hover:bg-accent-400">Assess a workflow <Icon name="arrow" class="h-4 w-4" /></a>
+                  <a href="/start/" class="mt-3 block text-sm text-primary-100 hover:text-white underline underline-offset-4">All buying situations</a>
+                </div>
+              </div>
+            </div>
+          </div>
 
-      <!-- Mobile: details/summary, no JS -->
-      <details class="lg:hidden relative group">
+          <!-- Workflows (guides) -->
+          <div class="group/item h-16 flex items-center">
+            <a href="/guides/" class={trigger} aria-current={isActive("/guides/") ? "page" : undefined}>Workflows <Icon name="chevron" class="h-3.5 w-3.5 opacity-60 transition group-hover/item:rotate-180" /></a>
+            <div class={panel}>
+              <div class={`${panelInner} grid gap-8 lg:grid-cols-[1.4fr_1fr_260px]`}>
+                <div>
+                  <p class={colHead}>Decision guides</p>
+                  <ul class="mt-3 grid gap-x-6 sm:grid-cols-2">
+                    {decisionGuides.map((g) => (
+                      <li>
+                        <a href={`/guides/${g.data.slug}/`} class={`${rowLink} items-center`}>
+                          <Icon name={CLUSTERS[g.data.cluster]?.icon ?? "document"} class="h-4 w-4 shrink-0 text-primary-600 dark:text-primary-400" />
+                          <span class="text-stone-700 dark:text-stone-200 group-hover/row:text-primary-700 dark:group-hover/row:text-primary-300 leading-snug">{CLUSTERS[g.data.cluster]?.label}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <p class={colHead}>Workflow guides</p>
+                  <ul class="mt-3">
+                    {workflowGuides.map((g) => (
+                      <li>
+                        <a href={`/guides/${g.data.slug}/`} class={`${rowLink} items-center`}>
+                          <Icon name={CLUSTERS[g.data.cluster]?.icon ?? "document"} class="h-4 w-4 shrink-0 text-accent-600 dark:text-accent-400" />
+                          <span class="text-stone-700 dark:text-stone-200 group-hover/row:text-primary-700 dark:group-hover/row:text-primary-300 leading-snug">{CLUSTERS[g.data.cluster]?.label}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <a href="/guides/where-to-start-with-ai/" class="group/row block rounded-xl border border-stone-200 dark:border-stone-700 p-5 hover:border-primary-400 transition">
+                  <p class={colHead}>Most read first</p>
+                  <p class="mt-2 font-bold text-stone-900 dark:text-stone-50 group-hover/row:text-primary-700 dark:group-hover/row:text-primary-300">Where should our business start with AI?</p>
+                  <p class="mt-1 text-sm text-stone-600 dark:text-stone-400">A selection method, the scoring criteria and the traps to avoid.</p>
+                  <span class="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary-700 dark:text-primary-300">Read the guide <Icon name="arrow" class="h-4 w-4" /></span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tools -->
+          <div class="group/item h-16 flex items-center">
+            <a href="/tools/" class={trigger} aria-current={isActive("/tools/") ? "page" : undefined}>Tools <Icon name="chevron" class="h-3.5 w-3.5 opacity-60 transition group-hover/item:rotate-180" /></a>
+            <div class={panel}>
+              <div class={panelInner}>
+                <div class="flex items-baseline justify-between gap-4">
+                  <p class={colHead}>Free decision tools</p>
+                  <p class="text-xs text-stone-500 dark:text-stone-400">Results on screen · no sign-up · answers stay in your browser</p>
+                </div>
+                <ul class="mt-4 grid gap-4 md:grid-cols-3">
+                  {TOOLS.map((tl, i) => (
+                    <li>
+                      <a href={`/tools/${tl.slug}/`} class="group/row flex h-full gap-4 rounded-xl border border-stone-200 dark:border-stone-700 p-5 hover:border-primary-400 hover:shadow-md transition">
+                        <span class={`${iconTile} h-11 w-11`}><Icon name={tl.icon} class="h-6 w-6" /></span>
+                        <span>
+                          <span class="block text-[11px] font-semibold uppercase tracking-wider text-accent-600 dark:text-accent-400">Step {i + 1} · ~{tl.minutes} min</span>
+                          <span class="mt-0.5 block font-bold text-stone-900 dark:text-stone-50 group-hover/row:text-primary-700 dark:group-hover/row:text-primary-300">{tl.name}</span>
+                          <span class="mt-1 block text-sm text-stone-600 dark:text-stone-400 leading-snug">{tl.short}</span>
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Playbooks -->
+          <div class="group/item h-16 flex items-center">
+            <a href="/docs/genai-playbook/" class={trigger} aria-current={isActive("/docs/") ? "page" : undefined}>Playbooks <Icon name="chevron" class="h-3.5 w-3.5 opacity-60 transition group-hover/item:rotate-180" /></a>
+            <div class={panel}>
+              <div class={`${panelInner} grid gap-8 lg:grid-cols-[1fr_1fr_220px]`}>
+                {[
+                  { title: "The GenAI Playbook", sub: "Foundations for business leaders", items: genai, href: "/docs/genai-playbook/", icon: "layers" as const, tone: "bg-primary-600" },
+                  { title: "The Agentic AI Playbook", sub: "From GenAI to autonomous agents", items: agentic, href: "/docs/genai-playbook/from-genai-to-agentic-ai/", icon: "sparkles" as const, tone: "bg-accent-500" },
+                ].map((pb) => (
+                  <div>
+                    <a href={pb.href} class="group/row flex items-center gap-3">
+                      <span class={`inline-flex h-10 w-10 items-center justify-center rounded-lg text-white ${pb.tone}`}><Icon name={pb.icon} class="h-5 w-5" /></span>
+                      <span><span class="block font-bold text-stone-900 dark:text-stone-50 group-hover/row:text-primary-700 dark:group-hover/row:text-primary-300">{pb.title}</span><span class="block text-xs text-stone-500 dark:text-stone-400">{pb.sub}</span></span>
+                    </a>
+                    <ul class="mt-3 border-l border-stone-200 dark:border-stone-700 ml-5 pl-4 space-y-0.5">
+                      {pb.items.map((c) => (
+                        <li><a href={`/docs/genai-playbook/${c.data.slug}/`} class="block py-1 text-stone-600 dark:text-stone-300 hover:text-primary-700 dark:hover:text-primary-300"><span class="text-stone-400 tabular-nums mr-1.5">{c.data.weight}</span>{c.data.title}</a></li>
+                      ))}
+                      <li><a href={pb.href} class="block py-1 font-semibold text-primary-700 dark:text-primary-300">All chapters →</a></li>
+                    </ul>
+                  </div>
+                ))}
+                <div>
+                  <p class={colHead}>Resources</p>
+                  <ul class="mt-3 space-y-0.5">
+                    {[
+                      { label: "Glossary", href: "/glossary/", icon: "list" as const },
+                      { label: "The book", href: "/book/", icon: "book" as const },
+                      { label: "Blog", href: "/posts/", icon: "pen" as const },
+                      { label: "Free PDFs", href: "/downloads/genai-playbook-en.pdf", icon: "download" as const },
+                      { label: "About the author", href: "/about/", icon: "users" as const },
+                    ].map((r) => (
+                      <li><a href={r.href} class={`${rowLink} items-center`}><Icon name={r.icon} class="h-4 w-4 text-stone-500" /><span class="text-stone-700 dark:text-stone-200 group-hover/row:text-primary-700 dark:group-hover/row:text-primary-300">{r.label}</span></a></li>
+                    ))}
+                  </ul>
+                  <p class="mt-4 text-xs text-stone-500 dark:text-stone-400">21 chapters · 10 languages · Apache 2.0</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <a href="/evidence/" class={trigger} aria-current={isActive("/evidence/") ? "page" : undefined}>Evidence</a>
+
+          <!-- Work with us -->
+          <div class="group/item h-16 flex items-center ml-1">
+            <a href="/work-with-us/" class="inline-flex items-center gap-1 px-3.5 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition">Work with us <Icon name="chevron" class="h-3.5 w-3.5 opacity-80 transition group-hover/item:rotate-180" /></a>
+            <div class={panel}>
+              <div class={`${panelInner} grid gap-8 lg:grid-cols-[1fr_300px]`}>
+                <div>
+                  <p class={colHead}>Engagements</p>
+                  <ul class="mt-3 grid gap-x-6 gap-y-1 sm:grid-cols-2">
+                    {OFFERS.map((o) => (
+                      <li>
+                        <a href={`/work-with-us/${o.slug}/`} class={rowLink}>
+                          <span class={iconTile}><Icon name={o.icon} class="h-[18px] w-[18px]" /></span>
+                          <span class="min-w-0">
+                            <span class="flex flex-wrap items-baseline gap-x-2"><span class="font-semibold text-stone-900 dark:text-stone-50">{o.name}</span><span class="text-xs font-semibold text-accent-700 dark:text-accent-400">{formatPrice(o)}</span></span>
+                            <span class="block text-xs text-stone-500 dark:text-stone-400 leading-snug">{o.short}</span>
+                          </span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div class="rounded-xl border border-primary-200 dark:border-primary-900 bg-primary-50/70 dark:bg-stone-800/60 p-5">
+                  <Icon name="briefcase" class="h-7 w-7 text-primary-700 dark:text-primary-300" strokeWidth={1.5} />
+                  <p class="mt-3 font-bold text-stone-900 dark:text-stone-50">Tell us about one workflow</p>
+                  <p class="mt-1 text-sm text-stone-600 dark:text-stone-400">A person reads every brief and replies with whether there's a viable project, and the smallest sensible next step.</p>
+                  <a href="/work-with-us/intake/" class="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-primary-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-primary-700">Start a project brief <Icon name="arrow" class="h-4 w-4" /></a>
+                  <p class="mt-3 text-[11px] text-stone-500 dark:text-stone-400">Delivered by Neul Labs, which Dipankar Sarkar founded and leads.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+      ) : (
+        <nav class="hidden lg:flex items-center gap-1 text-sm font-medium" aria-label="Main">
+          {localNav.map((item) => (
+            <a href={item.href} class={trigger} aria-current={isActive(item.href) || localizedPath(lang, path) === item.href ? "page" : undefined}>{item.label}</a>
+          ))}
+          <a href="/work-with-us/" hreflang="en" class="ml-1 px-3.5 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition">{t("navWorkWithUs")} <span class="ml-0.5 text-[10px] opacity-75">EN</span></a>
+        </nav>
+      )}
+
+      <!-- Mobile: grouped accordion, no JS -->
+      <details class="lg:hidden relative group/m">
         <summary class="list-none cursor-pointer inline-flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium text-stone-700 dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 [&::-webkit-details-marker]:hidden">
-          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg class="h-5 w-5 group-open/m:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg class="h-5 w-5 hidden group-open/m:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
           Menu
         </summary>
-        <nav class="absolute right-0 mt-2 w-64 max-w-[calc(100vw-2rem)] rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-xl p-2 flex flex-col text-sm font-medium" aria-label="Main">
-          {nav.map((item) => (
-            <a href={item.href} class={item.cta ? "mt-1 px-3 py-2.5 rounded-lg bg-primary-600 text-white text-center" : "px-3 py-2.5 rounded-lg text-stone-700 dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800"}>
-              {item.label}{item.note && <span class="ml-1 text-[10px] opacity-75">{item.note}</span>}
-            </a>
-          ))}
+        <nav class="absolute right-0 mt-2 w-80 max-w-[calc(100vw-2rem)] max-h-[calc(100vh-6rem)] overflow-y-auto rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-xl p-2 text-sm" aria-label="Main">
+          {en ? (
+            <>
+              {[
+                { label: "Start here", href: "/start/", icon: "compass" as const, items: SITUATIONS.map((s) => ({ label: s.label, href: `/guides/${s.guide}/`, icon: s.icon })) },
+                { label: "Workflows", href: "/guides/", icon: "list" as const, items: guides.map((g) => ({ label: CLUSTERS[g.data.cluster]?.label ?? g.data.title, href: `/guides/${g.data.slug}/`, icon: CLUSTERS[g.data.cluster]?.icon ?? ("document" as const) })) },
+                { label: "Tools", href: "/tools/", icon: "clipboard" as const, items: TOOLS.map((tl) => ({ label: tl.name, href: `/tools/${tl.slug}/`, icon: tl.icon })) },
+                { label: "Playbooks", href: "/docs/genai-playbook/", icon: "layers" as const, items: [
+                  { label: "GenAI Playbook", href: "/docs/genai-playbook/", icon: "layers" as const },
+                  { label: "Agentic AI Playbook", href: "/docs/genai-playbook/from-genai-to-agentic-ai/", icon: "sparkles" as const },
+                  { label: "Glossary", href: "/glossary/", icon: "list" as const },
+                  { label: "The book", href: "/book/", icon: "book" as const },
+                  { label: "Blog", href: "/posts/", icon: "pen" as const },
+                  { label: "About the author", href: "/about/", icon: "users" as const },
+                ] },
+                { label: "Work with us", href: "/work-with-us/", icon: "briefcase" as const, items: OFFERS.map((o) => ({ label: `${o.name} · ${formatPrice(o)}`, href: `/work-with-us/${o.slug}/`, icon: o.icon })) },
+              ].map((grp) => (
+                <details class="group/g border-b border-stone-100 dark:border-stone-800 last:border-0">
+                  <summary class="list-none cursor-pointer flex items-center justify-between gap-2 px-3 py-3 rounded-lg font-semibold text-stone-800 dark:text-stone-100 hover:bg-stone-50 dark:hover:bg-stone-800 [&::-webkit-details-marker]:hidden">
+                    <span class="flex items-center gap-2.5"><Icon name={grp.icon} class="h-[18px] w-[18px] text-primary-600 dark:text-primary-400" />{grp.label}</span>
+                    <Icon name="chevron" class="h-4 w-4 text-stone-400 transition group-open/g:rotate-180" />
+                  </summary>
+                  <ul class="pb-2 pl-3">
+                    {grp.items.map((it) => (
+                      <li><a href={it.href} class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-stone-600 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800"><Icon name={it.icon} class="h-4 w-4 shrink-0 text-stone-400" />{it.label}</a></li>
+                    ))}
+                    <li><a href={grp.href} class="block px-3 py-2 font-semibold text-primary-700 dark:text-primary-300">See all →</a></li>
+                  </ul>
+                </details>
+              ))}
+              <a href="/evidence/" class="flex items-center gap-2.5 px-3 py-3 rounded-lg font-semibold text-stone-800 dark:text-stone-100 hover:bg-stone-50 dark:hover:bg-stone-800"><Icon name="beaker" class="h-[18px] w-[18px] text-primary-600 dark:text-primary-400" />Evidence</a>
+              <a href="/work-with-us/intake/" class="mt-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg bg-primary-600 text-white font-semibold">Start a project brief <Icon name="arrow" class="h-4 w-4" /></a>
+            </>
+          ) : (
+            <>
+              {localNav.map((item) => <a href={item.href} class="block px-3 py-2.5 rounded-lg text-stone-700 dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800">{item.label}</a>)}
+              <a href="/work-with-us/" hreflang="en" class="mt-1 block px-3 py-2.5 rounded-lg bg-primary-600 text-white text-center">{t("navWorkWithUs")} <span class="text-[10px] opacity-75">EN</span></a>
+            </>
+          )}
         </nav>
       </details>
 

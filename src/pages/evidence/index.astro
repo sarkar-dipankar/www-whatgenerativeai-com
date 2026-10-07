@@ -5,6 +5,7 @@ import Footer from "../../components/Footer.astro";
 import PageHeader from "../../components/PageHeader.astro";
 import CtaPanel from "../../components/CtaPanel.astro";
 import Disclosure from "../../components/Disclosure.astro";
+import OutcomeChart from "../../components/art/OutcomeChart.astro";
 import { SITE_URL } from "../../data/site";
 
 const reviewed = "2026-10-08";
@@ -58,6 +59,7 @@ const record = [
   <Header lang="en" path="/evidence/" />
   <PageHeader
     eyebrow="Evidence & methods"
+    icon="beaker"
     title="Honest numbers, or none"
     lede="An AI business case is only as good as its evidence. This is how we measure outcomes, how we label claims, and what we will and won't publish."
     crumbs={[{ label: "Evidence" }]}
@@ -80,6 +82,7 @@ const record = [
       <p>A vendor's benchmark tells you what a product can do under its maker's conditions. A test result tells you what it did on your work, judged against your threshold. We report the two separately and never combine them into one figure.</p>
 
       <h2>Hours released are not cash saved</h2>
+      <div class="not-prose my-6 rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-5"><OutcomeChart /></div>
       <p>If a workflow redesign frees up staff time, that capacity has value only once it's used. A business case has to say what happens to it: less overtime, a hire avoided, more throughput, better service — or nothing. Running costs come off the total: review time, licences, support and change management. The <a href="/tools/workflow-economics/">workflow economics calculator</a> keeps these figures separate.</p>
 
       <h2>Worked examples (hypothetical)</h2>

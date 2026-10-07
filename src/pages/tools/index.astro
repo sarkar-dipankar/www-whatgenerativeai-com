@@ -5,6 +5,7 @@ import Footer from "../../components/Footer.astro";
 import PageHeader from "../../components/PageHeader.astro";
 import CtaPanel from "../../components/CtaPanel.astro";
 import { TOOLS } from "../../data/tools";
+import ToolArt from "../../components/art/ToolArt.astro";
 import { SITE_URL } from "../../data/site";
 
 const steps = ["Score the workflow", "Work out the economics", "Write the brief"];
@@ -29,6 +30,7 @@ const jsonLd = [
   <Header lang="en" path="/tools/" />
   <PageHeader
     eyebrow="Decision tools"
+    icon="clipboard"
     title="Useful answers before any sales conversation"
     lede="Each tool runs in your browser and shows the full result on screen. Copy it, download it or print it. Ask us to review it only if you want to."
     crumbs={[{ label: "Tools" }]}
@@ -38,6 +40,7 @@ const jsonLd = [
       {TOOLS.map((tl, i) => (
         <li>
           <a href={`/tools/${tl.slug}/`} class="group flex h-full flex-col rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-6 hover:border-primary-400 hover:shadow-lg transition">
+            <ToolArt tool={tl.slug} class="mb-5 w-full h-auto" />
             <p class="text-xs font-semibold uppercase tracking-widest text-accent-600 dark:text-accent-400">Step {i + 1} · {steps[i]}</p>
             <h2 class="mt-2 text-xl font-bold text-stone-900 dark:text-stone-50 group-hover:text-primary-700 dark:group-hover:text-primary-300">{tl.name}</h2>
             <p class="mt-2 text-sm text-stone-600 dark:text-stone-400 flex-1">{tl.short}</p>

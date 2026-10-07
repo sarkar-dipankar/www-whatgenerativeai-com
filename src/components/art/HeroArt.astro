@@ -1,0 +1,92 @@
+---
+// Decorative vector: inputs → AI drafts → person reviews → measured outcome.
+// Drawn for the dark teal hero (same in light and dark themes).
+interface Props { class?: string }
+const { class: cls = "" } = Astro.props;
+const card = "fill:rgba(255,255,255,.07);stroke:rgba(255,255,255,.22);stroke-width:1.2";
+const label = "fill:rgba(255,255,255,.75);font:600 11px/1 Inter,ui-sans-serif,system-ui,sans-serif;letter-spacing:.08em";
+const line = "stroke:rgba(255,255,255,.35);stroke-width:6;stroke-linecap:round";
+---
+<svg class={`hero-art ${cls}`} viewBox="0 0 520 440" fill="none" role="img" aria-label="Diagram: business inputs are drafted by AI, reviewed by a person, and the outcome is measured">
+  <defs>
+    <marker id="ha-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#fcd34d" />
+    </marker>
+    <linearGradient id="ha-glow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fbbf24" stop-opacity=".9" />
+      <stop offset="1" stop-color="#f59e0b" stop-opacity=".6" />
+    </linearGradient>
+  </defs>
+
+  <!-- connectors -->
+  <path class="flow" d="M188 96 C235 96 245 82 286 82" stroke="#fcd34d" stroke-width="2" stroke-dasharray="6 7" marker-end="url(#ha-arrow)" />
+  <path class="flow" d="M380 166 C380 220 250 200 200 246" stroke="#fcd34d" stroke-width="2" stroke-dasharray="6 7" marker-end="url(#ha-arrow)" />
+  <path class="flow" d="M236 318 C262 318 270 318 296 318" stroke="#fcd34d" stroke-width="2" stroke-dasharray="6 7" marker-end="url(#ha-arrow)" />
+
+  <!-- A: inputs (stacked documents) -->
+  <g>
+    <rect x="34" y="50" width="150" height="104" rx="14" style={card} transform="rotate(-4 109 102)" />
+    <rect x="22" y="40" width="160" height="112" rx="14" style={card} />
+    <text x="40" y="66" style={label}>INPUTS</text>
+    <rect x="40" y="82" width="70" height="6" rx="3" style={line} />
+    <rect x="40" y="98" width="118" height="6" rx="3" style="fill:rgba(255,255,255,.22)" />
+    <rect x="40" y="112" width="100" height="6" rx="3" style="fill:rgba(255,255,255,.22)" />
+    <rect x="40" y="126" width="112" height="6" rx="3" style="fill:rgba(255,255,255,.22)" />
+  </g>
+
+  <!-- B: AI drafts -->
+  <g>
+    <rect x="290" y="20" width="206" height="146" rx="16" style={card} />
+    <text x="310" y="46" style={label}>AI DRAFTS</text>
+    <path class="sparkle" d="M466 30l3.6 9.4 9.4 3.6-9.4 3.6-3.6 9.4-3.6-9.4-9.4-3.6 9.4-3.6z" fill="url(#ha-glow)" />
+    <rect x="310" y="64" width="150" height="7" rx="3.5" style="fill:rgba(255,255,255,.3)" />
+    <rect x="310" y="80" width="166" height="7" rx="3.5" style="fill:rgba(255,255,255,.22)" />
+    <rect x="310" y="96" width="128" height="7" rx="3.5" style="fill:rgba(255,255,255,.22)" />
+    <rect class="typing" x="310" y="112" width="96" height="7" rx="3.5" fill="#fcd34d" opacity=".85" />
+    <rect x="310" y="134" width="64" height="18" rx="9" style="fill:rgba(252,211,77,.18);stroke:rgba(252,211,77,.5)" />
+    <text x="320" y="147" style="fill:#fde68a;font:600 10px Inter,ui-sans-serif,system-ui,sans-serif">Sources ✓</text>
+  </g>
+
+  <!-- C: person reviews -->
+  <g>
+    <rect x="26" y="252" width="208" height="134" rx="16" style={card} />
+    <text x="46" y="278" style={label}>PERSON REVIEWS</text>
+    <circle cx="66" cy="320" r="18" style="fill:rgba(255,255,255,.14);stroke:rgba(255,255,255,.4)" />
+    <circle cx="66" cy="314" r="6" style="fill:rgba(255,255,255,.6)" />
+    <path d="M54 332a12 9 0 0 1 24 0" style="fill:rgba(255,255,255,.6)" />
+    <g stroke="#5eead4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M100 304l4 4 8-8" />
+      <path d="M100 326l4 4 8-8" />
+    </g>
+    <rect x="122" y="301" width="90" height="6" rx="3" style="fill:rgba(255,255,255,.25)" />
+    <rect x="122" y="323" width="72" height="6" rx="3" style="fill:rgba(255,255,255,.25)" />
+    <path d="M100 348h12" stroke="rgba(255,255,255,.35)" stroke-width="2.4" stroke-linecap="round" />
+    <rect x="122" y="345" width="80" height="6" rx="3" style="fill:rgba(255,255,255,.15)" />
+  </g>
+
+  <!-- D: measured outcome -->
+  <g>
+    <rect x="300" y="236" width="196" height="178" rx="16" style={card} />
+    <text x="320" y="262" style={label}>MEASURED OUTCOME</text>
+    <line x1="322" y1="386" x2="476" y2="386" stroke="rgba(255,255,255,.3)" />
+    <rect x="336" y="290" width="34" height="96" rx="5" style="fill:rgba(255,255,255,.28)" />
+    <rect x="392" y="336" width="34" height="50" rx="5" fill="#2dd4bf" />
+    <rect x="392" y="322" width="34" height="14" rx="4" fill="#fcd34d" opacity=".9" />
+    <path d="M438 296v40" stroke="#fcd34d" stroke-width="1.5" stroke-dasharray="3 3" />
+    <text x="336" y="402" style="fill:rgba(255,255,255,.6);font:500 10px Inter,ui-sans-serif,system-ui,sans-serif">Before</text>
+    <text x="394" y="402" style="fill:rgba(255,255,255,.6);font:500 10px Inter,ui-sans-serif,system-ui,sans-serif">After</text>
+    <text x="444" y="314" style="fill:#fde68a;font:600 9px Inter,ui-sans-serif,system-ui,sans-serif">review</text>
+  </g>
+</svg>
+
+<style>
+  .hero-art .flow { animation: ha-flow 1.6s linear infinite; }
+  .hero-art .sparkle { transform-origin: 466px 43px; animation: ha-pulse 3s ease-in-out infinite; }
+  .hero-art .typing { transform-origin: 310px 115px; animation: ha-type 4s ease-in-out infinite; }
+  @keyframes ha-flow { to { stroke-dashoffset: -26; } }
+  @keyframes ha-pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(.82); opacity: .7; } }
+  @keyframes ha-type { 0% { transform: scaleX(.15); } 60%, 100% { transform: scaleX(1); } }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-art .flow, .hero-art .sparkle, .hero-art .typing { animation: none; }
+  }
+</style>
